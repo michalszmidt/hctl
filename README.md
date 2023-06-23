@@ -25,7 +25,7 @@ There is heavy usage of rust iterators to enable lazy-reading
 
 *Domains:*
 
-Processing is done by firstly removing addreses characteristic for host file like 127.0.0.1 then removing all non-urls using regex.
+Processing is done by firstly removing addreses characteristic for host file like 127.0.0.1 and comments after the records. Next tool removes all whitespace characters and non-urls using regex.
 See regex.rs if you want to embed similar solution in your app.
 
 ## Wiki
