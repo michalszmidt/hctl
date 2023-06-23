@@ -1,0 +1,23 @@
+[package]
+name = "hctl"
+version = "0.1.0"
+edition = "2021"
+authors = [ "Michał Szmidt" ]
+repository = "https://github.com/michalszmidt/hctl"
+license = "BSD-3-clause-no-military"
+license-file = "LICENSE.txt"
+keywords = ["pi-hole hostfile", "adguardhome", "hostlist", "adguard-home", "hostfiles", "dns-blocking", "dns-blocklists", "adguard-dns" ]
+categories = ["command-line-utilities"]
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rayon = "*"                                             # Apache 2.0 / MIT
+regex = "*"                                             # Apache 2.0 / MIT
+itertools = "*"                                         # Apache 2.0 / MIT
+clap = { version = "*", features = ["derive"] }         # Apache 2.0 / MIT
+yaml-rust = "*"                                         # Apache 2.0 / MIT
+minreq = { version="*", features = ["https-native"] }   # MIT
+indicatif = "*"                                         # MIT
+# url = "*"

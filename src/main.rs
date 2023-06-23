@@ -1,0 +1,133 @@
+pub mod commands;
+pub mod processing;
+pub mod regex;
+pub mod tests;
+
+use clap::Command;
+use commands::{get_args_domain, get_command_domain};
+use processing::{
+    file_yaml_to_settings, process_multiple_lists_to_file, process_parallel_list_to_file,
+    process_single_list_seq_file,
+};
+
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+fn main() {
+    // MAIN
+    let hctl = Command::new("hctl")
+        .about("Ultimate hostlist tool")
+        .version(VERSION)
+        .subcommand_required(true)
+        .arg_required_else_help(true)
+        .author("Michael Szmidt")
+        // .args(get_args_root())
+        .subcommand(get_command_domain().args(get_args_domain()))
+        .get_matches();
+
+    // ACTION
+
+    if let Some(("domain", query_matches)) = hctl.subcommand() {
+        let mut out = "./out.txt".to_string();
+        let mut path = "NAN".to_string();
+        let mut mode = "config".to_string();
+        let mut config = "./hctl.yaml".to_string();
+        let mut optimize = "memory".to_string();
+        let mut intro = "yes".to_string();
+        let mut rejected = "no".to_string();
+        let rejected_len: usize;
+        let entries_len: usize;
+
+        if let Some(value_of_out) = query_matches.get_many::<String>("out") {
+            out = value_of_out
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        if let Some(value_of_path) = query_matches.get_many::<String>("path") {
+            path = value_of_path
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        if let Some(value_of_optimize) = query_matches.get_many::<String>("optimize") {
+            optimize = value_of_optimize
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        if let Some(value_of_config) = query_matches.get_many::<String>("config") {
+            config = value_of_config
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        if let Some(value_of_mode) = query_matches.get_many::<String>("mode") {
+            mode = value_of_mode
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        if let Some(value_of_intro) = query_matches.get_many::<String>("intro") {
+            intro = value_of_intro
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        if let Some(value_of_rejected) = query_matches.get_many::<String>("rejected") {
+            rejected = value_of_rejected
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ");
+        }
+        let intro_b = match intro.as_str() {
+            "yes" => true,
+            "no" => false,
+            _ => return,
+        };
+        let rejected_b = match rejected.as_str() {
+            "yes" => true,
+            "no" => false,
+            _ => return,
+        };
+
+        match mode.as_str() {
+            "single" => {
+                if path.eq("NAN") {
+                    println!("No source file defined: use -p flag\nNo action made");
+                    return;
+                }
+                match optimize.as_str() {
+                    "speed" => {
+                        (entries_len, rejected_len) =
+                            process_parallel_list_to_file(path, out, rejected_b)
+                    }
+                    "memory" => {
+                        (entries_len, rejected_len) =
+                            process_single_list_seq_file(path, out, rejected_b)
+                    }
+                    _ => return,
+                };
+            }
+            "folder" => {
+                if path.eq("NAN") {
+                    println!("No source file defined: use -p flag\nNo action made");
+                    return;
+                }
+                (entries_len, rejected_len) = process_multiple_lists_to_file(path, out, rejected_b);
+            }
+            "config" => {
+                (entries_len, rejected_len) =
+                    file_yaml_to_settings(config, out, intro_b, rejected_b)
+            }
+            _ => return,
+        }
+        println!(
+            "Unique records: {}\nRemoved records: {}",
+            entries_len, rejected_len
+        );
+
+        // parallel_process(path, out);
+    } else {
+        unreachable!()
+    }
+}
