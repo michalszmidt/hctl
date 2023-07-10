@@ -5,10 +5,10 @@ pub fn get_regex_extract_basic() -> Regex {
     return Regex::new(r"^((127.0.0.1|localhost.localdomain|255.255.255.255|fe80::1%lo0|ff00::0|fe00::0|ff02::1|ff02::2|ff02::3|0.0.0.0|::1|fe80::1%lo0)(\ |\t)*)|((\ |\t)*\#.*$)").unwrap();
 }
 
-pub fn get_regex_valid_domain() -> Regex {
+pub fn get_regex_valid_domain_permissive() -> Regex {
     // return Regex::new(r"^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$").unwrap();
     return Regex::new(
-        r"^(?:[a-z0-9_](?:[a-z0-9-_]{0,61}[a-z0-9-_])?\.)+[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]$",
+        r"^(?:[a-z0-9_](?:[a-z0-9-_]{0,62}[a-z0-9-_])?\.)+[a-z0-9][a-z0-9-_]{0,62}[a-z0-9]$",
     )
     .unwrap();
 }

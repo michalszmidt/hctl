@@ -1,12 +1,12 @@
 pub mod commands;
 pub mod processing;
-pub mod regex;
+pub mod rules;
 pub mod tests;
 
 use clap::Command;
 use commands::{get_args_domain, get_command_domain};
 use processing::{
-    file_yaml_to_settings, process_multiple_lists_to_file, process_parallel_list_to_file,
+    config_process_lists, process_multiple_lists_to_file, process_parallel_list_to_file,
     process_single_list_seq_file,
 };
 
@@ -19,8 +19,7 @@ fn main() {
         .version(VERSION)
         .subcommand_required(true)
         .arg_required_else_help(true)
-        .author("Michael Szmidt")
-        // .args(get_args_root())
+        .author("Michał Szmidt")
         .subcommand(get_command_domain().args(get_args_domain()))
         .get_matches();
 
@@ -116,17 +115,14 @@ fn main() {
                 (entries_len, rejected_len) = process_multiple_lists_to_file(path, out, rejected_b);
             }
             "config" => {
-                (entries_len, rejected_len) =
-                    file_yaml_to_settings(config, out, intro_b, rejected_b)
+                (entries_len, rejected_len) = config_process_lists(config, out, intro_b, rejected_b)
             }
             _ => return,
         }
         println!(
-            "Unique records: {}\nRemoved records: {}",
+            "Unique records: {}\nRemoved records: {}\n",
             entries_len, rejected_len
         );
-
-        // parallel_process(path, out);
     } else {
         unreachable!()
     }

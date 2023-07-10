@@ -13,6 +13,7 @@ This is simple cli tool written in rust to manage (transform, clear from comment
 - [x] Fetch lists directly from network (https)
 - [x] Parallel processing
 - [x] Progressbar
+- [ ] Whitelists
 - [ ] Fault-tolerance
 - [ ] Dnsmasq format
 - [ ] Snort format
@@ -30,8 +31,8 @@ See regex.rs if you want to embed similar solution in your app.
 
 ## Wiki
 
-Jump here
+Jump [here](https://github.com/michalszmidt/hctl/wiki)
 
 ## License
 
-BSD-3-clause-no-military
+[BSD-3-clause-no-military](https://github.com/michalszmidt/hctl/blob/main/LICENSE)

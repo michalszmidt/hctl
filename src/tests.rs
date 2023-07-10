@@ -1,11 +1,11 @@
 #[cfg(test)]
 mod tests {
-    use crate::regex::get_regex_valid_domain;
+    use crate::rules::get_regex_valid_domain_permissive;
 
     #[test]
     fn test_url_valid() {
         // url::Url::parse(input)
-        let domain_check = get_regex_valid_domain();
+        let domain_check = get_regex_valid_domain_permissive();
 
         let p = vec![
             "hel.lo.world",
