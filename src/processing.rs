@@ -10,6 +10,7 @@ use std::{
     fs::{read_dir, remove_file, File},
     io::{self, ErrorKind::WouldBlock, *},
     sync::{Arc, Mutex},
+    usize,
 };
 use yaml_rust::*;
 
@@ -50,9 +51,9 @@ pub fn process_parallel_list_to_file(
                 .to_lowercase()
         })
         .filter(|word| {
-            let res = pattern_valid_domain.is_match(word);
-            if !res{ arc_mux_set_rejected.lock().unwrap().insert(word.clone()); }
-            return  res;
+            let is_domain = pattern_valid_domain.is_match(word);
+            if !is_domain{ arc_mux_set_rejected.lock().unwrap().insert(word.clone()); }
+            return  is_domain;
             })
         .collect::<BTreeSet<_>>()
         .iter()
@@ -182,7 +183,12 @@ pub fn process_single_list_to_set(list_path: &String) -> (BTreeSet<String>, BTre
         .filter(|word| {
             let res = pattern_valid_domain.is_match(word);
             if !res {
-                set_rejected.insert(word.clone());
+                let mut x: String = word.clone();
+                if !pattern_whitespace.is_match(x.as_str()) {
+                    x.push_str("\t# source: ");
+                    x.push_str(list_path);
+                    set_rejected.insert(x);
+                }
             }
             return res;
         })
@@ -387,7 +393,12 @@ fn lazy_read(url: &str) -> core::result::Result<(BTreeSet<String>, BTreeSet<Stri
             if pattern_valid_domain.is_match(word_after_whitespace.as_str()) {
                 set_out.insert(word_after_whitespace);
             } else {
-                set_rejected.insert(word_after_whitespace);
+                let mut x: String = word_after_whitespace.clone();
+                if !pattern_whitespace.is_match(x.as_str()) {
+                    x.push_str("\t# source: ");
+                    x.push_str(url);
+                    set_rejected.insert(x);
+                }
             }
             do_continue = false;
             str_buffer.clear();
@@ -413,3 +424,22 @@ fn lazy_read(url: &str) -> core::result::Result<(BTreeSet<String>, BTreeSet<Stri
 
     return result;
 }
+
+// pub fn save_stream(data_stream: Iter<String>, out_path: String) -> usize {
+//     let file_out = file_write(out_path).unwrap();
+//     let mut writer_out = LineWriter::new(file_out);
+//     let mut count_entries: usize = 0;
+
+//     data_stream.progress_with_style(
+//             ProgressStyle::with_template(
+//             "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+//         )
+//         .unwrap())
+//         .for_each(|word| {
+//             count_entries+=1;
+//             _ = writer_out.write_all(word.as_bytes());
+//             _ = writer_out.write_all(b"\n");
+//         });
+
+//     return count_entries;
+// }

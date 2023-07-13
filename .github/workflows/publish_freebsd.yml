@@ -1,0 +1,36 @@
+name: Publish for FreeBSD
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_freebsd:
+    runs-on: macos-12
+    name: Build for FreeBSD-RELEASE
+    steps:
+    - uses: actions/checkout@v3
+    - name: Compile in FreeBSD VM
+      id: compile
+      uses: vmactions/freebsd-vm@v0
+      with:
+        usesh: false
+        mem: 2048
+        prepare: |
+          pkg install -y curl cargo rust
+          rehash
+
+        run: |
+          rehash
+          ls -lah
+          rustc --version
+          cargo build --release
+          
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/hctl
+        asset_name: hctl-freebsd-amd64
+        tag: ${{ github.ref }}
