@@ -1,5 +1,6 @@
-use crate::rules::{
-    get_regex_extract_basic, get_regex_valid_domain_permissive, get_regex_whitespace,
+use crate::{
+    rules::{get_regex_extract_basic, get_regex_valid_domain_permissive, get_regex_whitespace},
+    savers::{self, return_saver},
 };
 use indicatif::{ProgressIterator, ProgressStyle};
 use itertools::*;
@@ -19,6 +20,7 @@ pub fn process_parallel_list_to_file(
     list_path: String,
     out_path: String,
     save_rejected: bool,
+    format: String,
 ) -> (usize, usize) {
     let pattern_basic = get_regex_extract_basic();
     let pattern_valid_domain = get_regex_valid_domain_permissive();
@@ -36,6 +38,14 @@ pub fn process_parallel_list_to_file(
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
     let mut count_entries: usize = 0;
 
+    let saver_func = return_saver(format.clone());
+    let saver_rejected_func = return_saver("linewise".to_string());
+
+    match format.as_str() {
+        "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        _ => _ = writer_out.write_all(b"\n"),
+    }
+
     reader
         .lines()
         .map(|res| res.unwrap())
@@ -52,22 +62,22 @@ pub fn process_parallel_list_to_file(
         })
         .filter(|word| {
             let is_domain = pattern_valid_domain.is_match(word);
-            if !is_domain{ arc_mux_set_rejected.lock().unwrap().insert(word.clone()); }
-            return  is_domain;
-            })
+            if !is_domain {
+                arc_mux_set_rejected.lock().unwrap().insert(word.clone());
+            }
+            return is_domain;
+        })
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(
             ProgressStyle::with_template(
-            "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+                "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+            )
+            .unwrap(),
         )
-        .unwrap())
         .for_each(|word| {
-            {
-                count_entries+=1;
-                _ = writer_out.write_all(word.as_bytes());
-                _ = writer_out.write_all(b"\n");
-            };
+            count_entries += 1;
+            _ = writer_out.write_all(saver_func(word).as_bytes());
         });
 
     if save_rejected {
@@ -76,10 +86,7 @@ pub fn process_parallel_list_to_file(
             .unwrap()
             .iter()
             .for_each(|word| {
-                {
-                    _ = writer_rejected.write_all(word.as_bytes());
-                    _ = writer_rejected.write_all(b"\n");
-                };
+                _ = writer_rejected.write_all(saver_rejected_func(word).as_bytes());
             });
         _ = writer_rejected.flush();
     } else {
@@ -94,6 +101,7 @@ pub fn process_single_list_seq_file(
     list_path: String,
     out_path: String,
     save_rejected: bool,
+    format: String,
 ) -> (usize, usize) {
     let pattern_basic = get_regex_extract_basic();
     let pattern_whitespace = get_regex_whitespace();
@@ -110,6 +118,14 @@ pub fn process_single_list_seq_file(
     let mut set_rejected: BTreeSet<String> = BTreeSet::new();
     let mut count_entries: usize = 0;
 
+    let saver_func = return_saver(format.clone());
+    let saver_rejected_func = return_saver("linewise".to_string());
+
+    match format.as_str() {
+        "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        _ => _ = writer_out.write_all(b"\n"),
+    }
+
     reader
         .lines()
         .map(|result| result.unwrap())
@@ -123,30 +139,27 @@ pub fn process_single_list_seq_file(
         })
         .filter(|word| {
             let res = pattern_valid_domain.is_match(word);
-            if !res{ set_rejected.insert(word.clone()); }
-            return  res;
-            })
+            if !res {
+                set_rejected.insert(word.clone());
+            }
+            return res;
+        })
         .unique()
         .sorted()
         .progress_with_style(
             ProgressStyle::with_template(
-            "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+                "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+            )
+            .unwrap(),
         )
-        .unwrap())
         .for_each(|word| {
-            {
-                count_entries+=1;
-                _ = writer_out.write_all(word.as_bytes());
-                _ = writer_out.write_all(b"\n");
-            };
+            count_entries += 1;
+            _ = writer_out.write_all(saver_func(&word).as_bytes());
         });
 
     if save_rejected {
         set_rejected.iter().for_each(|word| {
-            {
-                _ = writer_rejected.write_all(word.as_bytes());
-                _ = writer_rejected.write_all(b"\n");
-            };
+            _ = writer_rejected.write_all(saver_rejected_func(word).as_bytes());
         });
         _ = writer_rejected.flush();
     } else {
@@ -201,6 +214,7 @@ pub fn process_multiple_lists_to_file(
     list_dir: String,
     out_path: String,
     save_rejected: bool,
+    format: String,
 ) -> (usize, usize) {
     let file_out = file_write(out_path).unwrap();
     let mut writer_out = LineWriter::new(file_out);
@@ -211,6 +225,14 @@ pub fn process_multiple_lists_to_file(
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
     let mut count_entries: usize = 0;
 
+    let saver_func = return_saver(format.clone());
+    let saver_rejected_func = return_saver("linewise".to_string());
+
+    match format.as_str() {
+        "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        _ => _ = writer_out.write_all(b"\n"),
+    }
+
     read_dir(list_dir.as_str())
         .unwrap()
         .filter_map(|result| result.ok())
@@ -218,7 +240,7 @@ pub fn process_multiple_lists_to_file(
         .collect::<Vec<_>>()
         .par_iter()
         .map(|line| process_single_list_to_set(line))
-        .map(|(set_cleared,set_rejected)| {
+        .map(|(set_cleared, set_rejected)| {
             arc_mux_set_rejected.lock().unwrap().extend(set_rejected);
             return set_cleared;
         })
@@ -229,13 +251,13 @@ pub fn process_multiple_lists_to_file(
         .iter()
         .progress_with_style(
             ProgressStyle::with_template(
-            "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+                "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+            )
+            .unwrap(),
         )
-        .unwrap())
         .for_each(|word| {
-            count_entries +=1;
-            _ = writer_out.write_all(word.as_bytes());
-            _ = writer_out.write_all(b"\n");
+            count_entries += 1;
+            _ = writer_out.write_all(saver_func(word).as_bytes());
         });
 
     if save_rejected {
@@ -244,10 +266,7 @@ pub fn process_multiple_lists_to_file(
             .unwrap()
             .iter()
             .for_each(|word| {
-                {
-                    _ = writer_rejected.write_all(word.as_bytes());
-                    _ = writer_rejected.write_all(b"\n");
-                };
+                _ = writer_rejected.write_all(saver_rejected_func(word).as_bytes());
             });
         _ = writer_rejected.flush();
     } else {
@@ -273,6 +292,7 @@ pub fn config_process_lists(
     out_path: String,
     use_intro: bool,
     save_rejected: bool,
+    format: String,
 ) -> (usize, usize) {
     let settings_as_str = read_to_string(file_to_lines(path).unwrap()).unwrap();
     let parsed_settings_yaml = YamlLoader::load_from_str(settings_as_str.as_str()).unwrap();
@@ -290,16 +310,16 @@ pub fn config_process_lists(
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
     let mut count_entries: usize = 0;
 
+    let saver_func = return_saver(format.clone());
+    let saver_rejected_func = return_saver("linewise".to_string());
+
     if use_intro {
         let sources_cloned: Vec<String> = parsed_setings_yaml_sources
             .clone()
             .into_iter()
             .map(|yaml| yaml.into_string().unwrap())
             .collect();
-        _ = writer_out.write_all(
-            "# This hostlist was assembled \n# Using: https://github.com//hctl by Michał Szmidt \n# From other lists:\n"
-                .as_bytes(),
-        );
+        _ = writer_out.write_all("# This hostlist was assembled from other lists:\n".as_bytes());
 
         sources_cloned.iter().for_each(|line| {
             _ = writer_out.write_all("# \t- ".as_bytes());
@@ -308,11 +328,16 @@ pub fn config_process_lists(
         });
     }
 
+    match format.as_str() {
+        "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        _ => _ = writer_out.write_all(b"\n"),
+    }
+
     parsed_setings_yaml_sources
         .into_par_iter()
         .map(|yaml| lazy_read(yaml.as_str().unwrap()))
         .filter_map(|result| result.ok())
-        .map(|(set_cleaned,set_rejected)| {
+        .map(|(set_cleaned, set_rejected)| {
             arc_mux_set_rejected.lock().unwrap().extend(set_rejected);
             return set_cleaned;
         })
@@ -323,13 +348,13 @@ pub fn config_process_lists(
         .iter()
         .progress_with_style(
             ProgressStyle::with_template(
-            "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+                "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+            )
+            .unwrap(),
         )
-        .unwrap())
         .for_each(|word| {
-            count_entries+=1;
-            _ = writer_out.write_all(word.as_bytes());
-            _ = writer_out.write_all(b"\n");
+            count_entries += 1;
+            _ = writer_out.write_all(saver_func(word).as_bytes());
         });
     if save_rejected {
         arc_mux_set_rejected
@@ -337,10 +362,7 @@ pub fn config_process_lists(
             .unwrap()
             .iter()
             .for_each(|word| {
-                {
-                    _ = writer_rejected.write_all(word.as_bytes());
-                    _ = writer_rejected.write_all(b"\n");
-                };
+                _ = writer_rejected.write_all(saver_rejected_func(&word).as_bytes());
             });
         _ = writer_rejected.flush();
     } else {
@@ -432,7 +454,7 @@ fn lazy_read(url: &str) -> core::result::Result<(BTreeSet<String>, BTreeSet<Stri
 
 //     data_stream.progress_with_style(
 //             ProgressStyle::with_template(
-//             "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+//             "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
 //         )
 //         .unwrap())
 //         .for_each(|word| {
