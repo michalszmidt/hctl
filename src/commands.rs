@@ -55,6 +55,12 @@ pub fn get_args_domain() -> Vec<Arg> {
         .long("rejected")
         .action(ArgAction::Set);
 
+    let arg_format: Arg = Arg::new("format")
+        .help("Type of out format [dnsmasq/loopback/empty/linewise]")
+        .short('f')
+        .long("format")
+        .action(ArgAction::Set);
+
     return vec![
         arg_path,
         arg_out,
@@ -63,5 +69,6 @@ pub fn get_args_domain() -> Vec<Arg> {
         arg_mode,
         arg_intro,
         arg_rejected,
+        arg_format,
     ];
 }

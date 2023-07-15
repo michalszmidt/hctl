@@ -1,0 +1,34 @@
+name: Publish for Linux linked against musl
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_linux_musl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup latest Alpine Linux
+        uses: jirutka/setup-alpine@v1
+        with:
+          branch: latest-stable
+      - name: Install dependencies
+        run: |
+          apk add curl rust cargo
+        shell: alpine.sh --root {0}
+      - name: Compile rootless
+        run: |
+          rustc --version
+          ls -lah
+          cargo build --release
+          
+        shell: alpine.sh {0}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/hctl
+          asset_name: hctl-linux-musl-amd64
+          tag: ${{ github.ref }}

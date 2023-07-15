@@ -15,7 +15,6 @@ Cargo.lock
 
 # Testing
 *.txt
-hctl.yaml
-lists/
-lists2/
-
+hctl*.yaml
+lists*/
+sources.json

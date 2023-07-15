@@ -19,4 +19,5 @@ clap = { version = "*", features = ["derive"] }         # Apache 2.0 / MIT
 yaml-rust = "*"                                         # Apache 2.0 / MIT
 minreq = { version="*", features = ["https-native"] }   # MIT
 indicatif = "*"                                         # MIT
+# delegate = "*"                                          # Apache 2.0 / MIT
 # url = "*"
