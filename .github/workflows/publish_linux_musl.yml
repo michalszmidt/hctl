@@ -16,7 +16,7 @@ jobs:
           branch: latest-stable
       - name: Install dependencies
         run: |
-          apk add curl rust cargo
+          apk add curl rust cargo pkgconf openssl-dev
         shell: alpine.sh --root {0}
       - name: Compile rootless
         run: |

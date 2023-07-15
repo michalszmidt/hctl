@@ -18,7 +18,13 @@ jobs:
         usesh: false
         mem: 2048
         prepare: |
-          pkg install -y curl cargo rust
+          mkdir -p /usr/local/etc/pkg/repos
+          cp /etc/pkg/FreeBSD.conf /usr/local/etc/pkg/repos
+          sed -i 's/FreeBSD:/FreeBSDlatest:/g'
+          echo "FreeBSD: { enabled: no }" > /usr/local/etc/pkg/repos/FreeBSD.conf
+          pkg update
+          pkg upgrade -y
+          pkg install -y curl rust pkgconf openssl
           rehash
 
         run: |
