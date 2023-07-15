@@ -16,7 +16,7 @@ jobs:
       uses: vmactions/freebsd-vm@v0
       with:
         usesh: false
-        mem: 2048
+        mem: 8192
         prepare: |
           mkdir -p /usr/local/etc/pkg/repos
           cp /etc/pkg/FreeBSD.conf /usr/local/etc/pkg/repos
