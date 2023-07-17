@@ -1,0 +1,38 @@
+name: Publish for DragonflyBSD amd64
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  test:
+    runs-on: macos-12
+    name: Build for DragonflyBSD
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build in DragonflyBSD VM
+      id: test
+      uses: vmactions/dragonflybsd-vm@v0
+      with:
+        usesh: false
+        mem: 8192
+        prepare: |
+          pkg update
+          pkg upgrade -y
+          pkg install -y curl rust pkgconf openssl
+          rehash
+
+        run: |
+          rehash
+          ls -lah
+          rustc --version
+          cargo build --release
+          
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/hctl
+        asset_name: hctl-dragonflybsd-amd64
+        tag: ${{ github.ref }}

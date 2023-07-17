@@ -1,0 +1,33 @@
+name: Publish for NetBSD amd64
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  test:
+    runs-on: macos-12
+    name: Build for NetBSD
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build in NetBSD VM
+      id: test
+      uses: vmactions/netbsd-vm@v0
+      with:
+        usesh: false
+        mem: 8192        
+        prepare: |
+          /usr/sbin/pkg_add curl rust pkgconf openssl
+        run: |
+          ls -lah
+          rustc --version
+          cargo build --release
+          
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/hctl
+        asset_name: hctl-netbsd-amd64
+        tag: ${{ github.ref }}

@@ -82,11 +82,11 @@ fn main() {
                 match optimize.as_str() {
                     "speed" => {
                         (entries_len, rejected_len) =
-                            process_parallel_list_to_file(path, out, rejected_b, format)
+                            process_parallel_list_to_file(path, out.clone(), rejected_b, format)
                     }
                     "memory" => {
                         (entries_len, rejected_len) =
-                            process_single_list_seq_file(path, out, rejected_b, format)
+                            process_single_list_seq_file(path, out.clone(), rejected_b, format)
                     }
                     _ => return,
                 };
@@ -97,18 +97,20 @@ fn main() {
                     return;
                 }
                 (entries_len, rejected_len) =
-                    process_multiple_lists_to_file(path, out, rejected_b, format);
+                    process_multiple_lists_to_file(path, out.clone(), rejected_b, format);
             }
             "config" => {
                 (entries_len, rejected_len) =
-                    config_process_lists(config, out, intro_b, rejected_b, format)
+                    config_process_lists(config, out.clone(), intro_b, rejected_b, format)
             }
             _ => return,
         }
-        println!(
-            "Unique records: {}\nRemoved records: {}\n",
-            entries_len, rejected_len
-        );
+        if out.as_str() != "stdout" {
+            println!(
+                "Unique records: {}\nRemoved records: {}\n",
+                entries_len, rejected_len
+            );
+        }
     } else {
         unreachable!()
     }

@@ -29,11 +29,16 @@ pub fn process_parallel_list_to_file(
     let file_opened = file_to_lines(list_path).unwrap();
     let reader = BufReader::new(file_opened);
 
-    let file_out = file_write(out_path).unwrap();
-    let mut writer_out = LineWriter::new(file_out);
+    // let file_out = file_write(out_path).unwrap();
+    // let mut writer_out = BufWriter::new(file_out);
+
+    let mut writer_out = match out_path.as_str() {
+        "stdout" => Box::new(io::stdout()) as Box<dyn Write>,
+        _ => Box::new(file_write(out_path).unwrap()) as Box<dyn Write>,
+    };
 
     let file_rejected = file_write("./rejected.txt".to_string()).unwrap();
-    let mut writer_rejected = LineWriter::new(file_rejected);
+    let mut writer_rejected = BufWriter::new(file_rejected);
 
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
     let mut count_entries: usize = 0;
@@ -109,11 +114,14 @@ pub fn process_single_list_seq_file(
 
     let file_opened = file_to_lines(list_path).unwrap();
     let reader = BufReader::new(file_opened);
-    let file_out = file_write(out_path).unwrap();
-    let mut writer_out = LineWriter::new(file_out);
+
+    let mut writer_out = match out_path.as_str() {
+        "stdout" => Box::new(io::stdout()) as Box<dyn Write>,
+        _ => Box::new(file_write(out_path).unwrap()) as Box<dyn Write>,
+    };
 
     let file_rejected = file_write("./rejected.txt".to_string()).unwrap();
-    let mut writer_rejected = LineWriter::new(file_rejected);
+    let mut writer_rejected = BufWriter::new(file_rejected);
 
     let mut set_rejected: BTreeSet<String> = BTreeSet::new();
     let mut count_entries: usize = 0;
@@ -216,11 +224,13 @@ pub fn process_multiple_lists_to_file(
     save_rejected: bool,
     format: String,
 ) -> (usize, usize) {
-    let file_out = file_write(out_path).unwrap();
-    let mut writer_out = LineWriter::new(file_out);
+    let mut writer_out = match out_path.as_str() {
+        "stdout" => Box::new(io::stdout()) as Box<dyn Write>,
+        _ => Box::new(file_write(out_path).unwrap()) as Box<dyn Write>,
+    };
 
     let file_rejected = file_write("./rejected.txt".to_string()).unwrap();
-    let mut writer_rejected = LineWriter::new(file_rejected);
+    let mut writer_rejected = BufWriter::new(file_rejected);
 
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
     let mut count_entries: usize = 0;
@@ -301,11 +311,13 @@ pub fn config_process_lists(
         .as_vec()
         .unwrap();
 
-    let file_out = file_write(out_path).unwrap();
-    let mut writer_out = LineWriter::new(file_out);
+    let mut writer_out = match out_path.as_str() {
+        "stdout" => Box::new(io::stdout()) as Box<dyn Write>,
+        _ => Box::new(file_write(out_path).unwrap()) as Box<dyn Write>,
+    };
 
     let file_rejected = file_write("./rejected.txt".to_string()).unwrap();
-    let mut writer_rejected = LineWriter::new(file_rejected);
+    let mut writer_rejected = BufWriter::new(file_rejected);
 
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
     let mut count_entries: usize = 0;

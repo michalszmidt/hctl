@@ -18,7 +18,7 @@ pub fn get_args_domain() -> Vec<Arg> {
         .action(ArgAction::Set);
 
     let arg_out: Arg = Arg::new("out")
-        .help("Path to the out file [path without quotes]")
+        .help("Path to the out file [stdout/path without quotes]")
         .short('o')
         .long("out")
         .action(ArgAction::Set);

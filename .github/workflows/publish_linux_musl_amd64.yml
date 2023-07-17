@@ -1,4 +1,4 @@
-name: Publish for Linux linked against musl
+name: Publish for Linux musl amd64
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
           branch: latest-stable
       - name: Install dependencies
         run: |
-          apk add curl rust cargo pkgconf openssl-dev
+          apk add curl rust cargo
         shell: alpine.sh --root {0}
       - name: Compile rootless
         run: |
