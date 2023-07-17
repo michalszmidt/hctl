@@ -1,4 +1,4 @@
-name: Publish for FreeBSD
+name: Publish for FreeBSD amd64
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build_freebsd:
     runs-on: macos-12
-    name: Build for FreeBSD-RELEASE
+    name: Build for FreeBSD-RELEASE repo latest
     steps:
     - uses: actions/checkout@v3
     - name: Compile in FreeBSD VM
@@ -21,6 +21,7 @@ jobs:
           mkdir -p /usr/local/etc/pkg/repos
           cp /etc/pkg/FreeBSD.conf /usr/local/etc/pkg/repos
           sed -i 's/FreeBSD:/FreeBSDlatest:/g'
+          sed -i 's/quarterly/latest/g'
           echo "FreeBSD: { enabled: no }" >> /usr/local/etc/pkg/repos/FreeBSD.conf
           pkg update
           pkg upgrade -y
