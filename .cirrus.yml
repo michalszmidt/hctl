@@ -5,25 +5,25 @@ relese_linux_glibc_amd64_task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
   container:
     image: ghcr.io/void-linux/void-linux:latest-full
-    prepare_script:
-      - echo $CIRRUS_OS
-      - xbps-install -Su xbps -y
-      - xbps-install -Su -y
-      - xbps-install rust make cargo openssl-devel pkgconf -y
-    build_script:
-      - ls -lah
-      - cargo build --release
-    hash_scrpt:
-      - ls -lah
-      - cd target/release
-      - mv hctl hctl-linux-glibc-amd64
-      - sha256sum hctl-linux-glibc-amd64 > sha256-hctl-linux-glibc-amd64
-      - mv hctl-linux-glibc-amd64 ../../ && mv sha256-hctl-linux-glibc-amd64 ../../
-    upload_script:
-      - files_to_upload=("hctl-linux-glibc-amd64" "sha256-hctl-linux-glibc-amd64")
-      - ls -lah
-      - bash ./upload.sh
-      
+  prepare_script:
+    - echo $CIRRUS_OS
+    - xbps-install -Su xbps -y
+    - xbps-install -Su -y
+    - xbps-install rust make cargo openssl-devel pkgconf -y
+  build_script:
+    - ls -lah
+    - cargo build --release
+  hash_scrpt:
+    - ls -lah
+    - cd target/release
+    - mv hctl hctl-linux-glibc-amd64
+    - sha256sum hctl-linux-glibc-amd64 > sha256-hctl-linux-glibc-amd64
+    - mv hctl-linux-glibc-amd64 ../../ && mv sha256-hctl-linux-glibc-amd64 ../../
+  upload_script:
+    - files_to_upload=("hctl-linux-glibc-amd64" "sha256-hctl-linux-glibc-amd64")
+    - ls -lah
+    - bash ./upload.sh
+    
 relese_linux_glibc_aarch64_task:
   only_if: $CIRRUS_BRANCH == 'master'
   only_if: $CIRRUS_RELEASE != ''
@@ -31,24 +31,24 @@ relese_linux_glibc_aarch64_task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
   arm_container:
     image: ghcr.io/void-linux/void-linux:latest-full
-    prepare_script:
-      - echo $CIRRUS_OS
-      - xbps-install -Su xbps -y
-      - xbps-install -Su -y
-      - xbps-install curl rust make cargo openssl-devel pkgconf -y
-    build_script:
-      - ls -lah
-      - cargo build --release
-    hash_script:
-      - ls -lah
-      - cd target/release
-      - mv hctl hctl-linux-glibc-aarch64
-      - sha256sum hctl-linux-glibc-aarch64 > sha256-hctl-linux-glibc-aarch64
-      - mv hctl-linux-glibc-aarch64 ../../ && mv sha256-hctl-linux-glibc-aarch64 ../../
-    upload_script:
-      - files_to_upload=("hctl-linux-glibc-aarch64" "sha256-hctl-linux-glibc-aarch64")
-      - ls -lah
-      - bash ./upload.sh
+  prepare_script:
+    - echo $CIRRUS_OS
+    - xbps-install -Su xbps -y
+    - xbps-install -Su -y
+    - xbps-install curl rust make cargo openssl-devel pkgconf -y
+  build_script:
+    - ls -lah
+    - cargo build --release
+  hash_script:
+    - ls -lah
+    - cd target/release
+    - mv hctl hctl-linux-glibc-aarch64
+    - sha256sum hctl-linux-glibc-aarch64 > sha256-hctl-linux-glibc-aarch64
+    - mv hctl-linux-glibc-aarch64 ../../ && mv sha256-hctl-linux-glibc-aarch64 ../../
+  upload_script:
+    - files_to_upload=("hctl-linux-glibc-aarch64" "sha256-hctl-linux-glibc-aarch64")
+    - ls -lah
+    - bash ./upload.sh
 
 relese_linux_musl_amd64_task:
   only_if: $CIRRUS_BRANCH == 'master'
@@ -57,23 +57,23 @@ relese_linux_musl_amd64_task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
   container:
     image: alpine:latest
-    prepare_script:
-      - echo $CIRRUS_OS
-      - apk -U upgrade
-      - apk add rust curl cargo make pkgconf openssl-dev bash
-    build_script:
-      - ls -lah
-      - cargo build --release
-    hash_script:
-      - ls -lah
-      - cd target/release
-      - mv hctl hctl-linux-musl-amd64
-      - sha256sum hctl-linux-musl-amd64 > sha256-hctl-linux-musl-amd64
-      - mv hctl-linux-musl-amd64 ../../ && mv sha256-hctl-linux-musl-amd64 ../../
-    upload_script:
-      - files_to_upload=("hctl-linux-musl-amd64" "sha256-hctl-linux-musl-amd64")
-      - ls -lah
-      - bash ./upload.sh
+  prepare_script:
+    - echo $CIRRUS_OS
+    - apk -U upgrade
+    - apk add rust curl cargo make pkgconf openssl-dev bash
+  build_script:
+    - ls -lah
+    - cargo build --release
+  hash_script:
+    - ls -lah
+    - cd target/release
+    - mv hctl hctl-linux-musl-amd64
+    - sha256sum hctl-linux-musl-amd64 > sha256-hctl-linux-musl-amd64
+    - mv hctl-linux-musl-amd64 ../../ && mv sha256-hctl-linux-musl-amd64 ../../
+  upload_script:
+    - files_to_upload=("hctl-linux-musl-amd64" "sha256-hctl-linux-musl-amd64")
+    - ls -lah
+    - bash ./upload.sh
       
       
 relese_linux_musl_aarch64_task:
@@ -83,18 +83,18 @@ relese_linux_musl_aarch64_task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
   arm_container:
     image: alpine:latest
-    prepare_script:
-      - echo $CIRRUS_OS
-      - apk -U upgrade
-      - apk add rust curl cargo make pkgconf openssl-dev bash
-    build_script:
-      - cargo build --release
-    hash_script:
-      - cd target/release
-      - mv hctl hctl-linux-musl-aarch64
-      - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
-      - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../
-    upload_script:
-      - files_to_upload=("hctl-linux-musl-aarch64" "sha256-hctl-linux-musl-aarch64")
-      - ls -lah
-      - bash ./upload.sh
+  prepare_script:
+    - echo $CIRRUS_OS
+    - apk -U upgrade
+    - apk add rust curl cargo make pkgconf openssl-dev bash
+  build_script:
+    - cargo build --release
+  hash_script:
+    - cd target/release
+    - mv hctl hctl-linux-musl-aarch64
+    - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
+    - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../
+  upload_script:
+    - files_to_upload=("hctl-linux-musl-aarch64" "sha256-hctl-linux-musl-aarch64")
+    - ls -lah
+    - bash ./upload.sh
