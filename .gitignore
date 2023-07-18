@@ -18,3 +18,4 @@ Cargo.lock
 hctl*.yaml
 lists*/
 sources.json
+test.sh
