@@ -12,6 +12,9 @@
   <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/michalszmidt/hctl" />
 </div>
 
+## CI/CD
+[![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg)](https://cirrus-ci.com/github/michalszmidt/hctl)
+
 <!--
 ## CI/CD:
 ### Builds
@@ -23,8 +26,9 @@
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> Linux glibc [amd64]
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> MacOS X [amd64]
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> Windows [amd64]
-
 -->
+
+
 
 <!--
 |   | amd64 | aarch64 |
@@ -82,4 +86,4 @@ See rules.rs if you want to embed similar solution in your app.
 [BSD-3-clause-no-military](https://github.com/michalszmidt/hctl/blob/main/LICENSE)
 
 TD;LR
-Modified [BSD-3-clause](https://choosealicense.com/licenses/bsd-3-clause-clear/) that does not allow usage for military purpose. 
+Modified [BSD-3-clause](https://choosealicense.com/licenses/bsd-3-clause-clear/) that does not allow usage for military purpose
