@@ -116,9 +116,11 @@ relese_freebsd_amd64_task:
   prepare_script:
     - mkdir -p /usr/local/etc/pkg/repos
     - cp /etc/pkg/FreeBSD.conf /usr/local/etc/pkg/repos
-    - sed -i 's/FreeBSD:/FreeBSDlatest:/g'
+    - > 
+      sed -i 's/FreeBSD:/FreeBSDlatest:/g'
     - sed -i 's/quarterly/latest/g'
-    - echo "FreeBSD: { enabled: no }" >> /usr/local/etc/pkg/repos/FreeBSD.conf
+    - > 
+      echo "FreeBSD: { enabled: no }" >> /usr/local/etc/pkg/repos/FreeBSD.conf
     - pkg update
     - pkg upgrade -y
     - pkg install -y curl rust pkgconf openssl bash
