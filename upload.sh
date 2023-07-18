@@ -17,7 +17,7 @@ if [[ "$files_to_upload" == "" ]]; then
   exit 1
 fi
 
-for fpath in $files_to_upload
+for fpath in "${files_to_upload[@]}"
 do
   echo "Uploading $fpath..."
   name=$(basename "$fpath")
