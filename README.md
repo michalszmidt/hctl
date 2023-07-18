@@ -12,6 +12,7 @@
   <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/michalszmidt/hctl" />
 </div>
 
+<!--
 ## CI/CD:
 ### Builds
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_freebsd_amd64.yml"> FreeBSD [amd64]
@@ -22,6 +23,8 @@
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> Linux glibc [amd64]
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> MacOS X [amd64]
 - <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> Windows [amd64]
+
+-->
 
 <!--
 |   | amd64 | aarch64 |
