@@ -1,9 +1,9 @@
 ```
-                                              __            __     __
-                                             / /_   _____  / /_   / /
-                                            / __ \ / ___/ / __/  / / 
-                                           / / / // /__  / /_   / /  
-                                          /_/ /_/ \___/  \__/  /_/   
+    __            __     __
+   / /_   _____  / /_   / /
+  / __ \ / ___/ / __/  / / 
+ / / / // /__  / /_   / /  
+/_/ /_/ \___/  \__/  /_/   
 ```
 <div>
   <img alt="" src="https://img.shields.io/github/repo-size/michalszmidt/hctl" />
@@ -13,7 +13,10 @@
 </div>
 
 ## CI/CD
-[![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg)](https://cirrus-ci.com/github/michalszmidt/hctl)
+
+[![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg)](https://cirrus-ci.com/github/michalszmidt/hctl) *CirrusCI* (Linux musl/glib amd64/aarch64, FreeBSD amd64, MacOS X silicon)
+
+<img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml"> MacOS X [amd64] *GitHub Actions* (Mac OS X amd64)
 
 <!--
 ## CI/CD:

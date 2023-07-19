@@ -5,21 +5,26 @@ relese_linux_glibc_amd64_task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    
   container:
     image: fedora:rawhide
+    
   prepare_script:
     - dnf check-update -q && dnf up -q -y
     - dnf in -y rust cargo curl make openssl-devel pkgconf
+    
   build_script:
     - ls -lah
     - rustc --version
     - cargo build --release
-  hash_scrpt:
+    
+  hash_script:
     - ls -lah
     - cd target/release
     - mv hctl hctl-linux-glibc-amd64
     - sha256sum hctl-linux-glibc-amd64 > sha256-hctl-linux-glibc-amd64
     - mv hctl-linux-glibc-amd64 ../../ && mv sha256-hctl-linux-glibc-amd64 ../../
+    
   upload_script:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
@@ -31,21 +36,26 @@ relese_linux_glibc_aarch64_task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    
   arm_container:
     image: fedora:rawhide
+    
   prepare_script:
     - dnf check-update -q && dnf up -q -y
     - dnf in -y rust cargo curl make openssl-devel pkgconf
+    
   build_script:
     - ls -lah
     - rustc --version
     - cargo build --release
+    
   hash_script:
     - ls -lah
     - cd target/release
     - mv hctl hctl-linux-glibc-aarch64
     - sha256sum hctl-linux-glibc-aarch64 > sha256-hctl-linux-glibc-aarch64
     - mv hctl-linux-glibc-aarch64 ../../ && mv sha256-hctl-linux-glibc-aarch64 ../../
+    
   upload_script:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
@@ -57,21 +67,26 @@ relese_linux_musl_amd64_task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    
   container:
     image: alpine:latest
+    
   prepare_script:
     - apk -U upgrade
     - apk add rust curl cargo make pkgconf openssl-dev bash
+    
   build_script:
     - ls -lah
     - rustc --version
     - cargo build --release
+    
   hash_script:
     - ls -lah
     - cd target/release
     - mv hctl hctl-linux-musl-amd64
     - sha256sum hctl-linux-musl-amd64 > sha256-hctl-linux-musl-amd64
     - mv hctl-linux-musl-amd64 ../../ && mv sha256-hctl-linux-musl-amd64 ../../
+    
   upload_script:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
@@ -84,20 +99,25 @@ relese_linux_musl_aarch64_task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    
   arm_container:
     image: alpine:latest
+    
   prepare_script:
     - apk -U upgrade
     - apk add rust curl cargo make pkgconf openssl-dev bash
+    
   build_script:
     - ls -lah
     - rustc --version
     - cargo build --release
+    
   hash_script:
     - cd target/release
     - mv hctl hctl-linux-musl-aarch64
     - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
     - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../
+    
   upload_script:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
@@ -109,8 +129,10 @@ relese_freebsd_amd64_task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    
   freebsd_instance:
     image_family: freebsd-13-2
+    
   prepare_script:
     - mkdir -p /usr/local/etc/pkg/repos
     - cp /etc/pkg/FreeBSD.conf /usr/local/etc/pkg/repos
@@ -122,15 +144,18 @@ relese_freebsd_amd64_task:
     - pkg update
     - pkg upgrade -y
     - pkg install -y curl rust pkgconf openssl bash
-  prepare_script:
+    
+  build_script:
     - ls -lah
     - rustc --version
     - cargo build --release
+    
   hash_script:
     - cd target/release
     - mv hctl hctl-freebsd-amd64
     - sha256sum hctl-freebsd-amd64 > sha256-hctl-freebsd-amd64
     - mv hctl-freebsd-amd64 ../../ && mv sha256-hctl-freebsd-amd64 ../../
+    
   upload_script:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
@@ -140,22 +165,27 @@ relese_macosx_silicon_task:
   memory: 6G
   only_if: $CIRRUS_BRANCH == 'master'
   only_if: $CIRRUS_RELEASE != ''
+  
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    
   macos_instance:
     image: ghcr.io/cirruslabs/macos-sonoma-vanilla:latest
+    
   prepare_script:
     - NONINTERACTIVE=1 brew install pkg-config make curl rust openssl@3
-  prepare_script:
+    
+  build_script:
     - ls -lah
     - rustc --version
     - cargo build --release
+    
   hash_script:
     - cd target/release
     - mv hctl hctl-macosx-silicon
     - sha256sum hctl-macosx-silicon > sha256-hctl-macosx-silicon
     - mv hctl-macosx-silicon ../../ && mv sha256-hctl-macosx-silicon ../../
+    
   upload_script:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
-    
