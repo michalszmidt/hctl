@@ -16,7 +16,7 @@ jobs:
           cargo build --release
           cd target/release
           mv hctl hctl-macosx-amd64
-          sha256sum hctl-macosx-amd64 > sha256-hctl-macosx-amd64
+          /usr/local/bin/gsha256sum hctl-macosx-amd64 > sha256-hctl-macosx-amd64
           
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
