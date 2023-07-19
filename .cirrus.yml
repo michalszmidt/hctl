@@ -156,7 +156,7 @@ relese_macosx_silicon_task:
     image: ghcr.io/cirruslabs/macos-ventura-base:latest
     
   prepare_script:
-    - NONINTERACTIVE=1 brew install pkg-config make curl rust openssl@3
+    - NONINTERACTIVE=1 brew install pkg-config make curl rust coreutils openssl@3
     
   build_script:
     - ls -lah
