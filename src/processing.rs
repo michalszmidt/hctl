@@ -311,6 +311,12 @@ pub fn config_process_lists(
         .as_vec()
         .unwrap();
 
+    let parsed_setings_yaml_remote_whitelist = parsed_settings_yaml_first["remote_whitelist"]
+        .as_vec()
+        .unwrap();
+
+    let parsed_setings_yaml_whitelist = parsed_settings_yaml_first["whitelist"].as_vec().unwrap();
+
     let mut writer_out = match out_path.as_str() {
         "stdout" => Box::new(io::stdout()) as Box<dyn Write>,
         _ => Box::new(file_write(out_path).unwrap()) as Box<dyn Write>,
@@ -345,6 +351,25 @@ pub fn config_process_lists(
         _ => _ = writer_out.write_all(b"\n"),
     }
 
+    let mut set_whitelist: BTreeSet<String> = parsed_setings_yaml_whitelist
+        .into_par_iter()
+        .map(|yml| yml.as_str().unwrap().to_string())
+        .collect::<BTreeSet<_>>();
+
+    set_whitelist.extend(
+        parsed_setings_yaml_remote_whitelist
+            .into_par_iter()
+            .map(|yaml| lazy_read(yaml.as_str().unwrap()))
+            .filter_map(|result| result.ok())
+            .map(|(set_cleaned, _)| {
+                return set_cleaned;
+            })
+            .collect::<Vec<_>>()
+            .into_par_iter()
+            .flatten()
+            .collect::<BTreeSet<_>>(),
+    );
+
     parsed_setings_yaml_sources
         .into_par_iter()
         .map(|yaml| lazy_read(yaml.as_str().unwrap()))
@@ -356,6 +381,8 @@ pub fn config_process_lists(
         .collect::<Vec<_>>()
         .into_par_iter()
         .flatten()
+        .collect::<BTreeSet<_>>()
+        .difference(&set_whitelist)
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(

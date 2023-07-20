@@ -1,4 +1,4 @@
-name: Publish for DragonflyBSD amd64
+name: Release for DragonflyBSD amd64
 
 on:
   push:
@@ -8,10 +8,10 @@ on:
 jobs:
   test:
     runs-on: macos-12
-    name: Build for DragonflyBSD
+    name: Release for DragonflyBSD
     steps:
     - uses: actions/checkout@v3
-    - name: Build in DragonflyBSD VM
+    - name: Compile
       id: test
       uses: vmactions/dragonflybsd-vm@v0
       with:
@@ -28,11 +28,21 @@ jobs:
           ls -lah
           rustc --version
           cargo build --release
+          cd target/release
+          mv hctl hctl-dragonflybsd-amd64
+          sha256sum hctl-dragonflybsd-amd64 > sha256-hctl-dragonflybsd-amd64
           
-    - name: Upload binaries to release
+    - name: Upload binary to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/hctl
+        file: target/release/hctl-dragonflybsd-amd64
         asset_name: hctl-dragonflybsd-amd64
+        tag: ${{ github.ref }}
+    - name: Upload checksum to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/sha256-hctl-dragonflybsd-amd64
+        asset_name: sha256-hctl-dragonflybsd-amd64
         tag: ${{ github.ref }}

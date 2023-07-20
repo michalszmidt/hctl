@@ -12,45 +12,16 @@
   <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/michalszmidt/hctl" />
 </div>
 
-## CI/CD
-
-[![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg)](https://cirrus-ci.com/github/michalszmidt/hctl) **CirrusCI** (Linux musl/glib amd64/aarch64, FreeBSD amd64, MacOS X silicon)
-
-<img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml"> **GitHub Actions** (Mac OS X amd64)
-
-<!--
-## CI/CD:
-### Builds
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_freebsd_amd64.yml"> FreeBSD [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_dragonflybsd_amd64.yml"> DragonflyBSD [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_netbsd_amd64.yml"> NetBSD [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_openbsd_amd64.yml"> OpenBSD [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_linux_musl_amd64.yml"> Linux musl [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> Linux glibc [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> MacOS X [amd64]
-- <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/publish_supported.yml"> Windows [amd64]
--->
-
-
-
-<!--
-|   | amd64 | aarch64 |
-|---|---|---|---------|
-| Linux glibc |   |   |
-| Linux musl|   |   | 
-| FreeBSD |   |   |
-| MacOS X |   |   |
-| DragonflyBSD |   | N/A |
-| OpenBSD |   |   |
-| NetBSD |   |   |
-| Windows |   | N/|
--->
-
-## About
+# About
 
 Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transform, clear from comments etc.) your hostlists from diffrent formats to selected by you!
 
-## Features
+- [Wiki](https://github.com/michalszmidt/hctl/wiki)
+- [Usage](https://github.com/michalszmidt/hctl/wiki/Usage)
+
+# [Download from release page](https://github.com/michalszmidt/hctl/releases/latest)
+
+# Features
 
 - [x] Merge hostlist
 - [x] Remove duplicates
@@ -72,18 +43,12 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 
 Jump [here](https://github.com/michalszmidt/hctl/issues/1) to feature-request issue.
 
-## Magic behind the scene
+# Magic behind the scene
 
 There is heavy usage of rust iterators to enable lazy-reading
 
 Processing is done by firstly removing addreses characteristic for host file like 127.0.0.1 and comments after the records. Next tool removes all whitespace characters and non-urls using regex.
 See rules.rs if you want to embed similar solution in your app.
-
-## Wiki
-
-- [Home](https://github.com/michalszmidt/hctl/wiki)
-- [Usage](https://github.com/michalszmidt/hctl/wiki/Usage)
-- [Installation](https://github.com/michalszmidt/hctl/wiki/Installation)
 
 ## License
 [BSD-3-clause-no-military](https://github.com/michalszmidt/hctl/blob/main/LICENSE)
