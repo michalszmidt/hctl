@@ -6,10 +6,11 @@
 /_/ /_/ \___/  \__/  /_/   
 ```
 <div>
-  <img alt="" src="https://img.shields.io/github/repo-size/michalszmidt/hctl" />
+  <img alt="GitHub Repo Size" src="https://img.shields.io/github/repo-size/michalszmidt/hctl" />
   <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/michalszmidt/hctl" />
   <img alt="GitHub Issues" src="https://img.shields.io/github/issues/michalszmidt/hctl" />
   <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/michalszmidt/hctl" />
+  <img alt="Lines of code" src="https://raw.githubusercontent.com/michalszmidt/hctl/main/.github/lines.svg" />
 </div>
 
 # About
@@ -35,9 +36,10 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - [x] Supported input formats (linewise, 127.0.0.1, 0.0.0.0, ~dnsmasq~, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
 - [x] Supported output formats (linewise, 127.0.0.1, 0.0.0.0, dnsmasq, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
 - [x] Output to stdout to be used with unix pipe stream control
+- [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
 - [ ] Record existance validation from DNS servers (unencrypted and over tls)
 - [ ] Whitelists (enumerated, from external lists file/https)
-- [ ] Deep analysis (eliminating subdomains)
+- [ ] Whitelists including subdomains
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
 

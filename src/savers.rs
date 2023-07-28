@@ -1,3 +1,37 @@
+use std::{
+    fs::File,
+    io::{self, Write},
+};
+
+pub static HOSTLIST_SCHEME: &str = "
+127.0.0.1\tlocalhost
+127.0.0.1\tlocalhost.localdomain
+127.0.0.1\tlocal
+255.255.255.255\tbroadcasthost
+::1\tlocalhost
+::1\tip6-localhost
+::1\tip6-loopback
+fe80::1%lo0\tlocalhost
+ff00::0\tip6-localnet
+ff00::0\tip6-mcastprefix
+ff02::1\tip6-allnodes
+ff02::2\tip6-allrouters
+ff02::3\tip6-allhosts
+0.0.0.0\t0.0.0.0
+
+";
+
+pub fn io_writer_out(out_path: String) -> Box<dyn Write> {
+    return match out_path.as_str() {
+        "stdout" => Box::new(io::stdout()) as Box<dyn Write>,
+        _ => Box::new(file_write(out_path).unwrap()) as Box<dyn Write>,
+    };
+}
+pub fn file_write(path: String) -> io::Result<File> {
+    let file = File::create(path)?;
+    return Ok(file);
+}
+
 fn saver_simple_linewise(word: &String) -> String {
     let mut res = word.clone();
     res.push('\n');
@@ -37,21 +71,3 @@ pub fn return_saver(type_of_writer: String) -> fn(&String) -> String {
         }
     }
 }
-
-pub static HOSTLIST_SCHEME: &str = "
-127.0.0.1\tlocalhost
-127.0.0.1\tlocalhost.localdomain
-127.0.0.1\tlocal
-255.255.255.255\tbroadcasthost
-::1\tlocalhost
-::1\tip6-localhost
-::1\tip6-loopback
-fe80::1%lo0\tlocalhost
-ff00::0\tip6-localnet
-ff00::0\tip6-mcastprefix
-ff02::1\tip6-allnodes
-ff02::2\tip6-allrouters
-ff02::3\tip6-allhosts
-0.0.0.0\t0.0.0.0
-
-";
