@@ -36,12 +36,15 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - [x] Supported input formats (linewise, 127.0.0.1, 0.0.0.0, ~dnsmasq~, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
 - [x] Supported output formats (linewise, 127.0.0.1, 0.0.0.0, dnsmasq, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
 - [x] Output to stdout to be used with unix pipe stream control
+- [ ] Input from stdout to be used with unix pipe stream control
 - [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
+- [ ] Subdomains exploration, save with subdomain order
 - [ ] Record existance validation from DNS servers (unencrypted and over tls)
 - [ ] Whitelists (enumerated, from external lists file/https)
 - [ ] Whitelists including subdomains
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
+- [ ] Quiet option
 
 Jump [here](https://github.com/michalszmidt/hctl/issues/1) to feature-request issue.
 

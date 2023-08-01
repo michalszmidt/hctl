@@ -1,7 +1,9 @@
 pub mod commands;
+pub mod customio;
 pub mod processing;
 pub mod rules;
 pub mod savers;
+pub mod structs;
 pub mod tests;
 
 use clap::{parser::ValuesRef, Command};

@@ -1,0 +1,12 @@
+settings:
+  whitelist_include_subdomains: true
+  
+    
+remote_sources:  
+  -
+
+whitelist:
+  -
+
+remote_whitelist:
+  -

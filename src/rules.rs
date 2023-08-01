@@ -20,7 +20,7 @@ pub fn regex_whitespace() -> Regex {
     return Regex::new(r"\s+").unwrap();
 }
 
-pub fn regex_subdomain_all(domain: String) -> Regex {
+pub fn regex_subdomain_all(domain: &String) -> Regex {
     let spl = domain.replace(".", "\\.");
     let mut pattern_str = r"(([a-z0-9-_]){1,}\.){1,}".to_string();
     pattern_str.push_str(spl.as_str());
