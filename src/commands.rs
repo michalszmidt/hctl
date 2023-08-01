@@ -1,4 +1,5 @@
 use clap::{Arg, ArgAction, Command};
+use indicatif::ProgressStyle;
 
 // COMMANDS
 pub fn get_command_domain() -> Command {
@@ -44,13 +45,13 @@ pub fn get_args_domain() -> Vec<Arg> {
         .conflicts_with("path");
 
     let arg_intro: Arg = Arg::new("intro")
-        .help("Whether append intro \"Assembled From:...\" to out file from config [yes/no]")
+        .help("Whether append intro \"Assembled From:...\" to out file from config [true/false]")
         .short('i')
         .long("intro")
         .action(ArgAction::Set);
 
     let arg_rejected: Arg = Arg::new("rejected")
-        .help("Whether save rejected to ./rejected.txt [yes/no]")
+        .help("Whether save rejected to ./rejected.txt [true/false]")
         .short('r')
         .long("rejected")
         .action(ArgAction::Set);
@@ -71,4 +72,13 @@ pub fn get_args_domain() -> Vec<Arg> {
         arg_rejected,
         arg_format,
     ];
+}
+
+// PROGRESSBAR
+
+pub fn progressbar_my_default_style() -> ProgressStyle {
+    return ProgressStyle::with_template(
+        "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+    )
+    .unwrap();
 }

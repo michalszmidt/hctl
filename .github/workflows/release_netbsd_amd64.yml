@@ -1,4 +1,4 @@
-name: Publish for NetBSD amd64
+name: Release for NetBSD amd64
 
 on:
   push:
@@ -8,11 +8,11 @@ on:
 jobs:
   test:
     runs-on: macos-12
-    name: Build for NetBSD
+    name: Release for NetBSD
     steps:
     - uses: actions/checkout@v3
     - name: Build in NetBSD VM
-      id: test
+      id: compile
       uses: vmactions/netbsd-vm@v0
       with:
         usesh: false
@@ -23,11 +23,21 @@ jobs:
           ls -lah
           rustc --version
           cargo build --release
+          cd target/release
+          mv hctl hctl-netbsd-amd64
+          sha256sum hctl-netbsd-amd64 > sha256-hctl-netbsd-amd64
           
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/hctl
+        file: target/release/hctl-netbsd-amd64
         asset_name: hctl-netbsd-amd64
+        tag: ${{ github.ref }}
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/sha256-hctl-netbsd-amd64
+        asset_name: sha256-hctl-netbsd-amd64
         tag: ${{ github.ref }}

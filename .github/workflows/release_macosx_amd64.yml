@@ -1,4 +1,4 @@
-name: Publish for MacOS X amd64
+name: Release for MacOS X amd64
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish_for_macosx_amd64:
-    name: Build for MacOS X amd64
+    name: Release for MacOS X amd64
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3

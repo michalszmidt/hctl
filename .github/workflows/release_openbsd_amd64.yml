@@ -1,0 +1,46 @@
+name: Release for OpenBSD amd64
+
+#on:
+#  push:
+#    tags:
+#      - '*'
+
+on: workflow_dispatch
+
+jobs:
+  release_openbsd:
+    runs-on: macos-12
+    name: Release for OpenBSD
+    steps:
+    - uses: actions/checkout@v3
+    - name: Compile in OpenBSD VM
+      id: compile
+      uses: vmactions/openbsd-vm@v0
+      with:
+        usesh: false
+        mem: 8192
+        prepare: |
+          pkg_add curl rust pkgconf openssl
+
+        run: |
+          ls -lah
+          rustc --version
+          cargo build --release
+          cd target/release
+          mv hctl hctl-openbsd-amd64
+          sha256sum hctl-openbsd-amd64 > sha256-hctl-openbsd-amd64
+          
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/hctl-openbsd-amd64
+        asset_name: hctl-openbsd-amd64
+        tag: ${{ github.ref }}
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/sha256-hctl-openbsd-amd64
+        asset_name: sha256-hctl-openbsd-amd64
+        tag: ${{ github.ref }}

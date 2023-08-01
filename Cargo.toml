@@ -1,6 +1,6 @@
 [package]
 name = "hctl"
-version = "0.1.5"
+version = "0.2.0"
 edition = "2021"
 authors = [ "Michał Szmidt" ]
 repository = "https://github.com/michalszmidt/hctl"
@@ -15,8 +15,9 @@ readme = "README.md"
 rayon = "*"                                             # Apache 2.0 / MIT
 regex = "*"                                             # Apache 2.0 / MIT
 itertools = "*"                                         # Apache 2.0 / MIT
-clap = { version = "*", features = ["derive"] }         # Apache 2.0 / MIT
-yaml-rust = "*"                                         # Apache 2.0 / MIT
+clap = { version="*", features = ["default"] }          # Apache 2.0 / MIT
+serde = { vesrion="1.0.180", features = ["derive"] }       
+serde_yaml = "*"                               
 minreq = { version="*", features = ["https-native"] }   # MIT
 indicatif = "*"                                         # MIT
 # delegate = "*"                                          # Apache 2.0 / MIT
