@@ -6,11 +6,10 @@
 /_/ /_/ \___/  \__/  /_/   
 ```
 <div>
-  <img alt="GitHub Repo Size" src="https://img.shields.io/github/repo-size/michalszmidt/hctl" />
-  <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/michalszmidt/hctl" />
-  <img alt="GitHub Issues" src="https://img.shields.io/github/issues/michalszmidt/hctl" />
-  <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/michalszmidt/hctl" />
-  <img alt="Lines of code" src="https://raw.githubusercontent.com/michalszmidt/hctl/main/.github/lines.svg" />
+  <img alt="Repo Size" src="https://img.shields.io/github/repo-size/michalszmidt/hctl" />
+  <img alt="Lines of code" src="https://sloc.xyz/github/michalszmidt/hctl?category=code" />
+  <img alt="Last Commit" src="https://img.shields.io/github/last-commit/michalszmidt/hctl" />
+  <img alt="Assets Downloads" src="https://img.shields.io/github/downloads/michalszmidt/hctl/total" />
 </div>
 
 # About
@@ -20,7 +19,55 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - [Wiki](https://github.com/michalszmidt/hctl/wiki)
 - [Usage](https://github.com/michalszmidt/hctl/wiki/Usage)
 
-# [Download from release page](https://github.com/michalszmidt/hctl/releases/latest)
+# Downloads
+## [From release page](https://github.com/michalszmidt/hctl/releases/latest)
+
+<table>
+<tr><th>Platform</th><th>Downloads</th><th>Build Status</th></tr>
+<tr><td>
+
+| OS |
+|----------|
+| Linux glibc |
+| Linux musl  |
+| MacOS X |
+| FreeBSD |
+| DragonflyBSD |
+| OpenBSD |
+| NetBSD |
+| Windows |
+
+</td><td>
+    
+| amd64 | aarch64 |
+|-------|---------|
+|[app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-glibc-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-glibc-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-glibc-aarch64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-glibc-aarch64) |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-musl-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-musl-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-musl-aarch64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-musl-aarch64) |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-macosx-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-macosx-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-macosx-silicon), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-macosx-silicon) |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-freebsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-freebsd-amd64) | NSU |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-dragonflybsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-dragonflybsd-amd64) | N/A |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) | NSU |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-netbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-netbsd-amd64) | NSU |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-amd64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-amd64.exe.txt) | WSU |
+
+</td><td>
+
+| amd64 | aarch64 |
+|-------|---------|
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_glibc_amd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_glibc_aarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_musl_aarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_musl_amd64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_macosx_silicon)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_freebsd_amd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_dragonflybsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | N/A |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_netbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | WSU |
+
+</td></tr> </table>
+
+
+- NSU - Not Set Up Yet, will appear in future
+- WSU - Won't set up for some reason
 
 # Features
 
@@ -36,12 +83,12 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - [x] Supported input formats (linewise, 127.0.0.1, 0.0.0.0, ~dnsmasq~, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
 - [x] Supported output formats (linewise, 127.0.0.1, 0.0.0.0, dnsmasq, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
 - [x] Output to stdout to be used with unix pipe stream control
+- [x] Whitelists (enumerated, from external lists file/https)
+- [x] Whitelists including subdomains
 - [ ] Input from stdout to be used with unix pipe stream control
 - [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
-- [ ] Subdomains exploration, save with subdomain order
+- [ ] Subdomains family recognition, save with subdomain order (like adaway does)
 - [ ] Record existance validation from DNS servers (unencrypted and over tls)
-- [ ] Whitelists (enumerated, from external lists file/https)
-- [ ] Whitelists including subdomains
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
 - [ ] Quiet option
