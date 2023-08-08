@@ -30,7 +30,7 @@ jobs:
           cargo build --release
           cd target/release
           mv hctl hctl-dragonflybsd-amd64
-          sha256sum hctl-dragonflybsd-amd64 > sha256-hctl-dragonflybsd-amd64
+          shasum -a 256 hctl-dragonflybsd-amd64 > sha256-hctl-dragonflybsd-amd64
           
     - name: Upload binary to release
       uses: svenstaro/upload-release-action@v2

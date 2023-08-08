@@ -25,7 +25,7 @@ jobs:
           cargo build --release
           cd target/release
           mv hctl hctl-netbsd-amd64
-          sha256sum hctl-netbsd-amd64 > sha256-hctl-netbsd-amd64
+          shasum -a 256 hctl-netbsd-amd64 > sha256-hctl-netbsd-amd64
           
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
