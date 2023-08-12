@@ -48,6 +48,7 @@ pub fn process_parallel_list_to_file(
 
     match format.as_str() {
         "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        "unbound" => _ = writer_out.write_all(savers::UNBOUND_PRE.as_bytes()),
         _ => _ = writer_out.write_all(b"\n"),
     }
 
@@ -130,6 +131,7 @@ pub fn process_single_list_seq_file(
 
     match format.as_str() {
         "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        "unbound" => _ = writer_out.write_all(savers::UNBOUND_PRE.as_bytes()),
         _ => _ = writer_out.write_all(b"\n"),
     }
 
@@ -229,6 +231,7 @@ pub fn process_multiple_lists_to_file(
 
     match format.as_str() {
         "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        "unbound" => _ = writer_out.write_all(savers::UNBOUND_PRE.as_bytes()),
         _ => _ = writer_out.write_all(b"\n"),
     }
 
@@ -386,6 +389,7 @@ pub fn config_process_lists(
 
     match format.as_str() {
         "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
+        "unbound" => _ = writer_out.write_all(savers::UNBOUND_PRE.as_bytes()),
         _ => _ = writer_out.write_all(b"\n"),
     }
 

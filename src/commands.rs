@@ -57,7 +57,7 @@ pub fn get_args_domain() -> Vec<Arg> {
         .action(ArgAction::Set);
 
     let arg_format: Arg = Arg::new("format")
-        .help("Type of out format [dnsmasq/loopback/empty/linewise]")
+        .help("Type of out format [dnsmasq/loopback/empty/linewise/bind/snort/unbound/machosts/hostperm1/junkbuster/littlesnitch/pdnsd]")
         .short('f')
         .long("format")
         .action(ArgAction::Set);
