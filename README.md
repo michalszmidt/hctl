@@ -33,7 +33,6 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 | MacOS X |
 | FreeBSD |
 | DragonflyBSD |
-| OpenBSD |
 | NetBSD |
 | Windows |
 
@@ -46,7 +45,6 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-macosx-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-macosx-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-macosx-silicon), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-macosx-silicon) |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-freebsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-freebsd-amd64) | NSU |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-dragonflybsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-dragonflybsd-amd64) | N/A |
-| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) | NSU |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-netbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-netbsd-amd64) | NSU |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-amd64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-amd64.exe.txt) | WSU |
 
@@ -54,20 +52,26 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 
 | amd64 | aarch64 |
 |-------|---------|
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_glibc_amd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_glibc_aarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_musl_aarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_linux_musl_amd64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
-| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_macosx_silicon)](https://cirrus-ci.com/github/michalszmidt/hctl) |
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=relese_freebsd_amd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAmd64](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=MacosxSilicon)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=FreebsdAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_dragonflybsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | N/A |
-| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_netbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | WSU |
 
 </td></tr> </table>
 
+<!--
+| OpenBSD |
+|  [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) --> NSU | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
+-->
 
 - NSU - Not Set Up Yet, will appear in future
 - WSU - Won't set up for some reason
+
+Note that OpenBSD Builds are removed from table as gh Action OpenBSD runner is broken, see [this issue](https://github.com/vmactions/openbsd-vm/issues/12)
 
 # Features
 
@@ -77,12 +81,10 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - [x] Fetch lists directly from network (https)
 - [x] YAML config
 - [x] Parallel processing
-- [x] Progressbar
+- [x] Progressbar on save
 - [x] Rejected lines may be saved with information about source list
-- [x] Support for Windows encoded text files (line ending with \n\r)
-- [x] Supported input formats (linewise, 127.0.0.1, 0.0.0.0, ~dnsmasq~, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
-- [x] Supported output formats (linewise, 127.0.0.1, 0.0.0.0, dnsmasq, ~snort~, ~squid~, ~unbound~, ~bind~, ~netgar~, ~adblock~)
-- [x] Output to stdout to be used with unix pipe stream control
+- [x] Support for Windows encoded text files (line ending with `\n\r`)
+- [x] Output to stdout to be used with unix pipe stream control (partial support)
 - [x] Whitelists (enumerated, from external lists file/https)
 - [x] Whitelists including subdomains
 - [ ] Input from stdout to be used with unix pipe stream control
@@ -92,6 +94,8 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
 - [ ] Quiet option
+
+Jump [here](https://github.com/michalszmidt/hctl/wiki/Manual#supported-formats) to see supported input and output formats
 
 Jump [here](https://github.com/michalszmidt/hctl/issues/1) to feature-request issue.
 

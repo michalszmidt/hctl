@@ -18,7 +18,7 @@ jobs:
         usesh: false
         mem: 8192        
         prepare: |
-          /usr/sbin/pkg_add curl rust pkgconf openssl
+          /usr/sbin/pkg_add curl rust pkgconf openssl coreutils
         run: |
           ls -lah
           rustc --version
