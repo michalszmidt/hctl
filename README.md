@@ -52,7 +52,7 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 
 | amd64 | aarch64 |
 |-------|---------|
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAmd64](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=MacosxSilicon)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=FreebsdAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
@@ -64,7 +64,7 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 
 <!--
 | OpenBSD |
-|  [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) --> NSU | NSU |
+|  [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) NSU | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 -->
 
