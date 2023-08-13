@@ -7,6 +7,7 @@ task:
     
   container:
     image: fedora:rawhide
+    cpu: 4
     
   prepare_script:
     - dnf check-update -q && dnf up -q -y
@@ -67,6 +68,7 @@ task:
     
   container:
     image: alpine:latest
+    cpu: 4
     
   prepare_script:
     - apk -U upgrade
@@ -127,6 +129,7 @@ task:
     
   freebsd_instance:
     image_family: freebsd-13-2
+    cpu: 4
     
   prepare_script:
     - mkdir -p /usr/local/etc/pkg/repos
@@ -160,6 +163,7 @@ task:
     
   macos_instance:
     image: ghcr.io/cirruslabs/macos-ventura-base:latest
+    cpu: 4
     
   prepare_script:
     - NONINTERACTIVE=1 brew install pkg-config make curl rust coreutils openssl@3

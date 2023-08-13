@@ -18,7 +18,11 @@ jobs:
         usesh: false
         mem: 8192        
         prepare: |
-          /usr/sbin/pkg_add curl rust pkgconf openssl coreutils p5-Digest-SHA
+          export PKG_PATH="http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/$(uname -r)/All"
+          /usr/sbin/pkg_add -v pkgin
+          pkgin update
+          pkgin -y upgrade
+          pkgin -y install curl rust pkgconf openssl coreutils p5-Digest-SHA3
         run: |
           ls -lah
           rustc --version
