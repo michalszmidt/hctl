@@ -20,7 +20,7 @@ jobs:
         prepare: |
           pkg update
           pkg upgrade -y
-          pkg install -y curl rust pkgconf openssl coreutils
+          pkg install -y curl rust pkgconf openssl coreutils p5-Digest-SHA
           rehash
 
         run: |
