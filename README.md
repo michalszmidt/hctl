@@ -99,6 +99,27 @@ Jump [here](https://github.com/michalszmidt/hctl/wiki/Manual#supported-formats) 
 
 Jump [here](https://github.com/michalszmidt/hctl/issues/1) to feature-request issue.
 
+# [Usage](https://github.com/michalszmidt/hctl/wiki/Usage)
+
+
+```shell
+# hctl -D -h
+Manipulate on domains
+
+Usage: hctl {domain|--domain|-D} [OPTIONS]
+
+Options:
+  -p, --path <path>          Path to file to be read [path without quotes]
+  -o, --out <out>            Path to the out file [stdout/path without quotes]
+  -z, --optimize <optimize>  Optimize for memory or speed, default: memory [memory/speed]
+  -c, --config <config>      Path to config [without qoutes]
+  -m, --mode <mode>          Process single or multiple lists [single/folder/config]
+  -i, --intro <intro>        Whether append intro "Assembled From:..." to out file from config [true/false]
+  -r, --rejected <rejected>  Whether save rejected to ./rejected.txt [true/false]
+  -f, --format <format>      Type of out format [dnsmasq/loopback/empty/linewise/bind/snort/unbound/machosts/hostperm1/junkbuster/littlesnitch/pdnsd]
+  -h, --help                 Print help
+```
+
 # Magic behind the scene
 
 There is heavy usage of rust iterators to enable lazy-reading
