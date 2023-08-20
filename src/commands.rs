@@ -62,6 +62,12 @@ pub fn get_args_domain() -> Vec<Arg> {
         .long("format")
         .action(ArgAction::Set);
 
+    let arg_validate: Arg = Arg::new("validate")
+        .help("Validate by issuing dns query [yes/no/only]")
+        .short('f')
+        .long("format")
+        .action(ArgAction::Set);
+
     return vec![
         arg_path,
         arg_out,
@@ -71,6 +77,7 @@ pub fn get_args_domain() -> Vec<Arg> {
         arg_intro,
         arg_rejected,
         arg_format,
+        arg_validate,
     ];
 }
 

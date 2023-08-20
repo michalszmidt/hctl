@@ -5,6 +5,7 @@ pub mod rules;
 pub mod savers;
 pub mod structs;
 pub mod tests;
+pub mod resolver;
 
 use clap::{parser::ValuesRef, Command};
 use commands::{get_args_domain, get_command_domain};

@@ -1,6 +1,7 @@
 use crate::{
     commands::progressbar_my_default_style,
     customio::lazy_read,
+    resolver::{default_resolvers, valid_resolv_domain},
     rules::{
         iterator_map_whitespce, regex_extract_basic, regex_subdomain_all,
         regex_valid_domain_permissive, regex_whitespace,
@@ -374,6 +375,15 @@ pub fn config_process_lists(
         // .unique()
         // .find_map(|x| x.is_match(domain));
     };
+
+    let resolv_valid_reject = |domain| -> bool {
+        let res = valid_resolv_domain(domain, default_resolvers());
+        let mut x = domain.clone();
+        x.push_str("\t# Domain reslution failed");
+        arc_mux_set_rejected.lock().unwrap().insert(x);
+        println!("{}: {}", res, domain);
+        return res;
+    };
     // Processing
 
     if use_intro {
@@ -413,8 +423,10 @@ pub fn config_process_lists(
         .into_par_iter()
         .flatten()
         .collect::<BTreeSet<_>>()
-        .difference(&set_whitelist)
+        // .difference(&set_whitelist)
+        .par_iter()
         .filter(|x| subdomains(x))
+        .filter(|x| resolv_valid_reject(x))
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(progressbar_my_default_style())
