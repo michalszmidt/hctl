@@ -1,7 +1,7 @@
 use crate::{
     commands::progressbar_my_default_style,
     customio::lazy_read,
-    resolver::{default_resolvers, valid_resolv_domain},
+    resolver::{inbuilt_resolvers, valid_resolv_domain},
     rules::{
         iterator_map_whitespce, regex_extract_basic, regex_subdomain_all,
         regex_valid_domain_permissive, regex_whitespace,
@@ -377,12 +377,13 @@ pub fn config_process_lists(
     };
 
     let resolv_valid_reject = |domain| -> bool {
-        let res = valid_resolv_domain(domain, default_resolvers());
+        let res = valid_resolv_domain(domain, inbuilt_resolvers());
         let mut x = domain.clone();
-        x.push_str("\t# Domain reslution failed");
+        x.push_str("\t# Domain reslution failed at resolver nr. ");
+        x.push_str(res.1.to_string().as_str());
         arc_mux_set_rejected.lock().unwrap().insert(x);
-        println!("{}: {}", res, domain);
-        return res;
+        println!("{}: {}", res.0, domain);
+        return res.0;
     };
     // Processing
 
@@ -419,11 +420,10 @@ pub fn config_process_lists(
         .map(|s| lazy_read(s.as_str()))
         .filter_map(|result| result.ok())
         .map(|(set_cleaned, set_rejected)| extend_rejected_from_result(set_cleaned, set_rejected))
-        .collect::<Vec<_>>()
-        .into_par_iter()
+        // .collect::<Vec<_>>()
+        // .into_par_iter()
         .flatten()
         .collect::<BTreeSet<_>>()
-        // .difference(&set_whitelist)
         .par_iter()
         .filter(|x| subdomains(x))
         .filter(|x| resolv_valid_reject(x))
