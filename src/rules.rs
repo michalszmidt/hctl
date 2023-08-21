@@ -24,16 +24,20 @@ pub fn regex_subdomain_all(domain: &String) -> Regex {
     let spl = domain.replace(".", "\\.");
     let mut pattern_str = r"(([a-z0-9-_]){1,}\.){1,}".to_string();
     pattern_str.push_str(spl.as_str());
+    pattern_str.push('|');
+    pattern_str.push_str(spl.as_str());
     return Regex::new(pattern_str.as_str()).unwrap();
 }
 
-pub fn regex_subdomain_from_to(from: String, to: String, domain: String) -> Regex {
-    let spl = domain.replace(".", "\\.");
-    let mut pattern_str = format!("(([a-z0-9-_]){{1,}}\\.){{{},{}}}", from, to);
-    pattern_str.push_str(spl.as_str());
-    println!("{}", pattern_str.clone());
-    return Regex::new(pattern_str.as_str()).unwrap();
-}
+// pub fn regex_subdomain_from_to(from: String, to: String, domain: String) -> Regex {
+//     let spl = domain.replace(".", "\\.");
+//     let mut pattern_str = format!("(([a-z0-9-_]){{1,}}\\.){{{},{}}}", from, to);
+//     pattern_str.push_str(spl.as_str());
+//     pattern_str.push('|');
+//     pattern_str.push_str(spl.as_str());
+//     // println!("{}", pattern_str.clone());
+//     return Regex::new(pattern_str.as_str()).unwrap();
+// }
 
 // pub fn get_ip4() -> Regex {
 //     return Regex::new(r"^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4})").unwrap();

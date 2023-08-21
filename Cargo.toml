@@ -17,10 +17,14 @@ regex = "*"                                                           # Apache 2
 itertools = "*"                                                       # Apache 2.0 / MIT
 clap = { version="*", features = ["default"] }                        # Apache 2.0 / MIT
 serde = { vesrion="*", features = ["derive"] }                        # Apache 2.0 / MIT  
-serde_yaml = "*"                                                      # Apache 2.0 / MIT
+serde_yaml = "*"                                                      # MIT
+indicatif = "*"                                                       # Apache 2.0 / MIT
 minreq = { version="*", features = ["https-native"] }                 # MIT
-indicatif = "*"                                                       # MIT
-trust-dns-resolver = {version = "*", features = ["dns-over-rustls", "dnssec-openssl"]}  # Apache 2.0 / MIT
-# trust-dns-resolver = {version = "*", features = ["dns-over-rustls"]}  # Apache 2.0 / MIT
-# rustls = "*"
-# webpki-roots = "*" 
+trust-dns-resolver = {version = "*", features = ["dns-over-native-tls", "dnssec-openssl"]}  # Apache 2.0 / MIT
+
+# minreq = { version="*", features = ["https-rustls"] }                 # MIT
+# trust-dns-resolver = { version = "*", features = ["dns-over-rustls", "dnssec-ring"] }  # Apache 2.0 / MIT
+
+# IF YOU DON'T WANT TO USE NATIVE-OPENSSL, YOU CAN BUILD THIS APP WITHOUT IT
+# BY REPLACING LAST TWO LINES WITH COMMENTED ONES, THOSE WILL ENABLE RUSTLS AND RING
+# NOTE THAT IT MAY BE LESS PERFORMANT THEN
