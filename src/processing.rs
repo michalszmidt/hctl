@@ -1,7 +1,7 @@
 use crate::{
     commands::progressbar_my_default_style,
     customio::lazy_read,
-    resolver::{inbuilt_resolvers, valid_resolv_domain},
+    resolver::{many_resolvers_tls, valid_resolv_domain},
     rules::{
         iterator_map_whitespce, regex_extract_basic, regex_subdomain_all,
         regex_valid_domain_permissive, regex_whitespace,
@@ -305,6 +305,9 @@ pub fn config_process_lists(
     let mut writer_rejected = BufWriter::new(file_rejected);
 
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
+    // let mut arc_mux_num = Arc::new(HoldNum::new(0));
+    // let arc_mux_vec_resolvers = Arc::new(Mutex::new(many_resolvers_tls()));
+
     let mut count_entries: usize = 0;
 
     let saver_func = return_saver(format.clone());
@@ -327,11 +330,6 @@ pub fn config_process_lists(
             .flatten()
             .collect::<BTreeSet<_>>(),
     );
-
-    // set_whitelist
-    //     .clone()
-    //     .iter()
-    //     .for_each(|x| println!("{}", x.as_str()));
 
     let subdomains_regex: Vec<Regex> = match hctl_yaml.settings.whitelist_include_subdomains {
         true => set_whitelist
@@ -377,7 +375,11 @@ pub fn config_process_lists(
     };
 
     let resolv_valid_reject = |domain| -> bool {
-        let res = valid_resolv_domain(domain, inbuilt_resolvers());
+        // let p = arc_mux_vec_resolvers.lock().unwrap().push();
+        // p.push(p.remove(0));
+        // let x = arc_mux_num.lock().unwrap();
+        // x = x + 1;
+        let res = valid_resolv_domain(domain, many_resolvers_tls());
         let mut x = domain.clone();
         x.push_str("\t# Domain reslution failed at resolver nr. ");
         x.push_str(res.1.to_string().as_str());

@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Compile
       run: |
-          brew install coreutils
+          brew install coreutils openssl@3
           cargo build --release
           cd target/release
           mv hctl hctl-macosx-amd64
