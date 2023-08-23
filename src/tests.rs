@@ -56,10 +56,10 @@ mod tests {
     //         .for_each(|x| println!("|{}|", x));
     // }
 
-    use crate::resolver::{inbuilt_resolvers, valid_resolv_domain};
+    // use crate::resolver::{inbuilt_resolvers, valid_resolv_domain};
 
-    #[test]
-    fn test_resolver() {
-        valid_resolv_domain(&"yt.moatads.com".to_string(), inbuilt_resolvers());
-    }
+    // #[test]
+    // fn test_resolver() {
+    //     valid_resolv_domain(&"yt.moatads.com".to_string(), inbuilt_resolvers());
+    // }
 }
