@@ -16,6 +16,7 @@ jobs:
         vcpkg install openssl:arm64-windows-static-md
         vcpkg integrate install        
         rustup target add aarch64-pc-windows-msvc
+        rustc --version
         cargo build --release --target=aarch64-pc-windows-msvc
         CD .\target\aarch64-pc-windows-msvc\release
         dir
