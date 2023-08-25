@@ -6,19 +6,25 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     
   container:
-    image: fedora:rawhide
+    image: fedora:latest
     cpu: 4
     
   prepare_script:
+    - whoami
     - dnf check-update -q && dnf up -q -y
-    - dnf in -y rust cargo curl make openssl-devel pkgconf
+    - dnf in -y curl make openssl-devel pkgconf
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
     
   build_script:
+    - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
     
   hash_script:
+    - whoami
     - ls -lah
     - cd target/release
     - mv hctl hctl-linux-glibc-amd64
@@ -26,6 +32,7 @@ task:
     - mv hctl-linux-glibc-amd64 ../../ && mv sha256-hctl-linux-glibc-amd64 ../../
     
   upload_script:
+    - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
     
@@ -37,18 +44,25 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     
   arm_container:
-    image: fedora:rawhide
+    image: fedora:latest
+    cpu: 4
     
   prepare_script:
+    - whoami
     - dnf check-update -q && dnf up -q -y
-    - dnf in -y rust cargo curl make openssl-devel pkgconf
+    - dnf in -y curl make openssl-devel pkgconf
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
     
   build_script:
+    - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
     
   hash_script:
+    - whoami
     - ls -lah
     - cd target/release
     - mv hctl hctl-linux-glibc-aarch64
@@ -56,6 +70,7 @@ task:
     - mv hctl-linux-glibc-aarch64 ../../ && mv sha256-hctl-linux-glibc-aarch64 ../../
     
   upload_script:
+    - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
 
@@ -72,14 +87,19 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add rust curl cargo make pkgconf openssl-dev bash
+    - apk add curl make pkgconf openssl-dev bash
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
     
   build_script:
+    - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
     
   hash_script:
+    - whoami
     - ls -lah
     - cd target/release
     - mv hctl hctl-linux-musl-amd64
@@ -87,6 +107,7 @@ task:
     - mv hctl-linux-musl-amd64 ../../ && mv sha256-hctl-linux-musl-amd64 ../../
     
   upload_script:
+    - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
       
@@ -100,23 +121,30 @@ task:
     
   arm_container:
     image: alpine:latest
+    cpu: 4
     
   prepare_script:
     - apk -U upgrade
-    - apk add rust curl cargo make pkgconf openssl-dev bash
+    - apk add curl make pkgconf openssl-dev bash
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
     
   build_script:
+    - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
     
   hash_script:
+    - whoami
     - cd target/release
     - mv hctl hctl-linux-musl-aarch64
     - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
     - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../
     
   upload_script:
+    - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
     
@@ -132,24 +160,31 @@ task:
     cpu: 4
     
   prepare_script:
+    - whoami
     - mkdir -p /usr/local/etc/pkg/repos
     - cp ./FreeBSD.conf /usr/local/etc/pkg/repos/
     - pkg update
     - pkg upgrade -y
-    - pkg install -y curl rust pkgconf openssl bash
+    - pkg install -y curl pkgconf openssl bash
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
     
   build_script:
+    - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
     
   hash_script:
+    - whoami
     - cd target/release
     - mv hctl hctl-freebsd-amd64
     - sha256sum hctl-freebsd-amd64 > sha256-hctl-freebsd-amd64
     - mv hctl-freebsd-amd64 ../../ && mv sha256-hctl-freebsd-amd64 ../../
     
   upload_script:
+    - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
     
@@ -166,19 +201,29 @@ task:
     cpu: 4
     
   prepare_script:
-    - NONINTERACTIVE=1 brew install pkg-config make curl rust coreutils openssl@3
+    - whoami
+    - NONINTERACTIVE=1 brew update
+    - NONINTERACTIVE=1 brew outdated
+    - NONINTERACTIVE=1 brew upgrade
+    - NONINTERACTIVE=1 brew install pkg-config make curl coreutils openssl@3
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
     
   build_script:
+    - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
     
   hash_script:
+    - whoami
     - cd target/release
     - mv hctl hctl-macosx-silicon
     - sha256sum hctl-macosx-silicon > sha256-hctl-macosx-silicon
     - mv hctl-macosx-silicon ../../ && mv sha256-hctl-macosx-silicon ../../
     
   upload_script:
+    - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh

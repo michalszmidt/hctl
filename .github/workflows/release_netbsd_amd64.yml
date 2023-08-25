@@ -18,12 +18,17 @@ jobs:
         usesh: false
         mem: 8192        
         prepare: |
-          export PKG_PATH="http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/$(uname -r)/All"
+          whoami
+          export PKG_PATH="http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/.$(uname -r | cut -d '.' -f 1).0_current/All/"
           /usr/sbin/pkg_add -v pkgin
           pkgin update
           pkgin -y upgrade
-          pkgin -y install curl rust pkgconf openssl coreutils p5-Digest-SHA3
+          pkgin -y install curl pkgconf openssl coreutils p5-Digest-SHA3 mozilla-rootcerts-openssl ca-certificates
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          . $HOME/.cargo/env
         run: |
+          whoami
+          . $HOME/.cargo/env
           ls -lah
           rustc --version
           cargo build --release

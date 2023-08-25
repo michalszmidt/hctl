@@ -15,11 +15,13 @@ jobs:
       run: | 
         vcpkg install openssl:x64-windows-static-md
         vcpkg integrate install     
+        rustc --version
         cargo build --release
         CD .\target\release
         dir
         MOVE .\hctl.exe .\hctl-windows-amd64.exe
         certutil -hashfile "hctl-windows-amd64.exe" SHA256 | FINDSTR /vbl "SHA256" | FINDSTR /vbl "CertUtil:" > sha256-hctl-windows-amd64.exe.txt
+    
     - name: Upload binary to release
       uses: svenstaro/upload-release-action@v2
       with:
@@ -33,4 +35,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: target/release/sha256-hctl-windows-amd64.exe.txt
         asset_name: sha256-hctl-windows-amd64.exe.txt
-        tag: ${{ github.ref }}
+        tag: ${{ github.r
