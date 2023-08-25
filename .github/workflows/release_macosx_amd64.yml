@@ -15,6 +15,7 @@ jobs:
       run: |
           whoami
           brew install coreutils openssl@3
+          rustup update
           rustc --version
           cargo build --release
           cd target/release

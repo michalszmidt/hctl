@@ -14,7 +14,8 @@ jobs:
     - name: Compile and calculate checksum
       run: |
         vcpkg install openssl:arm64-windows-static-md
-        vcpkg integrate install        
+        vcpkg integrate install
+        rustup update
         rustup target add aarch64-pc-windows-msvc
         rustc --version
         cargo build --release --target=aarch64-pc-windows-msvc

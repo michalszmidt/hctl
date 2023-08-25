@@ -12,9 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Compile and calculate checksum
-      run: | 
+      run: |
         vcpkg install openssl:x64-windows-static-md
-        vcpkg integrate install     
+        vcpkg integrate install
+        rustup update
         rustc --version
         cargo build --release
         CD .\target\release

@@ -12,7 +12,8 @@ task:
   prepare_script:
     - whoami
     - dnf check-update -q && dnf up -q -y
-    - dnf in -y curl make openssl-devel pkgconf
+    - dnf group install "C Development Tools and Libraries" "Development Tools"
+    - dnf in -y curl openssl-devel
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
@@ -50,7 +51,8 @@ task:
   prepare_script:
     - whoami
     - dnf check-update -q && dnf up -q -y
-    - dnf in -y curl make openssl-devel pkgconf
+    - dnf group install "C Development Tools and Libraries" "Development Tools"
+    - dnf in -y curl openssl-devel
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
@@ -87,7 +89,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf openssl-dev bash
+    - apk add curl make pkgconf openssl-dev bash build-base
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
@@ -125,7 +127,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf openssl-dev bash
+    - apk add curl make pkgconf openssl-dev bash build-base
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
