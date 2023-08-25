@@ -1,0 +1,37 @@
+name: Release for Windows aarch64
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release_for_windows_aarch64:
+    name: Release for Windows aarch64
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Compile and calculate checksum
+      run: |
+        vcpkg install openssl:arm64-windows-static-md
+        vcpkg integrate install        
+        rustup target add aarch64-pc-windows-msvc
+        cargo build --release --target=aarch64-pc-windows-msvc
+        CD .\target\aarch64-pc-windows-msvc\release
+        dir
+        MOVE .\hctl.exe .\hctl-windows-aarch64.exe
+        certutil -hashfile "hctl-windows-aarch64.exe" SHA256 | FINDSTR /vbl "SHA256" | FINDSTR /vbl "CertUtil:" > sha256-hctl-windows-aarch64.exe.txt
+    - name: Upload binary to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/aarch64-pc-windows-msvc/release/hctl-windows-aarch64.exe
+        asset_name: hctl-windows-aarch64.exe
+        tag: ${{ github.ref }}
+    - name: Upload checksum to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/aarch64-pc-windows-msvc/release/sha256-hctl-windows-aarch64.exe.txt
+        asset_name: sha256-hctl-windows-aarch64.exe.txt
+        tag: ${{ github.ref }}

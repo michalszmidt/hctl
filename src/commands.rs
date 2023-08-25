@@ -62,6 +62,15 @@ pub fn get_args_domain() -> Vec<Arg> {
         .long("format")
         .action(ArgAction::Set);
 
+    let arg_validate: Arg = Arg::new("dns")
+        .help(
+            "BETA: Validate your processed records issuing dns-over-tls query in predefined servers [yes/no]",
+        )
+        .short('d')
+        .long("dns")
+        .requires("mode")
+        .action(ArgAction::Set);
+
     return vec![
         arg_path,
         arg_out,
@@ -71,6 +80,7 @@ pub fn get_args_domain() -> Vec<Arg> {
         arg_intro,
         arg_rejected,
         arg_format,
+        arg_validate,
     ];
 }
 

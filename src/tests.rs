@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
+    // use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
 
-    use crate::rules::regex_subdomain_from_to;
+    // use crate::rules::regex_subdomain_from_to;
 
     // #[test]
     // fn some_specific_domains() {
@@ -38,21 +38,28 @@ mod tests {
     //     println!();
     // }
 
-    #[test]
-    fn pattern_subdomain() {
-        // url::Url::parse(input)
-        let pattern_valid_subdomain =
-            regex_subdomain_from_to(2.to_string(), 3.to_string(), "domain.com".to_string());
-        // let pattern_valid_subdomain_sub = get_regex_subdomain("sub.example.com".to_string());
-        let vee = vec![
-            "domain.com",
-            "sub1.domain.com",
-            "sub1.sub2.domain.com",
-            "sub.sub1.sub2.domain.com",
-            "sub.sub.sub1.sub2.domain.com",
-        ];
-        vee.par_iter()
-            .filter(|x| !pattern_valid_subdomain.is_match(x))
-            .for_each(|x| println!("|{}|", x));
-    }
+    // #[test]
+    // fn pattern_subdomain() {
+    //     // url::Url::parse(input)
+    //     let pattern_valid_subdomain =
+    //         regex_subdomain_from_to(2.to_string(), 3.to_string(), "domain.com".to_string());
+    //     // let pattern_valid_subdomain_sub = get_regex_subdomain("sub.example.com".to_string());
+    //     let vee = vec![
+    //         "domain.com",
+    //         "sub1.domain.com",
+    //         "sub1.sub2.domain.com",
+    //         "sub.sub1.sub2.domain.com",
+    //         "sub.sub.sub1.sub2.domain.com",
+    //     ];
+    //     vee.par_iter()
+    //         .filter(|x| !pattern_valid_subdomain.is_match(x))
+    //         .for_each(|x| println!("|{}|", x));
+    // }
+
+    // use crate::resolver::{inbuilt_resolvers, valid_resolv_domain};
+
+    // #[test]
+    // fn test_resolver() {
+    //     valid_resolv_domain(&"yt.moatads.com".to_string(), inbuilt_resolvers());
+    // }
 }

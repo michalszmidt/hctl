@@ -1,6 +1,7 @@
 pub mod commands;
 pub mod customio;
 pub mod processing;
+pub mod resolver;
 pub mod rules;
 pub mod savers;
 pub mod structs;
@@ -37,6 +38,8 @@ fn main() {
         let mut intro = "yes".to_string();
         let mut rejected = "no".to_string();
         let mut format = "linewise".to_string();
+        let mut dns = "no".to_string();
+
         let rejected_len: usize;
         let entries_len: usize;
 
@@ -64,6 +67,9 @@ fn main() {
         if let Some(value_of_format) = query_matches.get_many::<String>("format") {
             format = get_param(value_of_format);
         }
+        if let Some(value_of_dns) = query_matches.get_many::<String>("dns") {
+            dns = get_param(value_of_dns);
+        }
         let intro_b = match intro.as_str() {
             "yes" => true,
             "no" => false,
@@ -75,6 +81,14 @@ fn main() {
             _ => return,
         };
 
+        let dns_b = match dns.as_str() {
+            "yes" => true,
+            "no" => false,
+            _ => return,
+        };
+
+        if dns.as_str() == "only" {}
+
         match mode.as_str() {
             "single" => {
                 if path.eq("NAN") {
@@ -83,8 +97,13 @@ fn main() {
                 }
                 match optimize.as_str() {
                     "speed" => {
-                        (entries_len, rejected_len) =
-                            process_parallel_list_to_file(path, out.clone(), rejected_b, format)
+                        (entries_len, rejected_len) = process_parallel_list_to_file(
+                            path,
+                            out.clone(),
+                            rejected_b,
+                            format,
+                            dns_b,
+                        )
                     }
                     "memory" => {
                         (entries_len, rejected_len) =
@@ -99,11 +118,11 @@ fn main() {
                     return;
                 }
                 (entries_len, rejected_len) =
-                    process_multiple_lists_to_file(path, out.clone(), rejected_b, format);
+                    process_multiple_lists_to_file(path, out.clone(), rejected_b, format, dns_b);
             }
             "config" => {
                 (entries_len, rejected_len) =
-                    config_process_lists(config, out.clone(), intro_b, rejected_b, format)
+                    config_process_lists(config, out.clone(), intro_b, rejected_b, format, dns_b)
             }
             _ => return,
         }

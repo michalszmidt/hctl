@@ -1,6 +1,7 @@
 use crate::{
     commands::progressbar_my_default_style,
     customio::lazy_read,
+    resolver::{inbuilt_resolvers, valid_resolv_domain},
     rules::{
         iterator_map_whitespce, regex_extract_basic, regex_subdomain_all,
         regex_valid_domain_permissive, regex_whitespace,
@@ -27,6 +28,7 @@ pub fn process_parallel_list_to_file(
     out_path: String,
     save_rejected: bool,
     format: String,
+    dns: bool,
 ) -> (usize, usize) {
     let pattern_basic = regex_extract_basic();
     let pattern_valid_domain = regex_valid_domain_permissive();
@@ -77,6 +79,20 @@ pub fn process_parallel_list_to_file(
         _ = writer_rejected.flush();
     };
 
+    let validate_dns = |word: &String| {
+        if dns {
+            let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+            if !isok {
+                let mut rejec = word.clone();
+                rejec.push_str("\t# Domain reslution failed at resolver nr. ");
+                rejec.push_str(resolvernum.to_string().as_str());
+                arc_mux_set_rejected.lock().unwrap().insert(rejec);
+            }
+            return isok;
+        }
+        return true;
+    };
+
     reader
         .lines()
         .map(|res| res.unwrap())
@@ -87,6 +103,7 @@ pub fn process_parallel_list_to_file(
         .map(|word| pattern_basic.replace_all(word, "").to_string())
         .map(|word| iterator_map_whitespce(&pattern_whitespace, word))
         .filter(|word| invalid_domain(word))
+        .filter(|x| validate_dns(x))
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(progressbar_my_default_style())
@@ -109,6 +126,7 @@ pub fn process_single_list_seq_file(
     out_path: String,
     save_rejected: bool,
     format: String,
+    // dns: bool,
 ) -> (usize, usize) {
     // Declaration
     let pattern_basic = regex_extract_basic();
@@ -149,6 +167,20 @@ pub fn process_single_list_seq_file(
         _ = writer_out.write_all(saver_func(&word).as_bytes());
     };
 
+    // let mut validate_dns = |word: &String| {
+    //     if dns {
+    //         let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+    //         if !isok {
+    //             let mut rejec = word.clone();
+    //             rejec.push_str("\t# Domain reslution failed at resolver nr. ");
+    //             rejec.push_str(resolvernum.to_string().as_str());
+    //             set_rejected.insert(rejec);
+    //         }
+    //         return isok;
+    //     }
+    //     return true;
+    // };
+
     // Processing
     reader
         .lines()
@@ -158,6 +190,7 @@ pub fn process_single_list_seq_file(
         .map(|word| iterator_map_whitespce(&pattern_whitespace, word))
         .unique()
         .filter(|word| invalid_domain(word))
+        // .filter(|x| validate_dns(x))
         .sorted()
         .progress_with_style(progressbar_my_default_style())
         .for_each(|word| save_out_entry(word));
@@ -218,6 +251,7 @@ pub fn process_multiple_lists_to_file(
     out_path: String,
     save_rejected: bool,
     format: String,
+    dns: bool,
 ) -> (usize, usize) {
     let mut writer_out = io_writer_out(out_path);
     let file_rejected = file_write("./rejected.txt".to_string()).unwrap();
@@ -252,6 +286,20 @@ pub fn process_multiple_lists_to_file(
         _ = writer_rejected.flush();
     };
 
+    let validate_dns = |word: &String| {
+        if dns {
+            let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+            if !isok {
+                let mut rejec = word.clone();
+                rejec.push_str("\t# Domain reslution failed at resolver nr. ");
+                rejec.push_str(resolvernum.to_string().as_str());
+                arc_mux_set_rejected.lock().unwrap().insert(rejec);
+            }
+            return isok;
+        }
+        return true;
+    };
+
     read_dir(list_dir.as_str())
         .unwrap()
         .filter_map(|result| result.ok())
@@ -260,9 +308,10 @@ pub fn process_multiple_lists_to_file(
         .par_iter()
         .map(|line| process_single_list_to_set(line))
         .map(|(set_cleared, set_rejected)| extend_rejected_from_result(set_cleared, set_rejected))
-        .collect::<Vec<_>>()
-        .par_iter()
+        // .collect::<Vec<_>>()
+        // .par_iter()
         .flatten()
+        .filter(|x| validate_dns(x))
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(progressbar_my_default_style())
@@ -293,6 +342,7 @@ pub fn config_process_lists(
     use_intro: bool,
     save_rejected: bool,
     format: String,
+    dns: bool,
 ) -> (usize, usize) {
     // let settings_as_str = read_to_string(file_to_lines(path).unwrap()).unwrap();
     let hctl_yaml: HCTL = serde_yaml::from_reader(file_to_lines(path).unwrap()).unwrap();
@@ -304,6 +354,9 @@ pub fn config_process_lists(
     let mut writer_rejected = BufWriter::new(file_rejected);
 
     let arc_mux_set_rejected = Arc::new(Mutex::new(BTreeSet::new()));
+    // let mut arc_mux_num = Arc::new(HoldNum::new(0));
+    // let arc_mux_vec_resolvers = Arc::new(Mutex::new(many_resolvers_tls()));
+
     let mut count_entries: usize = 0;
 
     let saver_func = return_saver(format.clone());
@@ -326,11 +379,6 @@ pub fn config_process_lists(
             .flatten()
             .collect::<BTreeSet<_>>(),
     );
-
-    // set_whitelist
-    //     .clone()
-    //     .iter()
-    //     .for_each(|x| println!("{}", x.as_str()));
 
     let subdomains_regex: Vec<Regex> = match hctl_yaml.settings.whitelist_include_subdomains {
         true => set_whitelist
@@ -374,6 +422,34 @@ pub fn config_process_lists(
         // .unique()
         // .find_map(|x| x.is_match(domain));
     };
+
+    let validate_dns = |word: &String| {
+        if dns {
+            let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+            if !isok {
+                let mut rejec = word.clone();
+                rejec.push_str("\t# Domain reslution failed at resolver nr. ");
+                rejec.push_str(resolvernum.to_string().as_str());
+                arc_mux_set_rejected.lock().unwrap().insert(rejec);
+            }
+            return isok;
+        }
+        return true;
+    };
+
+    // let resolv_valid_reject = |domain| -> bool {
+    //     // let p = arc_mux_vec_resolvers.lock().unwrap().push();
+    //     // p.push(p.remove(0));
+    //     // let x = arc_mux_num.lock().unwrap();
+    //     // x = x + 1;
+    //     let res = valid_resolv_domain(domain, many_resolvers_tls());
+    //     let mut x = domain.clone();
+    //     x.push_str("\t# Domain reslution failed at resolver nr. ");
+    //     x.push_str(res.1.to_string().as_str());
+    //     arc_mux_set_rejected.lock().unwrap().insert(x);
+    //     println!("{}: {}", res.0, domain);
+    //     return res.0;
+    // };
     // Processing
 
     if use_intro {
@@ -393,28 +469,19 @@ pub fn config_process_lists(
         _ => _ = writer_out.write_all(b"\n"),
     }
 
-    // if whitelist_include_subdomains {
-    // subdomains_regex = match whitelist_include_subdomains {
-    //     true => set_whitelist
-    //         .clone()
-    //         .iter()
-    //         .map(|x| regex_subdomain_all(x))
-    //         .collect(),
-    //     false => Vec::new(),
-    // };
-
     hctl_yaml
         .remote_sources
         .into_par_iter()
         .map(|s| lazy_read(s.as_str()))
         .filter_map(|result| result.ok())
         .map(|(set_cleaned, set_rejected)| extend_rejected_from_result(set_cleaned, set_rejected))
-        .collect::<Vec<_>>()
-        .into_par_iter()
+        // .collect::<Vec<_>>()
+        // .into_par_iter()
         .flatten()
         .collect::<BTreeSet<_>>()
-        .difference(&set_whitelist)
+        .par_iter()
         .filter(|x| subdomains(x))
+        .filter(|x| validate_dns(x))
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(progressbar_my_default_style())
@@ -433,19 +500,3 @@ pub fn config_process_lists(
     }
     return (count_entries, arc_mux_set_rejected.lock().unwrap().len());
 }
-
-// pub fn save_stream(data_stream: Iter<String>, out_path: String) -> usize {
-//     let file_out = file_write(out_path).unwrap();
-//     let mut writer_out = LineWriter::new(file_out);
-//     let mut count_entries: usize = 0;
-
-//     data_stream.progress_with_style(
-//             progressbar_my_default_style()
-//         .for_each(|word| {
-//             count_entries+=1;
-//             _ = writer_out.write_all(word.as_bytes());
-//             _ = writer_out.write_all(b"\n");
-//         });
-
-//     return count_entries;
-// }

@@ -12,11 +12,20 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rayon = "*"                                             # Apache 2.0 / MIT
-regex = "*"                                             # Apache 2.0 / MIT
-itertools = "*"                                         # Apache 2.0 / MIT
-clap = { version="*", features = ["default"] }          # Apache 2.0 / MIT
-serde = { vesrion="*", features = ["derive"] }    # Apache 2.0 / MIT  
-serde_yaml = "*"                                        # Apache 2.0 / MIT
-minreq = { version="*", features = ["https-native"] }   # MIT
-indicatif = "*"                                         # MIT
+rayon = "*"                                                           # Apache 2.0 / MIT
+regex = "*"                                                           # Apache 2.0 / MIT
+itertools = "*"                                                       # Apache 2.0 / MIT
+clap = { version="*", features = ["default"] }                        # Apache 2.0 / MIT
+serde = { vesrion="*", features = ["derive"] }                        # Apache 2.0 / MIT  
+serde_yaml = "*"                                                      # MIT
+indicatif = "*"                                                       # Apache 2.0 / MIT
+rand = "*"
+
+minreq = { version="*", features = ["https-native"] }                 # MIT
+trust-dns-resolver = {version = "*", features = ["dns-over-native-tls", "dnssec-openssl"]}  # Apache 2.0 / MIT
+# minreq = { version="*", features = ["https-rustls"] }                 # MIT
+# trust-dns-resolver = { version = "*", features = ["dns-over-rustls", "dnssec-ring"] }  # Apache 2.0 / MIT
+
+# IF YOU DON'T WANT TO USE NATIVE-OPENSSL, YOU CAN BUILD THIS APP WITHOUT IT
+# BY REPLACING LAST TWO LINES WITH COMMENTED ONES, THOSE WILL ENABLE RUSTLS AND RING
+# NOTE THAT IT MAY BE LESS PERFORMANT THEN
