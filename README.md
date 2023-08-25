@@ -25,7 +25,7 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 - **\*nix systems (linux, BSD, mac)**: should be already there, if not install it from your package repo like `brew install openssl@3`
 - **windows**: install from `choco` or `vcpkg` or whatever other way that won't welcome viruses.
 
-Note that you can get rid of openssl dependency if you want, by building from source with modified dependencies, see building from source.
+Note that you can get rid of openssl dependency if you want, by building from source with modified dependencies, see [building from source](https://github.com/michalszmidt/hctl/wiki/Developer#building-from-source).
 
 # Downloads
 ## [From release page](https://github.com/michalszmidt/hctl/releases/latest)
@@ -49,7 +49,7 @@ Note that you can get rid of openssl dependency if you want, by building from so
     
 | amd64 | aarch64 |
 |-------|---------|
-|[app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-glibc-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-glibc-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-glibc-aarch64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-glibc-aarch64) |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-glibc-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-glibc-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-glibc-aarch64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-glibc-aarch64) |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-musl-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-musl-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-linux-musl-aarch64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-linux-musl-aarch64) |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-macosx-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-macosx-amd64) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-macosx-silicon), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-macosx-silicon) |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-amd64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-amd64.exe.txt) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-aarch64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-aarch64.exe.txt) |
@@ -90,10 +90,10 @@ Note that OpenBSD Builds are removed from table as gh Action OpenBSD runner is b
 - [x] Output to stdout to be used with unix pipe stream control (partial support)
 - [x] Whitelists (enumerated, from external lists file/https)
 - [x] Whitelists including subdomains
+- [x] Record existance validation from DNS servers (unencrypted and over tls)
 - [ ] Input from stdout to be used with unix pipe stream control
 - [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
 - [ ] Subdomains family recognition, save with subdomain order (like adaway does)
-- [ ] Record existance validation from DNS servers (unencrypted and over tls)
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
 - [ ] Quiet option
@@ -120,6 +120,7 @@ Options:
   -i, --intro <intro>        Whether append intro "Assembled From:..." to out file from config [true/false]
   -r, --rejected <rejected>  Whether save rejected to ./rejected.txt [true/false]
   -f, --format <format>      Type of out format [dnsmasq/loopback/empty/linewise/bind/snort/unbound/machosts/hostperm1/junkbuster/littlesnitch/pdnsd]
+  -d, --dns <dns>            BETA: Validate your processed records issuing dns-over-tls query in predefined servers [yes/no]
   -h, --help                 Print help
 ```
 
