@@ -11,6 +11,14 @@ readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+
+# Workaround needed for Linux musl aarch64
+# See:
+#   - https://github.com/michalszmidt/hctl/issues/7
+#   - https://github.com/rust-lang/rustup/issues/3324
+[target.aarch64-unknown-linux-musl]
+rustflags = ["-C", "link-arg=/root/.rustup/toolchains/stable-aarch64-unknown-linux-musl/lib/rustlib/aarch64-unknown-linux-musl/lib/self-contained/libc.a"]
+
 [dependencies]
 rayon = "*"                                                           # Apache 2.0 / MIT
 regex = "*"                                                           # Apache 2.0 / MIT
