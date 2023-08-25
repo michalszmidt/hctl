@@ -89,7 +89,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf openssl-dev bash build-base libssl3 libcrypto3
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
@@ -127,7 +127,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf openssl-dev bash build-base libssl3 libcrypto3
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
