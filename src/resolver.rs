@@ -4,26 +4,6 @@ use trust_dns_resolver::config::*;
 use trust_dns_resolver::proto::rr::RecordType;
 use trust_dns_resolver::Resolver;
 
-/*
-use std::sync::Arc;
-use rustls::{ClientConfig, ProtocolVersion, RootCertStore, OwnedTrustAnchor};
-*/
-
-// pub fn a() -> HashMap<String, Resolver> {}
-
-// struct CustomNameServerConfig(NameServerConfig);
-// impl NameServerConfig for CustomNameServerConfig {}
-
-// pub struct HoldNum {
-//     pub num: u32,
-// }
-
-// impl HoldNum {
-//     pub fn new(numm: u32) -> Self {
-//         Self { num: numm }
-//     }
-// }
-
 pub const UNCENSORED_DNS_MULTI_IPS: &[IpAddr] = &[
     IpAddr::V4(Ipv4Addr::new(91, 239, 100, 100)),
     IpAddr::V6(Ipv6Addr::new(
@@ -283,10 +263,7 @@ pub fn many_resolvers_tls_moved(num: &usize) -> Vec<Resolver> {
     if diff == 0 {
         return resolvers;
     }
-    // let mut i = 0;
-
     resolvers.rotate_left(diff);
-
     return resolvers;
 }
 
@@ -303,6 +280,8 @@ pub fn system_resolver() -> Vec<Resolver> {
     let system = Resolver::from_system_conf().unwrap();
     return vec![system];
 }
+
+// pub fn custom_resolver()
 
 pub fn valid_resolv_domain(domain: &String, mut resolvers: Vec<Resolver>) -> (bool, usize) {
     // let resp: Vec<_> = resolvers
