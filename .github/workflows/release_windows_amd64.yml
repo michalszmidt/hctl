@@ -5,6 +5,9 @@ on:
     tags:
       - '*'
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   release_for_windows_amd64:
     name: Release for Windows amd64

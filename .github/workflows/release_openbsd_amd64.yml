@@ -7,6 +7,9 @@ name: Release for OpenBSD amd64
 
 on: workflow_dispatch
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   release_openbsd:
     runs-on: macos-12
@@ -17,6 +20,7 @@ jobs:
       id: compile
       uses: vmactions/openbsd-vm@v0
       with:
+        envs: 'CARGO_TERM_COLOR'
         usesh: false
         mem: 8192
         prepare: |

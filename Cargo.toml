@@ -1,23 +1,13 @@
 [package]
 name = "hctl"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 authors = [ "Michał Szmidt" ]
 repository = "https://github.com/michalszmidt/hctl"
 license-file = "LICENSE"
-keywords = ["pi-hole hostfile", "adguardhome", "hostlist", "adguard-home", "hostfiles", "dns-blocking", "dns-blocklists", "adguard-dns" ]
+keywords = ["pi-hole", "hostfile", "adguardhome", "hostlist", "adguard-home", "hostfiles", "dns-blocking", "dns-blocklists", "adguard-dns" ]
 categories = ["command-line-utilities"]
 readme = "README.md"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-
-# Workaround needed for Linux musl aarch64
-# See:
-#   - https://github.com/michalszmidt/hctl/issues/7
-#   - https://github.com/rust-lang/rustup/issues/3324
-[target.aarch64-unknown-linux-musl]
-rustflags = ["-C", "-mno-outline-atomics"]
 
 [dependencies]
 rayon = "*"                                                           # Apache 2.0 / MIT
@@ -36,4 +26,4 @@ trust-dns-resolver = {version = "*", features = ["dns-over-native-tls", "dnssec-
 
 # IF YOU DON'T WANT TO USE NATIVE-OPENSSL, YOU CAN BUILD THIS APP WITHOUT IT
 # BY REPLACING LAST TWO LINES WITH COMMENTED ONES, THOSE WILL ENABLE RUSTLS AND RING
-# NOTE THAT IT MAY BE LESS PERFORMANT THEN
+# NOTE THAT IT MAY BE LESS PERFORMANT THEN OPENSSL

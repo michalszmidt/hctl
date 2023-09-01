@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - '*'
+      
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   test:
@@ -15,6 +18,7 @@ jobs:
       id: compile
       uses: vmactions/netbsd-vm@v0
       with:
+        envs: 'CARGO_TERM_COLOR'
         usesh: false
         mem: 8192        
         prepare: |

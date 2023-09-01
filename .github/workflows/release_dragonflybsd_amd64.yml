@@ -2,6 +2,9 @@ name: Release for DragonflyBSD amd64
 
 on: workflow_dispatch
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   test:
     runs-on: macos-12
@@ -12,6 +15,7 @@ jobs:
       id: test
       uses: vmactions/dragonflybsd-vm@v0
       with:
+        envs: 'CARGO_TERM_COLOR'
         usesh: false
         mem: 8192
         prepare: |

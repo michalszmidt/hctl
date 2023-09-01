@@ -4,6 +4,7 @@ task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
     
   container:
     image: fedora:latest
@@ -43,6 +44,7 @@ task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
     
   arm_container:
     image: fedora:latest
@@ -82,6 +84,7 @@ task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
     
   container:
     image: alpine:latest
@@ -120,6 +123,7 @@ task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
     
   arm_container:
     image: alpine:latest
@@ -127,10 +131,13 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rust cargo
-    
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - . $HOME/.cargo/env
+
   build_script:
     - whoami
+    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
@@ -153,6 +160,7 @@ task:
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
     
   freebsd_instance:
     image_family: freebsd-13-2
@@ -194,6 +202,7 @@ task:
   
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
     
   macos_instance:
     image: ghcr.io/cirruslabs/macos-ventura-base:latest
