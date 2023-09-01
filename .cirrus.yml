@@ -92,7 +92,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static g++ gcc
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
@@ -131,7 +131,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static g++ gcc
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
 
@@ -234,4 +234,4 @@ task:
   upload_script:
     - whoami
     - ls -lah
-    - files_to_upload=($(ls | grep hctl)); . ./upload.sh
+    - files_to_upload=($(ls | grep hctl)); . ./uplo
