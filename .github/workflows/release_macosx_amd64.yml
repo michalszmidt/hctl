@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - '*'
+      
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   publish_for_macosx_amd64:
