@@ -92,7 +92,7 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static libgcc
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     
@@ -131,13 +131,10 @@ task:
     
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static libgcc
-    - curl https://sh.rustup.rs -sSf | sh -s -- -y
-    - . $HOME/.cargo/env
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rust cargo
 
   build_script:
     - whoami
-    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release

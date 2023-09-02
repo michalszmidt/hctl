@@ -1,6 +1,0 @@
-# Fix for Linux musl aarch64 linking error
-# See:
-#   - https://github.com/michalszmidt/hctl/issues/7
-#   - https://github.com/rust-lang/rustup/issues/3324
-[target.aarch64-unknown-linux-musl]
-rustflags = ["-Clinker=rust-lld"]
