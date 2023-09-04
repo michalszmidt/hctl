@@ -2,11 +2,14 @@ task:
   name: LinuxGlibcAarch64
   only_if: $CIRRUS_BRANCH == 'main'
   only_if: $CIRRUS_RELEASE != ''
+
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
+
   arm_container:
     image: fedora:latest
+
   prepare_script:
     - whoami
     - dnf check-update -q && dnf up -q -y
@@ -14,12 +17,14 @@ task:
     - dnf in -y curl openssl-devel
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
+
   build_script:
     - whoami
     - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
+
   hash_script:
     - whoami
     - ls -lah
@@ -27,6 +32,7 @@ task:
     - mv hctl hctl-linux-glibc-aarch64
     - sha256sum hctl-linux-glibc-aarch64 > sha256-hctl-linux-glibc-aarch64
     - mv hctl-linux-glibc-aarch64 ../../ && mv sha256-hctl-linux-glibc-aarch64 ../../
+
   upload_script:
     - whoami
     - ls -lah
@@ -36,25 +42,31 @@ task:
   name: LinuxMuslAarch64
   only_if: $CIRRUS_BRANCH == 'main'
   only_if: $CIRRUS_RELEASE != ''
+
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
+
   arm_container:
     image: alpine:latest
+
   prepare_script:
     - apk -U upgrade
     - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rust cargo
+
   build_script:
     - whoami
     - ls -lah
     - rustc --version
     - cargo build --release
+
   hash_script:
     - whoami
     - cd target/release
     - mv hctl hctl-linux-musl-aarch64
     - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
     - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../
+
   upload_script:
     - whoami
     - ls -lah
@@ -64,11 +76,14 @@ task:
   name: FreebsdAmd64
   only_if: $CIRRUS_BRANCH == 'main'
   only_if: $CIRRUS_RELEASE != ''
+
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
+
   freebsd_instance:
     image_family: freebsd-13-2
+
   prepare_script:
     - whoami
     - mkdir -p /usr/local/etc/pkg/repos
@@ -78,18 +93,21 @@ task:
     - pkg install -y curl pkgconf openssl bash
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
+
   build_script:
     - whoami
     - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
+
   hash_script:
     - whoami
     - cd target/release
     - mv hctl hctl-freebsd-amd64
     - sha256sum hctl-freebsd-amd64 > sha256-hctl-freebsd-amd64
     - mv hctl-freebsd-amd64 ../../ && mv sha256-hctl-freebsd-amd64 ../../
+
   upload_script:
     - whoami
     - ls -lah
@@ -99,11 +117,15 @@ task:
   name: MacosxSilicon
   only_if: $CIRRUS_BRANCH == 'main'
   only_if: $CIRRUS_RELEASE != ''
+  
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
+    
   macos_instance:
     image: ghcr.io/cirruslabs/macos-ventura-base:latest
+    cpu: 4
+    
   prepare_script:
     - whoami
     - NONINTERACTIVE=1 brew update
@@ -112,20 +134,22 @@ task:
     - NONINTERACTIVE=1 brew install pkg-config make curl coreutils openssl@3
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
+    
   build_script:
     - whoami
     - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo build --release
+    
   hash_script:
     - whoami
     - cd target/release
     - mv hctl hctl-macosx-silicon
     - sha256sum hctl-macosx-silicon > sha256-hctl-macosx-silicon
     - mv hctl-macosx-silicon ../../ && mv sha256-hctl-macosx-silicon ../../
-  
-  
+    
   upload_script:
     - whoami
-    - ls -lah files_to_upload=($(ls | grep hctl)); . ./upload.sh
+    - ls -lah
+    - files_to_upload=($(ls | grep hctl)); . ./upload.sh
