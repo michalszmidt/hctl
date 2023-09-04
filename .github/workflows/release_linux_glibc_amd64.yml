@@ -17,7 +17,8 @@ jobs:
           whoami
           dnf group install -y "C Development Tools and Libraries" "Development Tools"
           dnf in -y curl openssl-devel
-          rustup update
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          . $HOME/.cargo/env
           rustc --version
           cargo build --release
           cd target/release
