@@ -16,7 +16,8 @@ jobs:
       run: |
           whoami
           apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
-          rustup update
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          . $HOME/.cargo/env
           rustc --version
           cargo build --release
           cd target/release
