@@ -124,7 +124,8 @@ task:
     - mv hctl hctl-macosx-silicon
     - sha256sum hctl-macosx-silicon > sha256-hctl-macosx-silicon
     - mv hctl-macosx-silicon ../../ && mv sha256-hctl-macosx-silicon ../../
+  
+  
   upload_script:
     - whoami
-    - ls -lah
-    - files_to_upload=($(ls | grep hctl)); 
+    - ls -lah files_to_upload=($(ls | grep hctl)); . ./upload.sh
