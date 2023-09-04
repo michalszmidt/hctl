@@ -1,6 +1,9 @@
 name: Release for Linux glibc amd64
 
-on: push
+on:
+  push:
+    tags:
+      - '*'
       
 env:
   CARGO_TERM_COLOR: always
