@@ -1,6 +1,9 @@
 name: Release for Linux musl amd64
 
-on: push
+on:
+  push:
+    tags:
+      - '*'
       
 env:
   CARGO_TERM_COLOR: always
