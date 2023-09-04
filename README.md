@@ -58,8 +58,8 @@ Note that you can get rid of openssl dependency if you want, by building from so
 
 | amd64 | aarch64 |
 |-------|---------|
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_linux_glibc_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxGlibcAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_linux_musl_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=MacosxSilicon)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_aarch64.yml)](https://github.com/michalszmidt/hctl/actions) |
 | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=FreebsdAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
