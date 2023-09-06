@@ -28,6 +28,9 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 Note that you can get rid of openssl dependency if you want, by building from source with modified dependencies, see [building from source](https://github.com/michalszmidt/hctl/wiki/Developer#building-from-source).
 
 # Downloads
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/hctl.svg)](https://repology.org/project/hctl/versions)
+
 ## [From release page](https://github.com/michalszmidt/hctl/releases/latest)
 
 <table>
