@@ -30,6 +30,7 @@ Note that you can get rid of openssl dependency if you want, by building from so
 # Downloads
 
 [![Packaging status](https://repology.org/badge/tiny-repos/hctl.svg)](https://repology.org/project/hctl/versions)
+
 [![Packaging status](https://repology.org/badge/vertical-allrepos/hctl.svg)](https://repology.org/project/hctl/versions)
 
 ## [From release page](https://github.com/michalszmidt/hctl/releases/latest)
