@@ -102,140 +102,90 @@ pub const FFMUC_DE_IPS: &[IpAddr] = &[
     )),
 ];
 
-pub fn many_resolvers_tls() -> Vec<Resolver> {
-    // let system = Resolver::from_system_conf().unwrap();
+pub fn many_tls_resolvers_tls() -> Vec<Resolver> {
     let cloudflare =
         Resolver::new(ResolverConfig::cloudflare_tls(), ResolverOpts::default()).unwrap();
     let quad9 = Resolver::new(ResolverConfig::quad9_tls(), ResolverOpts::default()).unwrap();
 
-    let uncensored_dns_tls_cg = NameServerConfigGroup::from_ips_tls(
+    let uncensored_dns_tls = from_config_dot_reslver(
         UNCENSORED_DNS_MULTI_IPS,
         853,
         "anycast.uncensoreddns.org".to_string(),
         true,
     );
-    let uncensored_dns_tls_rc = ResolverConfig::from_parts(None, vec![], uncensored_dns_tls_cg);
+    let ffmuc_de_tls =
+        from_config_dot_reslver(FFMUC_DE_IPS, 853, "dot.ffmuc.net".to_string(), true);
 
-    let ffmc_de_tls_cg =
-        NameServerConfigGroup::from_ips_tls(FFMUC_DE_IPS, 853, "dot.ffmuc.net".to_string(), true);
-    let ffmuc_de_tls_rc = ResolverConfig::from_parts(None, vec![], ffmc_de_tls_cg);
-
-    let dns_watch_r1_tls_cg = NameServerConfigGroup::from_ips_tls(
+    let dns_watch_r1_tls = from_config_dot_reslver(
         DNS_WATCH_R1_IPS,
         853,
         "resolver1.dns.watch".to_string(),
         true,
     );
-    let dns_watch_r1_tls_rc = ResolverConfig::from_parts(None, vec![], dns_watch_r1_tls_cg);
-
-    let dns_watch_r2_tls_cg = NameServerConfigGroup::from_ips_tls(
+    let dns_watch_r2_tls = from_config_dot_reslver(
         DNS_WATCH_R2_IPS,
         853,
         "resolver2.dns.watch".to_string(),
         true,
     );
-    let dns_watch_r2_tls_rc = ResolverConfig::from_parts(None, vec![], dns_watch_r2_tls_cg);
 
-    let seby_io_tls_cg =
-        NameServerConfigGroup::from_ips_tls(SEBY_IO_IPS, 853, "dot.seby.io".to_string(), true);
-    let seby_io_tls_rc = ResolverConfig::from_parts(None, vec![], seby_io_tls_cg);
+    let seby_io_tls = from_config_dot_reslver(SEBY_IO_IPS, 853, "dot.seby.io".to_string(), true);
 
-    let applied_privacy_tls_cg = NameServerConfigGroup::from_ips_tls(
+    let applied_privacy_tls = from_config_dot_reslver(
         APPLIED_PRIVACY_IPS,
         853,
         "dot1.applied-privacy.net".to_string(),
         true,
     );
-    let applied_privacy_tls_rc = ResolverConfig::from_parts(None, vec![], applied_privacy_tls_cg);
 
-    let digitalsize_net_tls_cg = NameServerConfigGroup::from_ips_tls(
+    let digitalsize_net_tls = from_config_dot_reslver(
         DIGITALSIZE_NET_IPS,
         853,
         "dns.digitalsize.net".to_string(),
         true,
     );
-    let digitalsize_net_tls_rc = ResolverConfig::from_parts(None, vec![], digitalsize_net_tls_cg);
 
-    let ibksturm_synology_me_tls_cg = NameServerConfigGroup::from_ips_tls(
+    let ibksturm_synology_me_tls = from_config_dot_reslver(
         IBKSTURM_SYNOLOGY_ME_IPS,
         853,
         "ibksturm.synology.me".to_string(),
         true,
     );
-    let ibksturm_synology_me_tls_rc =
-        ResolverConfig::from_parts(None, vec![], ibksturm_synology_me_tls_cg);
 
-    let digitale_gesellschaft_ch_tls_cg = NameServerConfigGroup::from_ips_tls(
-        DIGITALE_GESELLSCHAFT_IPS,
+    let digitale_gesellschaft_ch = from_config_dot_reslver(
+        DIGITALSIZE_NET_IPS,
         853,
         "digitale.gesellschaft.ch".to_string(),
         true,
     );
-    let digitale_gesellschaft_ch_tls_rc =
-        ResolverConfig::from_parts(None, vec![], digitale_gesellschaft_ch_tls_cg);
+    let njalla_tls = from_config_dot_reslver(DNS_NJALLA_IPS, 853, "dns.njal.la".to_string(), true);
 
-    let njalla_tls_cg =
-        NameServerConfigGroup::from_ips_tls(DNS_NJALLA_IPS, 853, "dns.njal.la".to_string(), true);
-    let njalla_tls_tls_rc = ResolverConfig::from_parts(None, vec![], njalla_tls_cg);
-
-    let opennameserver_org_r1_cg = NameServerConfigGroup::from_ips_tls(
-        OPENNAMESERVER_ORG_R1_IPS,
-        853,
-        "ns1.opennameserver.org".to_string(),
-        true,
-    );
-    let opennameserver_org_r1_rc =
-        ResolverConfig::from_parts(None, vec![], opennameserver_org_r1_cg);
-
-    let opennameserver_org_r2_cg = NameServerConfigGroup::from_ips_tls(
-        OPENNAMESERVER_ORG_R2_IPS,
-        853,
-        "ns2.opennameserver.org".to_string(),
-        true,
-    );
-    let opennameserver_org_r2_rc =
-        ResolverConfig::from_parts(None, vec![], opennameserver_org_r2_cg);
-
-    let opennameserver_org_r3_cg = NameServerConfigGroup::from_ips_tls(
-        OPENNAMESERVER_ORG_R3_IPS,
-        853,
-        "ns3.opennameserver.org".to_string(),
-        true,
-    );
-    let opennameserver_org_r3_rc =
-        ResolverConfig::from_parts(None, vec![], opennameserver_org_r3_cg);
-
-    let opennameserver_org_r4_cg = NameServerConfigGroup::from_ips_tls(
+    let opennameserver_org_r4_tls = from_config_dot_reslver(
         OPENNAMESERVER_ORG_R4_IPS,
         853,
         "ns4.opennameserver.org".to_string(),
         true,
     );
-    let opennameserver_org_r4_rc =
-        ResolverConfig::from_parts(None, vec![], opennameserver_org_r4_cg);
+    let opennameserver_org_r1_tls = from_config_dot_reslver(
+        OPENNAMESERVER_ORG_R1_IPS,
+        853,
+        "ns1.opennameserver.org".to_string(),
+        true,
+    );
 
-    let uncensored_dns_tls = Resolver::new(uncensored_dns_tls_rc, ResolverOpts::default()).unwrap();
-    let ffmuc_de_tls = Resolver::new(ffmuc_de_tls_rc, ResolverOpts::default()).unwrap();
-    let dns_watch_r1_tls = Resolver::new(dns_watch_r1_tls_rc, ResolverOpts::default()).unwrap();
-    let dns_watch_r2_tls = Resolver::new(dns_watch_r2_tls_rc, ResolverOpts::default()).unwrap();
-    let seby_io_tls = Resolver::new(seby_io_tls_rc, ResolverOpts::default()).unwrap();
-    let digitalsize_net_tls =
-        Resolver::new(digitalsize_net_tls_rc, ResolverOpts::default()).unwrap();
-    let applied_privacy_tls =
-        Resolver::new(applied_privacy_tls_rc, ResolverOpts::default()).unwrap();
-    let ibksturm_synology_me_tls =
-        Resolver::new(ibksturm_synology_me_tls_rc, ResolverOpts::default()).unwrap();
-    let digitale_gesellschaft_ch =
-        Resolver::new(digitale_gesellschaft_ch_tls_rc, ResolverOpts::default()).unwrap();
-    let njalla_tls = Resolver::new(njalla_tls_tls_rc, ResolverOpts::default()).unwrap();
-    let opennameserver_org_r1_tls =
-        Resolver::new(opennameserver_org_r1_rc, ResolverOpts::default()).unwrap();
-    let opennameserver_org_r2_tls =
-        Resolver::new(opennameserver_org_r2_rc, ResolverOpts::default()).unwrap();
-    let opennameserver_org_r3_tls =
-        Resolver::new(opennameserver_org_r3_rc, ResolverOpts::default()).unwrap();
-    let opennameserver_org_r4_tls =
-        Resolver::new(opennameserver_org_r4_rc, ResolverOpts::default()).unwrap();
+    let opennameserver_org_r2_tls = from_config_dot_reslver(
+        OPENNAMESERVER_ORG_R2_IPS,
+        853,
+        "ns2.opennameserver.org".to_string(),
+        true,
+    );
+
+    let opennameserver_org_r3_tls = from_config_dot_reslver(
+        OPENNAMESERVER_ORG_R3_IPS,
+        853,
+        "ns3.opennameserver.org".to_string(),
+        true,
+    );
 
     return vec![
         uncensored_dns_tls,
@@ -258,7 +208,7 @@ pub fn many_resolvers_tls() -> Vec<Resolver> {
 }
 
 pub fn many_resolvers_tls_moved(num: &usize) -> Vec<Resolver> {
-    let mut resolvers = many_resolvers_tls();
+    let mut resolvers = many_tls_resolvers_tls();
     let diff = num % resolvers.len().clone();
     if diff == 0 {
         return resolvers;
@@ -281,29 +231,25 @@ pub fn system_resolver() -> Vec<Resolver> {
     return vec![system];
 }
 
+pub fn from_config_dot_reslver(
+    ips: &[IpAddr],
+    port: u16,
+    dnsname: String,
+    trust_nx: bool,
+) -> Resolver {
+    let cfg = NameServerConfigGroup::from_ips_tls(ips, port, dnsname, trust_nx);
+    let rcfg = ResolverConfig::from_parts(None, vec![], cfg);
+    let resolver = Resolver::new(rcfg, ResolverOpts::default()).unwrap();
+    return resolver;
+}
 // pub fn custom_resolver()
 
 pub fn valid_resolv_domain(domain: &String, mut resolvers: Vec<Resolver>) -> (bool, usize) {
-    // let resp: Vec<_> = resolvers
-    //     .par_iter()
-    //     .map(|resolver| resolver.lookup_ip(domain))
-    //     .filter_map(|result| result.ok())
-    //     .collect();
-
-    // if resp.is_empty() {
-    //     return false;
-    // }
-
-    // return true;
-
-    //TODO err check timeout
     let len = resolvers.len();
-
     let mut i = 0;
     let mut rng = rand::thread_rng();
 
     resolvers.rotate_right(rng.gen_range(1..len - 1));
-    // resc.rot
 
     for resolver in resolvers {
         if resolver.lookup_ip(domain).is_ok() {
