@@ -10,3 +10,19 @@ whitelist:
 
 remote_whitelist:
   -
+  
+resolvers:
+  -
+    usetls: true
+    ips:
+      - 91.239.100.100
+    port: 853
+    resolvname: "anycast.uncensoreddns.org"
+    trust_nx: true
+  -
+    usetls: false
+    ips:
+      - 1.1.1.1
+    port: 53
+    resolvname: ""
+    trust_nx: true

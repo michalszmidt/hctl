@@ -1,4 +1,7 @@
-use rand::Rng;
+use std::collections::LinkedList;
+// use rand::Rng;
+// use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
+// use std::collections::LinkedList;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 use trust_dns_resolver::config::*;
 use trust_dns_resolver::proto::rr::RecordType;
@@ -102,7 +105,7 @@ pub const FFMUC_DE_IPS: &[IpAddr] = &[
     )),
 ];
 
-pub fn many_tls_resolvers_tls() -> Vec<Resolver> {
+pub fn many_tls_resolvers_tls() -> LinkedList<Resolver> {
     let cloudflare =
         Resolver::new(ResolverConfig::cloudflare_tls(), ResolverOpts::default()).unwrap();
     let quad9 = Resolver::new(ResolverConfig::quad9_tls(), ResolverOpts::default()).unwrap();
@@ -186,8 +189,12 @@ pub fn many_tls_resolvers_tls() -> Vec<Resolver> {
         "ns3.opennameserver.org".to_string(),
         true,
     );
+    // let ret = LinkedList::new();
+    // ret.append(uncensored_dns_tls);
 
-    return vec![
+    // return ret;
+
+    let x = vec![
         uncensored_dns_tls,
         opennameserver_org_r1_tls,
         opennameserver_org_r2_tls,
@@ -205,31 +212,33 @@ pub fn many_tls_resolvers_tls() -> Vec<Resolver> {
         cloudflare,
         quad9,
     ];
+
+    return x.into_iter().collect();
 }
 
-pub fn many_resolvers_tls_moved(num: &usize) -> Vec<Resolver> {
-    let mut resolvers = many_tls_resolvers_tls();
-    let diff = num % resolvers.len().clone();
-    if diff == 0 {
-        return resolvers;
-    }
-    resolvers.rotate_left(diff);
-    return resolvers;
-}
+// pub fn many_resolvers_tls_moved(num: &usize) -> Vec<Resolver> {
+//     let mut resolvers = many_tls_resolvers_tls();
+//     let diff = num % resolvers.len().clone();
+//     if diff == 0 {
+//         return resolvers;
+//     }
+//     resolvers.rotate_left(diff);
+//     return resolvers;
+// }
 
-pub fn inbuilt_resolvers() -> Vec<Resolver> {
-    let system = Resolver::from_system_conf().unwrap();
-    let cloudflare =
-        Resolver::new(ResolverConfig::cloudflare_tls(), ResolverOpts::default()).unwrap();
-    let quad9 = Resolver::new(ResolverConfig::quad9_tls(), ResolverOpts::default()).unwrap();
+// pub fn inbuilt_resolvers() -> Vec<Resolver> {
+//     let system = Resolver::from_system_conf().unwrap();
+//     let cloudflare =
+//         Resolver::new(ResolverConfig::cloudflare_tls(), ResolverOpts::default()).unwrap();
+//     let quad9 = Resolver::new(ResolverConfig::quad9_tls(), ResolverOpts::default()).unwrap();
 
-    return vec![system, cloudflare, quad9];
-}
+//     return vec![system, cloudflare, quad9];
+// }
 
-pub fn system_resolver() -> Vec<Resolver> {
-    let system = Resolver::from_system_conf().unwrap();
-    return vec![system];
-}
+// pub fn system_resolver() -> Vec<Resolver> {
+//     let system = Resolver::from_system_conf().unwrap();
+//     return vec![system];
+// }
 
 pub fn from_config_dot_reslver(
     ips: &[IpAddr],
@@ -242,14 +251,26 @@ pub fn from_config_dot_reslver(
     let resolver = Resolver::new(rcfg, ResolverOpts::default()).unwrap();
     return resolver;
 }
+
+pub fn from_config_plain_reslver(ips: &[IpAddr], port: u16, trust_nx: bool) -> Resolver {
+    let cfg = NameServerConfigGroup::from_ips_clear(ips, port, trust_nx);
+    let rcfg = ResolverConfig::from_parts(None, vec![], cfg);
+    let resolver = Resolver::new(rcfg, ResolverOpts::default()).unwrap();
+    return resolver;
+}
+
+// pub fn from_yaml_dot_resolver(resolver: HCLResolver) -> Resolver {
+//     from_config_dot_reslver(resolver., port, dnsname, trust_nx);
+// }
 // pub fn custom_resolver()
 
-pub fn valid_resolv_domain(domain: &String, mut resolvers: Vec<Resolver>) -> (bool, usize) {
-    let len = resolvers.len();
+pub fn valid_resolv_domain(domain: &String, resolvers: &LinkedList<Resolver>) -> (bool, usize) {
+    // let len = resolvers.len();
     let mut i = 0;
-    let mut rng = rand::thread_rng();
+    // let mut rng = rand::thread_rng();
 
-    resolvers.rotate_right(rng.gen_range(1..len - 1));
+    // resolvers.rotate_right(rng.gen_range(1..len - 1));
+    // resolvers.
 
     for resolver in resolvers {
         if resolver.lookup_ip(domain).is_ok() {

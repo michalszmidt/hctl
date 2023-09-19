@@ -1,7 +1,10 @@
 use crate::{
     commands::progressbar_my_default_style,
     customio::lazy_read,
-    resolver::{inbuilt_resolvers, valid_resolv_domain},
+    resolver::{
+        from_config_dot_reslver, from_config_plain_reslver, many_tls_resolvers_tls,
+        valid_resolv_domain,
+    },
     rules::{
         iterator_map_whitespce, regex_extract_basic, regex_subdomain_all,
         regex_valid_domain_permissive, regex_whitespace,
@@ -9,12 +12,13 @@ use crate::{
     savers::{self, file_write, io_writer_out, return_saver},
     structs::HCTL,
 };
+use chrono::offset::Utc;
 use indicatif::ProgressIterator;
 use itertools::*;
 use rayon::prelude::*;
 use regex::Regex;
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeSet, LinkedList},
     fs::{read_dir, remove_file, File},
     io::{self, *},
     sync::{Arc, Mutex},
@@ -80,7 +84,7 @@ pub fn process_parallel_list_to_file(
 
     let validate_dns = |word: &String| {
         if dns {
-            let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+            let (isok, resolvernum) = valid_resolv_domain(word, &many_tls_resolvers_tls());
             if !isok {
                 let mut rejec = word.clone();
                 rejec.push_str("\t# Domain reslution failed at resolver nr. ");
@@ -272,7 +276,7 @@ pub fn process_multiple_lists_to_file(
 
     let validate_dns = |word: &String| {
         if dns {
-            let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+            let (isok, resolvernum) = valid_resolv_domain(word, &many_tls_resolvers_tls());
             if !isok {
                 let mut rejec = word.clone();
                 rejec.push_str("\t# Domain reslution failed at resolver nr. ");
@@ -326,9 +330,40 @@ pub fn config_process_lists(
     format: String,
     dns: bool,
 ) -> (usize, usize) {
-    let hctl_yaml: HCTL = serde_yaml::from_reader(file_to_lines(path).unwrap()).unwrap();
+    // let hctl_yaml: HCTL = serde_yaml::from_reader(file_to_lines(path).unwrap()).unwrap();
+    let hctl_yaml_exact: Option<HCTL> = match serde_yaml::from_reader(file_to_lines(path).unwrap())
+    {
+        Ok(x) => x,
+        Err(e) => {
+            println!("{}", e);
+            None
+        }
+    };
 
-    // TODO ADD parsing of resolvers.
+    let hctl_yaml = &hctl_yaml_exact;
+
+    let resolvers: LinkedList<_> = hctl_yaml
+        .clone()
+        .unwrap()
+        .resolvers
+        .par_iter()
+        .map(|resolver| {
+            if resolver.usetls {
+                return from_config_dot_reslver(
+                    resolver.ips.as_slice(),
+                    resolver.port,
+                    resolver.resolvname.to_string(),
+                    resolver.trust_nx,
+                );
+            }
+            return from_config_plain_reslver(
+                resolver.ips.as_slice(),
+                resolver.port,
+                resolver.trust_nx,
+            );
+        })
+        .clone()
+        .collect::<_>();
 
     let mut writer_out = io_writer_out(out_path);
     let file_rejected = file_write("./rejected.txt".to_string()).unwrap();
@@ -337,8 +372,12 @@ pub fn config_process_lists(
     let mut count_entries: usize = 0;
     let saver_func = return_saver(format.clone());
     let saver_rejected_func = return_saver("linewise".to_string());
-    let mut set_whitelist: BTreeSet<String> =
-        hctl_yaml.whitelist.into_par_iter().collect::<BTreeSet<_>>();
+    let mut set_whitelist: BTreeSet<String> = hctl_yaml
+        .clone()
+        .unwrap()
+        .whitelist
+        .into_par_iter()
+        .collect::<BTreeSet<_>>();
 
     set_whitelist.extend(
         set_whitelist
@@ -355,7 +394,12 @@ pub fn config_process_lists(
             .collect::<BTreeSet<_>>(),
     );
 
-    let subdomains_regex: Vec<Regex> = match hctl_yaml.settings.whitelist_include_subdomains {
+    let subdomains_regex: Vec<Regex> = match hctl_yaml
+        .clone()
+        .unwrap()
+        .settings
+        .whitelist_include_subdomains
+    {
         true => set_whitelist
             .iter()
             .map(|x| regex_subdomain_all(x))
@@ -393,7 +437,7 @@ pub fn config_process_lists(
 
     let validate_dns = |word: &String| {
         if dns {
-            let (isok, resolvernum) = valid_resolv_domain(word, inbuilt_resolvers());
+            let (isok, resolvernum) = valid_resolv_domain(word, &resolvers);
             if !isok {
                 let mut rejec = word.clone();
                 rejec.push_str("\t# Domain reslution failed at resolver nr. ");
@@ -408,8 +452,16 @@ pub fn config_process_lists(
     // Processing
 
     if use_intro {
-        let sources_cloned: Vec<String> = hctl_yaml.remote_sources.clone().into_iter().collect();
-        _ = writer_out.write_all("# This hostlist was assembled from other lists:\n".as_bytes());
+        let sources_cloned: Vec<String> = hctl_yaml
+            .clone()
+            .unwrap()
+            .remote_sources
+            .clone()
+            .into_iter()
+            .collect();
+        _ = writer_out.write_all("# This hostlist was assembled at: ".as_bytes());
+        _ = writer_out.write_all(Utc::now().to_string().as_bytes());
+        _ = writer_out.write_all("\n# From other lists:\n".as_bytes());
 
         sources_cloned.iter().for_each(|line| {
             _ = writer_out.write_all("# \t- ".as_bytes());
@@ -425,6 +477,8 @@ pub fn config_process_lists(
     }
 
     hctl_yaml
+        .clone()
+        .unwrap()
         .remote_sources
         .into_par_iter()
         .map(|s| lazy_read(s.as_str()))
@@ -434,7 +488,7 @@ pub fn config_process_lists(
         .collect::<BTreeSet<_>>()
         .par_iter()
         .filter(|x| subdomains(x))
-        .filter(|x| validate_dns(x))
+        .filter(|word| validate_dns(word))
         .collect::<BTreeSet<_>>()
         .iter()
         .progress_with_style(progressbar_my_default_style())
