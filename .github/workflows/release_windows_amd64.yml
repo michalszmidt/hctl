@@ -19,8 +19,9 @@ jobs:
         vcpkg install openssl:x64-windows-static-md
         vcpkg integrate install
         rustup update
-        rustc --version
-        cargo build --release
+        cargo install cargo-auditable cargo-audit
+        rustc --version        
+        cargo auditable build --release --locked
         CD .\target\release
         dir
         MOVE .\hctl.exe .\hctl-windows-amd64.exe

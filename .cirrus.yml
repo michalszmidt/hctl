@@ -14,12 +14,13 @@ task:
     - dnf in -y curl openssl-devel
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
+    - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
     - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
-    - cargo build --release
+    - cargo auditable build --release --locked
   hash_script:
     - whoami
     - ls -lah
@@ -44,11 +45,13 @@ task:
   prepare_script:
     - apk -U upgrade
     - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rust cargo
+    - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
     - ls -lah
     - rustc --version
-    - cargo build --release
+    - export PATH="$PATH:$HOME/.cargo/bin"
+    - cargo auditable build --release --locked
   hash_script:
     - whoami
     - cd target/release
@@ -78,12 +81,13 @@ task:
     - pkg install -y curl pkgconf openssl bash
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
+    - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
     - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
-    - cargo build --release
+    - cargo auditable build --release --locked
   hash_script:
     - whoami
     - cd target/release
@@ -112,12 +116,13 @@ task:
     - NONINTERACTIVE=1 brew install pkg-config make curl coreutils openssl@3
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
+    - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
     - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
-    - cargo build --release
+    - cargo auditable build --release --locked
   hash_script:
     - whoami
     - cd target/release
@@ -127,4 +132,4 @@ task:
   upload_script:
     - whoami
     - ls -lah
-    - files_to_upload=($(ls | grep hctl)); 
+    - files_to_upload=($(ls | grep hctl));

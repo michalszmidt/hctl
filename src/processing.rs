@@ -178,7 +178,6 @@ pub fn process_single_list_seq_file(
         .map(|word| iterator_map_whitespce(&pattern_whitespace, word))
         .unique()
         .filter(|word| invalid_domain(word))
-        // .filter(|x| validate_dns(x))
         .sorted()
         .progress_with_style(progressbar_my_default_style())
         .for_each(|word| save_out_entry(word));
@@ -330,7 +329,6 @@ pub fn config_process_lists(
     format: String,
     dns: bool,
 ) -> (usize, usize) {
-    // let hctl_yaml: HCTL = serde_yaml::from_reader(file_to_lines(path).unwrap()).unwrap();
     let hctl_yaml_exact: Option<HCTL> = match serde_yaml::from_reader(file_to_lines(path).unwrap())
     {
         Ok(x) => x,
@@ -506,4 +504,32 @@ pub fn config_process_lists(
         _ = remove_file("./rejected.txt");
     }
     return (count_entries, arc_mux_set_rejected.lock().unwrap().len());
+}
+
+pub fn validate_from_file(list_path: String) {
+    let pattern_basic = regex_extract_basic();
+    let pattern_valid_domain = regex_valid_domain_permissive();
+    let pattern_whitespace = regex_whitespace();
+
+    let file_opened = file_to_lines(list_path).unwrap();
+    let reader = BufReader::new(file_opened);
+
+    // Closures are workaround for cannot & to mut value
+
+    let validate_dns = |word: &String| {
+        let (isok, _) = valid_resolv_domain(word, &many_tls_resolvers_tls());
+        println!("{isok:#?}: {word:#?}");
+    };
+
+    reader
+        .lines()
+        .map(|res| res.unwrap())
+        .filter(|line| !line.starts_with('#'))
+        .filter(|line| !line.eq(""))
+        .collect::<BTreeSet<_>>()
+        .par_iter()
+        .map(|word| pattern_basic.replace_all(word, "").to_string())
+        .map(|word| iterator_map_whitespce(&pattern_whitespace, word))
+        .filter(|word| pattern_valid_domain.is_match(word))
+        .for_each(|x| validate_dns(&x));
 }

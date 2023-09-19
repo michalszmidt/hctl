@@ -98,7 +98,7 @@ Note that OpenBSD Builds are removed from table as gh Action OpenBSD runner is b
 - [x] Whitelists (enumerated, from external lists file/https)
 - [x] Whitelists including subdomains
 - [x] Record existance validation from DNS servers (unencrypted and over tls)
-- [ ] Input from stdout to be used with unix pipe stream control
+- [x] User-defined DNS and DOT Resolvers
 - [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
 - [ ] Subdomains family recognition, save with subdomain order (like adaway does)
 - [ ] Fault-tolerance, better error handling

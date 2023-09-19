@@ -20,7 +20,8 @@ jobs:
           brew install coreutils openssl@3
           rustup update
           rustc --version
-          cargo build --release
+          cargo install cargo-auditable cargo-audit
+          cargo auditable build --release --locked
           cd target/release
           mv hctl hctl-macosx-amd64
           sha256sum hctl-macosx-amd64 > sha256-hctl-macosx-amd64

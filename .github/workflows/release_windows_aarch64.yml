@@ -20,8 +20,9 @@ jobs:
         vcpkg integrate install
         rustup update
         rustup target add aarch64-pc-windows-msvc
-        rustc --version
-        cargo build --release --target=aarch64-pc-windows-msvc
+        cargo install cargo-auditable cargo-audit
+        rustc --version        
+        cargo auditable build --release --locked --target=aarch64-pc-windows-msvc
         CD .\target\aarch64-pc-windows-msvc\release
         dir
         MOVE .\hctl.exe .\hctl-windows-aarch64.exe

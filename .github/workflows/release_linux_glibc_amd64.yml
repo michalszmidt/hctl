@@ -22,8 +22,9 @@ jobs:
           dnf in -y curl openssl-devel
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           . $HOME/.cargo/env
+          cargo install cargo-auditable cargo-audit
           rustc --version
-          cargo build --release
+          cargo auditable build --release --locked
           cd target/release
           mv hctl hctl-linux-glibc-amd64
           sha256sum hctl-linux-glibc-amd64 > sha256-hctl-linux-glibc-amd64

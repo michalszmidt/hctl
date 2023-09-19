@@ -11,7 +11,7 @@ use clap::{parser::ValuesRef, Command};
 use commands::{get_args_domain, get_command_domain};
 use processing::{
     config_process_lists, process_multiple_lists_to_file, process_parallel_list_to_file,
-    process_single_list_seq_file,
+    process_single_list_seq_file, validate_from_file,
 };
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -39,9 +39,10 @@ fn main() {
         let mut rejected = "no".to_string();
         let mut format = "linewise".to_string();
         let mut dns = "no".to_string();
+        let mut validate = "no".to_string();
 
-        let rejected_len: usize;
-        let entries_len: usize;
+        let mut rejected_len: usize = 0;
+        let mut entries_len: usize = 0;
 
         if let Some(value_of_out) = query_matches.get_many::<String>("out") {
             out = get_param(value_of_out);
@@ -70,6 +71,9 @@ fn main() {
         if let Some(value_of_dns) = query_matches.get_many::<String>("dns") {
             dns = get_param(value_of_dns);
         }
+        if let Some(value_of_validate) = query_matches.get_many::<String>("validate") {
+            validate = get_param(value_of_validate);
+        }
         let intro_b = match intro.as_str() {
             "yes" => true,
             "no" => false,
@@ -87,46 +91,59 @@ fn main() {
             _ => return,
         };
 
-        if dns.as_str() == "only" {}
-
-        match mode.as_str() {
-            "single" => {
-                if path.eq("NAN") {
-                    println!("No source file defined: use -p flag\nNo action made");
-                    return;
-                }
-                match optimize.as_str() {
-                    "speed" => {
-                        (entries_len, rejected_len) = process_parallel_list_to_file(
-                            path,
-                            out.clone(),
-                            rejected_b,
-                            format,
-                            dns_b,
-                        )
+        match validate.as_str() {
+            "yes" => validate_from_file(path),
+            "no" => match mode.as_str() {
+                "single" => {
+                    if path.eq("NAN") {
+                        println!("No source file defined: use -p flag\nNo action made");
+                        return;
                     }
-                    "memory" => {
-                        (entries_len, rejected_len) =
-                            process_single_list_seq_file(path, out.clone(), rejected_b, format)
-                    }
-                    _ => return,
-                };
-            }
-            "folder" => {
-                if path.eq("NAN") {
-                    println!("No source file defined: use -p flag\nNo action made");
-                    return;
+                    match optimize.as_str() {
+                        "speed" => {
+                            (entries_len, rejected_len) = process_parallel_list_to_file(
+                                path,
+                                out.clone(),
+                                rejected_b,
+                                format,
+                                dns_b,
+                            )
+                        }
+                        "memory" => {
+                            (entries_len, rejected_len) =
+                                process_single_list_seq_file(path, out.clone(), rejected_b, format)
+                        }
+                        _ => return,
+                    };
                 }
-                (entries_len, rejected_len) =
-                    process_multiple_lists_to_file(path, out.clone(), rejected_b, format, dns_b);
-            }
-            "config" => {
-                (entries_len, rejected_len) =
-                    config_process_lists(config, out.clone(), intro_b, rejected_b, format, dns_b)
-            }
+                "folder" => {
+                    if path.eq("NAN") {
+                        println!("No source file defined: use -p flag\nNo action made");
+                        return;
+                    }
+                    (entries_len, rejected_len) = process_multiple_lists_to_file(
+                        path,
+                        out.clone(),
+                        rejected_b,
+                        format,
+                        dns_b,
+                    );
+                }
+                "config" => {
+                    (entries_len, rejected_len) = config_process_lists(
+                        config,
+                        out.clone(),
+                        intro_b,
+                        rejected_b,
+                        format,
+                        dns_b,
+                    )
+                }
+                _ => return,
+            },
             _ => return,
         }
-        if out.as_str() != "stdout" {
+        if out.as_str() != "stdout" && validate.as_str() != "yes" {
             println!(
                 "Unique records: {}\nRemoved records: {}\n",
                 entries_len, rejected_len

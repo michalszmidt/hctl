@@ -1,7 +1,4 @@
 use std::collections::LinkedList;
-// use rand::Rng;
-// use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
-// use std::collections::LinkedList;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 use trust_dns_resolver::config::*;
 use trust_dns_resolver::proto::rr::RecordType;
@@ -106,10 +103,6 @@ pub const FFMUC_DE_IPS: &[IpAddr] = &[
 ];
 
 pub fn many_tls_resolvers_tls() -> LinkedList<Resolver> {
-    let cloudflare =
-        Resolver::new(ResolverConfig::cloudflare_tls(), ResolverOpts::default()).unwrap();
-    let quad9 = Resolver::new(ResolverConfig::quad9_tls(), ResolverOpts::default()).unwrap();
-
     let uncensored_dns_tls = from_config_dot_reslver(
         UNCENSORED_DNS_MULTI_IPS,
         853,
@@ -198,47 +191,21 @@ pub fn many_tls_resolvers_tls() -> LinkedList<Resolver> {
         uncensored_dns_tls,
         opennameserver_org_r1_tls,
         opennameserver_org_r2_tls,
+        applied_privacy_tls,
         opennameserver_org_r3_tls,
+        digitalsize_net_tls,
         opennameserver_org_r4_tls,
         ffmuc_de_tls,
         dns_watch_r1_tls,
-        dns_watch_r2_tls,
         seby_io_tls,
-        applied_privacy_tls,
-        digitalsize_net_tls,
+        dns_watch_r2_tls,
         ibksturm_synology_me_tls,
         digitale_gesellschaft_ch,
         njalla_tls,
-        cloudflare,
-        quad9,
     ];
 
     return x.into_iter().collect();
 }
-
-// pub fn many_resolvers_tls_moved(num: &usize) -> Vec<Resolver> {
-//     let mut resolvers = many_tls_resolvers_tls();
-//     let diff = num % resolvers.len().clone();
-//     if diff == 0 {
-//         return resolvers;
-//     }
-//     resolvers.rotate_left(diff);
-//     return resolvers;
-// }
-
-// pub fn inbuilt_resolvers() -> Vec<Resolver> {
-//     let system = Resolver::from_system_conf().unwrap();
-//     let cloudflare =
-//         Resolver::new(ResolverConfig::cloudflare_tls(), ResolverOpts::default()).unwrap();
-//     let quad9 = Resolver::new(ResolverConfig::quad9_tls(), ResolverOpts::default()).unwrap();
-
-//     return vec![system, cloudflare, quad9];
-// }
-
-// pub fn system_resolver() -> Vec<Resolver> {
-//     let system = Resolver::from_system_conf().unwrap();
-//     return vec![system];
-// }
 
 pub fn from_config_dot_reslver(
     ips: &[IpAddr],
@@ -258,11 +225,6 @@ pub fn from_config_plain_reslver(ips: &[IpAddr], port: u16, trust_nx: bool) -> R
     let resolver = Resolver::new(rcfg, ResolverOpts::default()).unwrap();
     return resolver;
 }
-
-// pub fn from_yaml_dot_resolver(resolver: HCLResolver) -> Resolver {
-//     from_config_dot_reslver(resolver., port, dnsname, trust_nx);
-// }
-// pub fn custom_resolver()
 
 pub fn valid_resolv_domain(domain: &String, resolvers: &LinkedList<Resolver>) -> (bool, usize) {
     // let len = resolvers.len();
