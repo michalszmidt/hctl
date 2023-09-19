@@ -127,7 +127,8 @@ Options:
   -i, --intro <intro>        Whether append intro "Assembled From:..." to out file from config [true/false]
   -r, --rejected <rejected>  Whether save rejected to ./rejected.txt [true/false]
   -f, --format <format>      Type of out format [dnsmasq/loopback/empty/linewise/bind/snort/unbound/machosts/hostperm1/junkbuster/littlesnitch/pdnsd]
-  -d, --dns <dns>            BETA: Validate your processed records issuing dns-over-tls query in predefined servers [yes/no]
+  -t, --validate <validate>  (Non-intrusive): Verbose validate your records in single file issuing dns-over-tls query in hardcoded servers [yes/no]
+  -d, --dns <dns>            Validate your processed records issuing dns query in predefined servers, config mode allows custom ones [yes/no]
   -h, --help                 Print help
 ```
 
