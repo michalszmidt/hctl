@@ -1,6 +1,6 @@
 task:
   name: LinuxGlibcAarch64
-  only_if: $CIRRUS_BRANCH == 'main'
+  only_if: $CIRRUS_BRANCH == 'master'
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
@@ -34,7 +34,7 @@ task:
       
 task:
   name: LinuxMuslAarch64
-  only_if: $CIRRUS_BRANCH == 'main'
+  only_if: $CIRRUS_BRANCH == 'master'
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
@@ -62,7 +62,7 @@ task:
     
 task:
   name: FreebsdAmd64
-  only_if: $CIRRUS_BRANCH == 'main'
+  only_if: $CIRRUS_BRANCH == 'master'
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
@@ -97,7 +97,7 @@ task:
     
 task:
   name: MacosxSilicon
-  only_if: $CIRRUS_BRANCH == 'main'
+  only_if: $CIRRUS_BRANCH == 'master'
   only_if: $CIRRUS_RELEASE != ''
   env:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
