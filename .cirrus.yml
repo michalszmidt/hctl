@@ -132,4 +132,5 @@ task:
   upload_script:
     - whoami
     - ls -lah
-    - files_to_upload=($(ls | grep hctl));
+    - files_to_upload=($(ls | grep hctl)); . ./upload.sh
+
