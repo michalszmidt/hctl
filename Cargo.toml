@@ -14,7 +14,7 @@ rayon = "*"                                                           # Apache 2
 regex = "*"                                                           # Apache 2.0 / MIT
 itertools = "*"                                                       # Apache 2.0 / MIT
 clap = { version="*", features = ["default"] }                        # Apache 2.0 / MIT
-serde = { vesrion="*", features = ["derive"] }                        # Apache 2.0 / MIT  
+serde = { version="*", features = ["derive"]}                        # Apache 2.0 / MIT  
 serde_yaml = "*"                                                      # MIT
 indicatif = "*"                                                       # Apache 2.0 / MIT
 rand = "*"
