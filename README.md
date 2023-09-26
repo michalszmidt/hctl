@@ -28,6 +28,19 @@ Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transfo
 Note that you can get rid of openssl dependency if you want, by building from source with modified dependencies, see [building from source](https://github.com/michalszmidt/hctl/wiki/Developer#building-from-source).
 
 # Downloads
+## As a package
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/hctl.svg)](https://repology.org/project/hctl/versions)
+![OBS package build status](https://img.shields.io/obs/home%3Amichalszmidt/hctl/openSUSE_Leap_15.6_standard/x86_64?label=OBS%3A%20OpenSUSE%20Leap%2015.6&link=https%3A%2F%2Fsoftware.opensuse.org%2Fdownload%2Fpackage%3Fpackage%3Dhctl%26project%3Dhome%253Amichalszmidt)
+![OBS package build status](https://img.shields.io/obs/home%3Amichalszmidt/hctl/openSUSE_Tumbleweed/x86_64?label=OBS%3A%20OpenSUSE%20Tumbleweed&link=https%3A%2F%2Fsoftware.opensuse.org%2Fdownload%2Fpackage%3Fpackage%3Dhctl%26project%3Dhome%253Amichalszmidt)
+
+Available:
+- Alpine Linux edge: `apk add hctl --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing/` (from testing repository)
+- OpenSUSE Linux 15.6/Tumbleweed: `opi hctl` (using opi community repo helper)
+- Arch Linux (based): `yay -Su hctl` (using AUR helper)
+
+Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
+
 ## [From release page](https://github.com/michalszmidt/hctl/releases/latest)
 
 <table>
