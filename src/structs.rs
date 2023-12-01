@@ -5,7 +5,7 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize)]
 pub struct HCTL {
     pub settings: Settings,
-    pub remote_sources: Vec<String>,
+    pub remote_sources: Vec<Source>,
     pub whitelist: Vec<String>,
     pub remote_whitelist: Vec<String>,
     pub resolvers: Vec<HCLResolver>,
@@ -24,4 +24,10 @@ pub struct HCLResolver {
     pub port: u16,
     pub resolvname: String,
     pub trust_nx: bool,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct Source {
+    pub url: String,
+    pub src_type: String,
 }

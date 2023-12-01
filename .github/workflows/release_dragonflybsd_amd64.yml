@@ -1,6 +1,9 @@
 name: Release for DragonflyBSD amd64
 
-on: workflow_dispatch
+on:
+  push:
+    tags:
+      - '*'
 
 env:
   CARGO_TERM_COLOR: always
@@ -10,9 +13,9 @@ jobs:
     runs-on: macos-12
     name: Release for DragonflyBSD
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Compile
-      id: test
+      id: release_dfly
       uses: vmactions/dragonflybsd-vm@v0
       with:
         envs: 'CARGO_TERM_COLOR'

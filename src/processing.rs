@@ -456,6 +456,7 @@ pub fn config_process_lists(
             .remote_sources
             .clone()
             .into_iter()
+            .map(|x| x.url)
             .collect();
         _ = writer_out.write_all("# This hostlist was assembled at: ".as_bytes());
         _ = writer_out.write_all(Utc::now().to_string().as_bytes());

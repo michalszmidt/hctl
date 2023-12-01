@@ -71,7 +71,7 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
   freebsd_instance:
-    image_family: freebsd-13-2
+    image_family: freebsd-14-0
   prepare_script:
     - whoami
     - mkdir -p /usr/local/etc/pkg/repos

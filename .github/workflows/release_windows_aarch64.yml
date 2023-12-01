@@ -13,7 +13,7 @@ jobs:
     name: Release for Windows aarch64
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Compile and calculate checksum
       run: |
         vcpkg install openssl:arm64-windows-static-md
