@@ -11,10 +11,17 @@ pub fn regex_extract_basic() -> Regex {
     return Regex::new(r"^((127\.0\.0\.1|localhost.localdomain|255\.255\.255\.255|fe80::1%lo0|ff00::0|fe00::0|ff02::1|ff02::2|ff02::3|0\.0\.0\.0|::1|fe80::1%lo0)\s{1,})|(\s*\#.*$)").unwrap();
 }
 
-// dnsmasq
 pub fn regex_extract_dnsmasq() -> Regex {
-    return  Regex::new(r"^(address=/|server=/)|(/|/0.0.0.0|/127.0.0.1)|(\s*\#.*$)").unwrap();
+    return  Regex::new(r"^(address=/|server=/)|(/0\.0\.0\.0|/127\.0\.0\.1|/)|(\s*\#.*$)").unwrap();
 }
+pub fn regex_extract_bind() -> Regex {
+    return  Regex::new(r##"^(zone\s{1,}")|("\s{1,}\{\s{1,}type\s{1,}master;\s{1,}notify\s{1,}no;\s{1,}file\s{1,}"null\.zone\.file";\s{1,}};)|(\s*//.*$)"##).unwrap();
+}
+pub fn regex_extract_hostperm1() -> Regex {
+    return  Regex::new(r##"^host\s{1,}image\s{1,}2\s{1,}"##).unwrap();
+}
+
+
 
 
 pub fn regex_valid_domain_permissive() -> Regex {
@@ -37,6 +44,18 @@ pub fn regex_subdomain_all(domain: &String) -> Regex {
     pattern_str.push_str(spl.as_str());
     return Regex::new(pattern_str.as_str()).unwrap();
 }
+
+pub fn regex_choose_pattern(pattern: &String) -> Regex{
+    return match pattern.as_str() {
+        "hosts" =>  regex_extract_basic(),
+        "dnsmasq" => regex_extract_dnsmasq(),
+        "bind" => regex_extract_bind(),
+        "hostperm1" => regex_extract_hostperm1(),
+        
+        _ => regex_extract_basic(),
+    };
+}
+
 
 // pub fn regex_subdomain_from_to(from: String, to: String, domain: String) -> Regex {
 //     let spl = domain.replace(".", "\\.");

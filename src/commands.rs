@@ -31,7 +31,7 @@ pub fn get_args_domain() -> Vec<Arg> {
         .action(ArgAction::Set);
 
     let arg_mode: Arg = Arg::new("mode")
-        .help("Process single or multiple lists [single/folder/config]")
+        .help("Process single or multiple lists [single/folder/config/url]")
         .short('m')
         .long("mode")
         .action(ArgAction::Set)
@@ -67,6 +67,12 @@ pub fn get_args_domain() -> Vec<Arg> {
         .short('d')
         .long("dns")
         .action(ArgAction::Set);
+        
+    let arg_pattern: Arg = Arg::new("pattern")
+        .help("Input format of list [hosts/dnsmasq]")
+        .short('a')
+        .long("pattern")
+        .action(ArgAction::Set);
 
     let arg_validate: Arg = Arg::new("validate")
         .help(
@@ -90,6 +96,7 @@ pub fn get_args_domain() -> Vec<Arg> {
         arg_format,
         arg_validate,
         arg_dns,
+        arg_pattern, 
     ];
 }
 

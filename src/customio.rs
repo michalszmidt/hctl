@@ -1,15 +1,16 @@
-use crate::rules::{regex_extract_basic, regex_valid_domain_permissive, regex_whitespace};
+use crate::rules::{ regex_valid_domain_permissive, regex_whitespace,  regex_choose_pattern};
 use minreq::{get, Error};
 use std::collections::BTreeSet;
 use std::io::ErrorKind::WouldBlock;
 
 // This is lazy reading from network method using minireq with least dependencies.
-pub fn lazy_read(url: &str) -> core::result::Result<(BTreeSet<String>, BTreeSet<String>), Error> {
+pub fn lazy_read(url: &str, pattern: &String) -> core::result::Result<(BTreeSet<String>, BTreeSet<String>), Error> {
     let mut str_buffer: Vec<char> = Vec::new();
     let mut set_out: BTreeSet<String> = BTreeSet::new();
     let mut do_continue = false;
 
-    let pattern_basic = regex_extract_basic();
+let pattern_basic = regex_choose_pattern(pattern);
+    
     let pattern_whitespace = regex_whitespace();
     let pattern_valid_domain = regex_valid_domain_permissive();
 
@@ -42,6 +43,8 @@ pub fn lazy_read(url: &str) -> core::result::Result<(BTreeSet<String>, BTreeSet<
                 )
                 .to_string()
                 .to_lowercase();
+                
+                // println!("{}", word_after_whitespace);
 
             if pattern_valid_domain.is_match(word_after_whitespace.as_str()) {
                 set_out.insert(word_after_whitespace);

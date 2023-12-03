@@ -40,6 +40,8 @@ fn main() {
         let mut format = "linewise".to_string();
         let mut dns = "no".to_string();
         let mut validate = "no".to_string();
+        
+        let mut pattern = "hosts".to_string();
 
         let mut rejected_len: usize = 0;
         let mut entries_len: usize = 0;
@@ -74,6 +76,12 @@ fn main() {
         if let Some(value_of_validate) = query_matches.get_many::<String>("validate") {
             validate = get_param(value_of_validate);
         }
+        
+        if let Some(value_of_pattern) = query_matches.get_many::<String>("pattern") {
+            pattern = get_param(value_of_pattern);
+        }
+        
+        
         let intro_b = match intro.as_str() {
             "yes" => true,
             "no" => false,
@@ -107,11 +115,12 @@ fn main() {
                                 rejected_b,
                                 format,
                                 dns_b,
+                                &pattern,
                             )
                         }
                         "memory" => {
                             (entries_len, rejected_len) =
-                                process_single_list_seq_file(path, out.clone(), rejected_b, format)
+                                process_single_list_seq_file(path, out.clone(), rejected_b, format, &pattern)
                         }
                         _ => return,
                     };
@@ -126,7 +135,8 @@ fn main() {
                         out.clone(),
                         rejected_b,
                         format,
-                        dns_b,
+                        dns_b, 
+                        &pattern,
                     );
                 }
                 "config" => {
