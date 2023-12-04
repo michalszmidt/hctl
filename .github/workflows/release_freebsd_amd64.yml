@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - '*'
+      
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   build_freebsd:
@@ -15,12 +18,11 @@ jobs:
       id: compile
       uses: vmactions/freebsd-vm@v1
       with:
+        envs: 'CARGO_TERM_COLOR'
         usesh: false
         mem: 8192                
         prepare: |
           whoami
-          freebsd-version
-          uname -a
           mkdir -p /usr/local/etc/pkg/repos
           cp ./FreeBSD.conf /usr/local/etc/pkg/repos/
           pkg update
@@ -34,6 +36,8 @@ jobs:
           whoami
           . $HOME/.cargo/env
           ls -lah
+          uname -a
+          freebsd-version
           rustc --version
           cargo auditable build --release --locked
           cd target/release

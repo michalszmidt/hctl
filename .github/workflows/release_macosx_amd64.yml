@@ -19,6 +19,7 @@ jobs:
           whoami
           brew install coreutils openssl@3
           rustup update
+          uname -a
           rustc --version
           cargo install cargo-auditable cargo-audit
           cargo auditable build --release --locked

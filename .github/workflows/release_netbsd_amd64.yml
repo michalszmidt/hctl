@@ -35,6 +35,7 @@ jobs:
           whoami
           . $HOME/.cargo/env
           ls -lah
+          uname -a
           rustc --version
           cargo auditable build --release --locked
           cd target/release

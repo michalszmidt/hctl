@@ -22,6 +22,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           . $HOME/.cargo/env
           cargo install cargo-auditable cargo-audit
+          uname -a
           rustc --version
           cargo auditable build --release --locked
           cd target/release
