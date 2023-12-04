@@ -74,7 +74,9 @@ settings:
   whitelist_include_subdomains: true
     
 remote_sources:  
-  - https://v.firebog.net/hosts/static/w3kbl.txt
+    - 
+        url: https://v.firebog.net/hosts/static/w3kbl.txt
+        src_type: hosts
 
 whitelist:
 
