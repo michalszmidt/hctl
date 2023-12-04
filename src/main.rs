@@ -11,7 +11,7 @@ use clap::{parser::ValuesRef, Command};
 use commands::{get_args_domain, get_command_domain};
 use processing::{
     config_process_lists, process_multiple_lists_to_file, process_parallel_list_to_file,
-    process_single_list_seq_file, validate_from_file,
+    process_single_list_seq_file, validate_from_file, config_process_url,
 };
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -40,11 +40,10 @@ fn main() {
         let mut format = "linewise".to_string();
         let mut dns = "no".to_string();
         let mut validate = "no".to_string();
-        
         let mut pattern = "hosts".to_string();
 
         let mut rejected_len: usize = 0;
-        let mut entries_len: usize = 0;
+        let mut entries_len: usize = 0; 
 
         if let Some(value_of_out) = query_matches.get_many::<String>("out") {
             out = get_param(value_of_out);
@@ -110,17 +109,17 @@ fn main() {
                     match optimize.as_str() {
                         "speed" => {
                             (entries_len, rejected_len) = process_parallel_list_to_file(
-                                path,
-                                out.clone(),
-                                rejected_b,
-                                format,
-                                dns_b,
+                                &path,
+                                &out,
+                                &rejected_b,
+                                &format,
+                                &dns_b,
                                 &pattern,
                             )
                         }
                         "memory" => {
                             (entries_len, rejected_len) =
-                                process_single_list_seq_file(path, out.clone(), rejected_b, format, &pattern)
+                                process_single_list_seq_file(&path, &out, &rejected_b, &format, &pattern)
                         }
                         _ => return,
                     };
@@ -131,24 +130,27 @@ fn main() {
                         return;
                     }
                     (entries_len, rejected_len) = process_multiple_lists_to_file(
-                        path,
-                        out.clone(),
-                        rejected_b,
-                        format,
-                        dns_b, 
+                        &path,
+                       &out,
+                        &rejected_b,
+                        &format,
+                        &dns_b, 
                         &pattern,
                     );
                 }
                 "config" => {
                     (entries_len, rejected_len) = config_process_lists(
-                        config,
-                        out.clone(),
-                        intro_b,
-                        rejected_b,
-                        format,
-                        dns_b,
+                        &config,
+                        &out,
+                        &intro_b,
+                        &rejected_b,
+                        &format,
+                        &dns_b,
                     )
                 }
+                "url" => {
+                    (entries_len, rejected_len) = config_process_url(&path, &out, &rejected_b, &format, &dns_b, &pattern)
+                    }
                 _ => return,
             },
             _ => return,

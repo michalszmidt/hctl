@@ -1,5 +1,5 @@
 use clap::{Arg, ArgAction, Command};
-use indicatif::ProgressStyle;
+// use indicatif::ProgressStyle;
 
 // COMMANDS
 pub fn get_command_domain() -> Command {
@@ -102,9 +102,9 @@ pub fn get_args_domain() -> Vec<Arg> {
 
 // PROGRESSBAR
 
-pub fn progressbar_my_default_style() -> ProgressStyle {
-    return ProgressStyle::with_template(
-        "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
-    )
-    .unwrap();
-}
+// pub fn progressbar_my_default_style() -> ProgressStyle {
+//     return ProgressStyle::with_template(
+//         "[{elapsed_precise}] [{bar:40.cyan/blue}] ({pos}/{len}, ETA {eta})",
+//     )
+//     .unwrap();
+// }

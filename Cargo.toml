@@ -1,6 +1,6 @@
 [package]
 name = "hctl"
-version = "0.2.4"
+version = "0.2.5"
 edition = "2021"
 authors = [ "Michał Szmidt" ]
 repository = "https://github.com/michalszmidt/hctl"
@@ -16,7 +16,7 @@ itertools = "*"                                                       # Apache 2
 clap = { version="*", features = ["default"] }                        # Apache 2.0 / MIT
 serde = { version="*", features = ["derive"]}                        # Apache 2.0 / MIT  
 serde_yaml = "*"                                                      # MIT
-indicatif = "*"                                                       # Apache 2.0 / MIT
+# indicatif = "*"                                                       # Apache 2.0 / MIT
 rand = "*"
 chrono = "*"
 

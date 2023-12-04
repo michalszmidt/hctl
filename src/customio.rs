@@ -80,3 +80,8 @@ let pattern_basic = regex_choose_pattern(pattern);
 
     return result;
 }
+
+pub fn get_from_url(url: &String) -> Result<String, minreq::Error> {
+    let response = get(url.as_str()).send()?;
+    return Ok(response.as_str().unwrap().to_string());
+}
