@@ -22,15 +22,12 @@ jobs:
         usesh: false
         mem: 8192
         prepare: |
-          pkg_add curl gcc pkgconf openssl coreutils p5-Digest-SHA3
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          . $HOME/.cargo/env
+          pkg_add curl gcc-11.2 g++-11.2 pkgconf coreutils p5-Digest-SHA3 rust
           cargo install cargo-auditable cargo-audit
 
         run: |
           ls -lah
           whoami
-          . $HOME/.cargo/env
           rustc --version
           cargo auditable build --release --locked
           cd target/release

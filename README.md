@@ -32,7 +32,9 @@ Note that you can get rid of openssl dependency if you want, by building from so
 ## As a package
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/hctl.svg)](https://repology.org/project/hctl/versions)
+
 ![OBS package build status](https://img.shields.io/obs/home%3Amichalszmidt/hctl/openSUSE_Leap_15.6_standard/x86_64?label=OBS%3A%20OpenSUSE%20Leap%2015.6&link=https%3A%2F%2Fsoftware.opensuse.org%2Fdownload%2Fpackage%3Fpackage%3Dhctl%26project%3Dhome%253Amichalszmidt)
+
 ![OBS package build status](https://img.shields.io/obs/home%3Amichalszmidt/hctl/openSUSE_Tumbleweed/x86_64?label=OBS%3A%20OpenSUSE%20Tumbleweed&link=https%3A%2F%2Fsoftware.opensuse.org%2Fdownload%2Fpackage%3Fpackage%3Dhctl%26project%3Dhome%253Amichalszmidt)
 
 Available:
@@ -56,7 +58,6 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | Windows |
 | FreeBSD |
 | NetBSD |
-| DragonflyBSD |
 | OpenBSD |
 
 </td><td>
@@ -69,7 +70,6 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-amd64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-amd64.exe.txt) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-aarch64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-aarch64.exe.txt) |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-freebsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-freebsd-amd64) | NSU |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-netbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-netbsd-amd64) | NSU |
-| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-dragonflybsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-dragonflybsd-amd64) | N/A |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) | NSU |
 </td><td>
 
@@ -81,10 +81,15 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_aarch64.yml)](https://github.com/michalszmidt/hctl/actions) |
 | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=FreebsdAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_netbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
-| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_dragonflybsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | N/A |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 
-</td></tr> </table>
+</td></tr> </table> 
+
+<!-- 
+| DragonflyBSD |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-dragonflybsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-dragonflybsd-amd64) | N/A |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_dragonflybsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | N/A |
+-->
 
 - NSU - Not Set Up Yet, may (or not) appear in the future
 
@@ -149,7 +154,4 @@ Processing is done by firstly removing addreses characteristic for host file lik
 See rules.rs if you want to embed similar solution in your app.
 
 ## License
-[BSD-3-clause-no-military](https://github.com/michalszmidt/hctl/blob/main/LICENSE)
-
-TD;LR
-Modified [BSD-3-clause](https://choosealicense.com/licenses/bsd-3-clause-clear/) that does not allow usage for military purpose
+[BSD-3-clause](https://github.com/michalszmidt/hctl/blob/main/LICENSE)
