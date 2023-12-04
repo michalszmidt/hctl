@@ -16,10 +16,11 @@ jobs:
       uses: vmactions/freebsd-vm@v1
       with:
         usesh: false
-        release: 14.0
         mem: 8192                
         prepare: |
           whoami
+          freebsd-version
+          uname -a
           mkdir -p /usr/local/etc/pkg/repos
           cp ./FreeBSD.conf /usr/local/etc/pkg/repos/
           pkg update

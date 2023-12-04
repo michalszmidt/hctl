@@ -22,9 +22,9 @@ jobs:
         usesh: false
         mem: 8192
         prepare: |
-          pkg_add curl gcc g++ pkgconf coreutils p5-Digest-SHA3 rust
-          which gcc
-          which g++
+          pkg_add curl pkgconf coreutils p5-Digest-SHA3 rust
+          pkg_add -u gcc
+          pkg_add -u g++
 
         run: |
           ls -lah
