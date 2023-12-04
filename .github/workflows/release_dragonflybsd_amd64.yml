@@ -10,13 +10,13 @@ env:
 
 jobs:
   test:
-    runs-on: macos-12
+    runs-on: macos-12   
     name: Release for DragonflyBSD
     steps:
     - uses: actions/checkout@v4
     - name: Compile
       id: release_dfly
-      uses: vmactions/dragonflybsd-vm@v0
+      uses: vmactions/dragonflybsd-vm@v1
       with:
         envs: 'CARGO_TERM_COLOR'
         usesh: false

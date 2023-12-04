@@ -108,14 +108,15 @@ fn main() {
                     }
                     match optimize.as_str() {
                         "speed" => {
-                            (entries_len, rejected_len) = process_parallel_list_to_file(
-                                &path,
-                                &out,
-                                &rejected_b,
-                                &format,
-                                &dns_b,
-                                &pattern,
-                            )
+                            (entries_len, rejected_len) = 
+                                process_parallel_list_to_file(
+                                    &path,
+                                    &out,
+                                    &rejected_b,
+                                    &format,
+                                    &dns_b,
+                                    &pattern,
+                                )
                         }
                         "memory" => {
                             (entries_len, rejected_len) =

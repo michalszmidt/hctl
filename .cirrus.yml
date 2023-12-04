@@ -107,7 +107,7 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
   macos_instance:
-    image: ghcr.io/cirruslabs/macos-ventura-base:latest
+    image: ghcr.io/cirruslabs/macos-sonoma-base:latest
   prepare_script:
     - whoami
     - NONINTERACTIVE=1 brew update

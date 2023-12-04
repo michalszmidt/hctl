@@ -10,13 +10,13 @@ env:
 
 jobs:
   test:
-    runs-on: macos-12
+    runs-on: ubuntu-22.04   
     name: Release for NetBSD
     steps:
     - uses: actions/checkout@v4
     - name: Build in NetBSD VM
       id: compile
-      uses: vmactions/netbsd-vm@v0
+      uses: vmactions/netbsd-vm@v1
       with:
         envs: 'CARGO_TERM_COLOR'
         usesh: false

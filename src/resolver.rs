@@ -227,12 +227,7 @@ pub fn from_config_plain_reslver(ips: &[IpAddr], port: u16, trust_nx: bool) -> R
 }
 
 pub fn valid_resolv_domain(domain: &String, resolvers: &LinkedList<Resolver>) -> (bool, usize) {
-    // let len = resolvers.len();
     let mut i = 0;
-    // let mut rng = rand::thread_rng();
-
-    // resolvers.rotate_right(rng.gen_range(1..len - 1));
-    // resolvers.
 
     for resolver in resolvers {
         if resolver.lookup_ip(domain).is_ok() {

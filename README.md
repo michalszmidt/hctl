@@ -86,13 +86,7 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 
 </td></tr> </table>
 
-<!--
--->
-
-
-- NSU - Not Set Up Yet, will appear in future
-
-Note that OpenBSD Builds are removed from table as gh Action OpenBSD runner is broken, see [this issue](https://github.com/vmactions/openbsd-vm/issues/12)
+- NSU - Not Set Up Yet, may (or not) appear in the future
 
 # Features
 
@@ -102,7 +96,6 @@ Note that OpenBSD Builds are removed from table as gh Action OpenBSD runner is b
 - [x] Fetch lists directly from network (https)
 - [x] YAML config
 - [x] Parallel processing
-- [x] Progressbar on save
 - [x] Rejected lines may be saved with information about source list
 - [x] Support for Windows encoded text files (line ending with `\n\r`)
 - [x] Output to stdout to be used with unix pipe stream control (partial support)
@@ -110,11 +103,15 @@ Note that OpenBSD Builds are removed from table as gh Action OpenBSD runner is b
 - [x] Whitelists including subdomains
 - [x] Record existance validation from DNS servers (unencrypted and over tls)
 - [x] User-defined DNS and DOT Resolvers
+- [x] Could use diffrent input types (like dnsmasq, bind) in yaml config
+- [ ] Auto scheme recognition
 - [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
 - [ ] Subdomains family recognition, save with subdomain order (like adaway does)
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
 - [ ] Quiet option
+- [ ] Progressbar on save
+
 
 Jump [here](https://github.com/michalszmidt/hctl/wiki/Manual#supported-formats) to see supported input and output formats
 
@@ -123,8 +120,8 @@ Jump [here](https://github.com/michalszmidt/hctl/issues/1) to feature-request is
 # [Usage](https://github.com/michalszmidt/hctl/wiki/Usage)
 
 
-```shell
-# hctl -D -h
+```bash
+# hctl -D --help
 Manipulate on domains
 
 Usage: hctl {domain|--domain|-D} [OPTIONS]
@@ -134,12 +131,13 @@ Options:
   -o, --out <out>            Path to the out file [stdout/path without quotes]
   -z, --optimize <optimize>  Optimize for memory or speed, default: memory [memory/speed]
   -c, --config <config>      Path to config [without qoutes]
-  -m, --mode <mode>          Process single or multiple lists [single/folder/config]
+  -m, --mode <mode>          Process single or multiple lists [single/folder/config/url]
   -i, --intro <intro>        Whether append intro "Assembled From:..." to out file from config [true/false]
   -r, --rejected <rejected>  Whether save rejected to ./rejected.txt [true/false]
   -f, --format <format>      Type of out format [dnsmasq/loopback/empty/linewise/bind/snort/unbound/machosts/hostperm1/junkbuster/littlesnitch/pdnsd]
   -t, --validate <validate>  (Non-intrusive): Verbose validate your records in single file issuing dns-over-tls query in hardcoded servers [yes/no]
   -d, --dns <dns>            Validate your processed records issuing dns query in predefined servers, config mode allows custom ones [yes/no]
+  -a, --pattern <pattern>    Input format of list [hosts/dnsmasq]
   -h, --help                 Print help
 ```
 

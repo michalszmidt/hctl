@@ -4,7 +4,15 @@ settings:
     
 remote_sources:  
   - 
-
+    url: https://pgl.yoyo.org/adservers/serverlist.php?hostformat=bindconfig&showintro=0&mimetype=plaintext
+    src_type: bind
+  - 
+    url: https://raw.githubusercontent.com/oznu/dns-zone-blacklist/master/dnsmasq/dnsmasq.blacklist
+    src_type: dnsmasq
+  - 
+    url: https://v.firebog.net/hosts/static/w3kbl.txt
+    src_type: hosts
+    
 whitelist:
   -
 
