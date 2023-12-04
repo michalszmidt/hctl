@@ -79,7 +79,7 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_linux_musl_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=LinuxMuslAarch64)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_macosx_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=MacosxSilicon)](https://cirrus-ci.com/github/michalszmidt/hctl) |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_aarch64.yml)](https://github.com/michalszmidt/hctl/actions) |
-| [![Build Status](https://api.cirrus-ci.com/github/michalszmidt/hctl.svg?task=FreebsdAmd64)](https://cirrus-ci.com/github/michalszmidt/hctl) | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_freebsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_netbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 

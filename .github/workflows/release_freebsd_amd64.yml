@@ -1,0 +1,56 @@
+name: Release for FreeBSD amd64
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_freebsd:
+    runs-on: ubuntu-latest
+    name: Build for FreeBSD
+    steps:
+    - uses: actions/checkout@v4
+    - name: Compile in FreeBSD VM
+      id: compile
+      uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: false
+        release: 14.0
+        mem: 8192                
+        prepare: |
+          whoami
+          mkdir -p /usr/local/etc/pkg/repos
+          cp ./FreeBSD.conf /usr/local/etc/pkg/repos/
+          pkg update
+          pkg upgrade -y
+          pkg install -y curl pkgconf openssl bash
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          . $HOME/.cargo/env
+          cargo install cargo-auditable cargo-audit
+
+        run: |
+          whoami
+          . $HOME/.cargo/env
+          ls -lah
+          rustc --version
+          cargo auditable build --release --locked
+          cd target/release
+          mv hctl hctl-freebsd-amd64
+          sha256sum hctl-freebsd-amd64 > sha256-hctl-freebsd-amd64
+          mv hctl-freebsd-amd64 ../../ && mv sha256-hctl-freebsd-amd64 ../../
+          
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/hctl-freebsd-amd64
+        asset_name: hctl-freebsd-amd64
+        tag: ${{ github.ref }}
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/sha256-hctl-freebsd-amd64
+        asset_name: sha256-hctl-freebsd-amd64
+        tag: ${{ github.ref }}
