@@ -85,7 +85,7 @@ task:
     - echo "chronyd_enable="YES"" >> /etc/rc.conf
     - service chronyd start 
     - chronyc -a makestep
-    - setenv HOME /root
+    - export HOME="/root"
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - . $HOME/.cargo/env
     - cargo install cargo-auditable cargo-audit

@@ -22,7 +22,7 @@ jobs:
         usesh: false
         mem: 8192
         prepare: |
-          pkg_add curl gcc-11.2 g++-11.2 pkgconf coreutils p5-Digest-SHA3 rust
+          pkg_add curl gcc g++ pkgconf coreutils p5-Digest-SHA3 rust cargo-audit
           cargo install cargo-auditable cargo-audit
 
         run: |
