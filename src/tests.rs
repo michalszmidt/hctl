@@ -117,7 +117,7 @@ resolvers:
                     resolver.port,
                     resolver.trust_nx,
                 );
-            })
+            })  
             .for_each(|resolver| assert_eq!(resolver.lookup_ip("example.com").is_ok(), true));
 
         // assert_ne!(resolvers[0], None);

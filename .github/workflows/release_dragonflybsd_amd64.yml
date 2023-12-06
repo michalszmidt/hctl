@@ -1,13 +1,16 @@
 name: Release for DragonflyBSD amd64
 
-on: workflow_dispatch
+on:
+  push:
+    tags:
+      - '*'
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   test:
-    runs-on: macos-12   
+    runs-on: ubuntu-latest
     name: Release for DragonflyBSD
     steps:
     - uses: actions/checkout@v4
