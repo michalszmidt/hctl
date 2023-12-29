@@ -5,12 +5,8 @@ use regex::Regex;
 
 // standard
 pub fn regex_extract_basic() -> Regex {
-    // return Regex::new(r"(\#.*$)|((\d\.\d\.\d\.\d\.\ local|127.0.0.1|localhost.localdomain|255.255.255.255|ip6-localhost|ip6-loopback|fe80::1%lo0|ff00::0|fe00::0|ip6-localnet|ip6-mcastprefix|ff02::1|ff02::2|ip6-allrouters|ff02::3|0.0.0.0|ip6-allhosts|ip6-allnodes|broadcasthost|localhost|::1)(\s|\t))|((\ |\t)\#.*$)").unwrap();
-    // return Regex::new(r"^((127.0.0.1|localhost.localdomain|255.255.255.255|fe80::1%lo0|ff00::0|fe00::0|ff02::1|ff02::2|ff02::3|0.0.0.0|::1|fe80::1%lo0)(\ |\t)*)|((\ |\t)*\#.*$)").unwrap();
-    // return Regex::new(r"^((127\.0\.0\.1|localhost.localdomain|255\.255\.255\.255|fe80::1%lo0|ff00::0|fe00::0|ff02::1|ff02::2|ff02::3|0\.0\.0\.0|::1|fe80::1%lo0)\s*)|(\s*\#.*$)").unwrap();
     return Regex::new(r"^((127\.0\.0\.1|localhost.localdomain|255\.255\.255\.255|fe80::1%lo0|ff00::0|fe00::0|ff02::1|ff02::2|ff02::3|0\.0\.0\.0|::1|fe80::1%lo0)\s{1,})|(\s*\#.*$)").unwrap();
 }
-
 pub fn regex_extract_dnsmasq() -> Regex {
     return  Regex::new(r"^(address=/|server=/)|(/0\.0\.0\.0|/127\.0\.0\.1|/)|(\s*\#.*$)").unwrap();
 }
@@ -21,11 +17,7 @@ pub fn regex_extract_hostperm1() -> Regex {
     return  Regex::new(r##"^host\s{1,}image\s{1,}2\s{1,}"##).unwrap();
 }
 
-
-
-
 pub fn regex_valid_domain_permissive() -> Regex {
-    // return Regex::new(r"^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$").unwrap();
     return Regex::new(
         r"^(?:[a-z0-9_](?:[a-z0-9-_]{0,62}[a-z0-9-_])?\.)+[a-z0-9][a-z0-9-_]{0,62}[a-z0-9]$",
     )
@@ -54,6 +46,10 @@ pub fn regex_choose_pattern(pattern: &String) -> Regex{
         
         _ => regex_extract_basic(),
     };
+}
+
+pub fn regex_starts_with_http() -> Regex{
+    return Regex::new(r"^http[s]?\:\/\/.*").unwrap();
 }
 
 

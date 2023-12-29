@@ -1,13 +1,13 @@
 use crate::{
     // commands::progressbar_my_default_style,
-    customio::{lazy_read, get_from_url},
+    customio::{get_from_url, lazy_read},
     resolver::{
         from_config_dot_reslver, from_config_plain_reslver, many_tls_resolvers_tls,
         valid_resolv_domain,
     },
     rules::{
-        iterator_map_whitespce, regex_extract_basic, regex_subdomain_all,
-        regex_valid_domain_permissive, regex_whitespace,  regex_choose_pattern,
+        iterator_map_whitespce, regex_choose_pattern, regex_extract_basic, regex_starts_with_http,
+        regex_subdomain_all, regex_valid_domain_permissive, regex_whitespace,
     },
     savers::{self, file_write, io_writer_out, return_saver},
     structs::HCTL,
@@ -35,11 +35,11 @@ pub fn process_parallel_list_to_file(
     pattern: &String,
 ) -> (usize, usize) {
     let pattern_basic = regex_choose_pattern(pattern);
-    
+
     let pattern_valid_domain = regex_valid_domain_permissive();
     let pattern_whitespace = regex_whitespace();
 
-    let file_opened = file_to_lines(list_path.clone()  ).unwrap();
+    let file_opened = file_to_lines(list_path.clone()).unwrap();
     let reader = BufReader::new(file_opened);
 
     let mut writer_out = io_writer_out(out_path.clone());
@@ -127,7 +127,7 @@ pub fn process_parallel_list_to_file(
 }
 
 pub fn process_single_list_seq_file(
-    list_path:  &String,
+    list_path: &String,
     out_path: &String,
     save_rejected: &bool,
     format: &String,
@@ -135,7 +135,7 @@ pub fn process_single_list_seq_file(
 ) -> (usize, usize) {
     // Declaration
     let pattern_basic = regex_choose_pattern(pattern);
-    
+
     let pattern_whitespace = regex_whitespace();
     let pattern_valid_domain = regex_valid_domain_permissive();
 
@@ -201,9 +201,12 @@ pub fn process_single_list_seq_file(
     return (count_entries, set_rejected.len());
 }
 
-pub fn process_single_list_to_set(list_path: &String, pattern: &String) -> (BTreeSet<String>, BTreeSet<String>) {
+pub fn process_single_list_to_set(
+    list_path: &String,
+    pattern: &String,
+) -> (BTreeSet<String>, BTreeSet<String>) {
     let pattern_basic = regex_choose_pattern(pattern);
-    
+
     let pattern_valid_domain = regex_valid_domain_permissive();
     let pattern_whitespace = regex_whitespace();
 
@@ -256,7 +259,7 @@ pub fn process_multiple_lists_to_file(
     let saver_func = return_saver(format.clone());
     let saver_rejected_func = return_saver("linewise".to_string());
 
-    match format.as_str() { 
+    match format.as_str() {
         "empty" | "loopback" => _ = writer_out.write_all(savers::HOSTLIST_SCHEME.as_bytes()),
         "unbound" => _ = writer_out.write_all(savers::UNBOUND_PRE.as_bytes()),
         _ => _ = writer_out.write_all(b"\n"),
@@ -299,7 +302,7 @@ pub fn process_multiple_lists_to_file(
         .map(|dir| dir.path().to_string_lossy().into_owned())
         .collect::<Vec<_>>()
         .par_iter()
-        .map(|line| process_single_list_to_set(line,pattern))
+        .map(|line| process_single_list_to_set(line, pattern))
         .map(|(set_cleared, set_rejected)| extend_rejected_from_result(set_cleared, set_rejected))
         .flatten()
         .filter(|x| validate_dns(x))
@@ -335,14 +338,36 @@ pub fn config_process_lists(
     format: &String,
     dns: &bool,
 ) -> (usize, usize) {
-    let hctl_yaml_exact: Option<HCTL> = match serde_yaml::from_reader(file_to_lines(path.clone()).unwrap())
-    {
-        Ok(x) => x,
-        Err(e) => {
-            println!("{}", e);
-            None
-        }
+    let is_config_url_regex = regex_starts_with_http();
+    let is_config_url = is_config_url_regex.is_match(path.clone().as_str());
+
+    let hctl_yaml_exact: Option<HCTL> = match is_config_url {
+        is_url if is_url => match serde_yaml::from_str(get_from_url(path).unwrap().as_str()) {
+            Ok(x) => x,
+            Err(e) => {
+                println!("{}", e);
+                None
+            }
+        },
+        is_url if !is_url => match serde_yaml::from_reader(file_to_lines(path.clone()).unwrap()) {
+            Ok(x) => x,
+            Err(e) => {
+                println!("{}", e);
+                None
+            }
+        },
+        _ => None,
     };
+
+    // let hctl_yaml_exact: Option<HCTL> =
+    // match serde_yaml::from_reader(file_to_lines(path.clone()).unwrap())
+    // {
+    //     Ok(x) => x,
+    //     Err(e) => {
+    //         println!("{}", e);
+    //         None
+    //     }
+    // };
 
     let hctl_yaml = &hctl_yaml_exact;
 
@@ -486,7 +511,7 @@ pub fn config_process_lists(
         .unwrap()
         .remote_sources
         .into_par_iter()
-        .map(|s| lazy_read(s.url.as_str(),&s.src_type.to_string()))
+        .map(|s| lazy_read(s.url.as_str(), &s.src_type.to_string()))
         .filter_map(|result| result.ok())
         .map(|(set_cleaned, set_rejected)| extend_rejected_from_result(set_cleaned, set_rejected))
         .flatten()
@@ -519,15 +544,15 @@ pub fn config_process_url(
     save_rejected: &bool,
     format: &String,
     dns: &bool,
-    pattern: &String
+    pattern: &String,
 ) -> (usize, usize) {
-let pattern_basic = regex_choose_pattern(pattern);
-    
+    let pattern_basic = regex_choose_pattern(pattern);
+
     let body = match get_from_url(&url) {
         Ok(body) => body,
         Err(err) => panic!("Address failed {} with err {}", url, err),
     };
-    
+
     let pattern_valid_domain = regex_valid_domain_permissive();
     let pattern_whitespace = regex_whitespace();
 
@@ -547,8 +572,6 @@ let pattern_basic = regex_choose_pattern(pattern);
         "unbound" => _ = writer_out.write_all(savers::UNBOUND_PRE.as_bytes()),
         _ => _ = writer_out.write_all(b"\n"),
     }
-    
-
 
     // Closures are workaround for cannot & to mut value
     let invalid_domain = |word: &String| {
@@ -589,7 +612,8 @@ let pattern_basic = regex_choose_pattern(pattern);
         return true;
     };
 
-    body.split_terminator('\n').into_iter()
+    body.split_terminator('\n')
+        .into_iter()
         .filter(|line| !line.starts_with('#'))
         .collect::<BTreeSet<_>>()
         .par_iter()
@@ -612,12 +636,6 @@ let pattern_basic = regex_choose_pattern(pattern);
     }
 
     return (count_entries, arc_mux_set_rejected.lock().unwrap().len());
-
-    
-
-
-
-
 }
 
 pub fn validate_from_file(list_path: String) {
