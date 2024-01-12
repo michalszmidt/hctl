@@ -1,6 +1,6 @@
 [package]
 name = "hctl"
-version = "0.2.5"
+version = "0.2.6"
 edition = "2021"
 authors = [ "Michał Szmidt" ]
 repository = "https://github.com/michalszmidt/hctl"

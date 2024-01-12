@@ -63,8 +63,8 @@ mod tests {
     use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
 
     use crate::{
-        resolver::{from_config_dot_reslver, from_config_plain_reslver},
-        structs::HCTL,
+        io::resolver::{from_config_dot_reslver, from_config_plain_reslver},
+        logic::structs::HCTL,
     };
 
     #[test]
@@ -117,7 +117,7 @@ resolvers:
                     resolver.port,
                     resolver.trust_nx,
                 );
-            })  
+            })
             .for_each(|resolver| assert_eq!(resolver.lookup_ip("example.com").is_ok(), true));
 
         // assert_ne!(resolvers[0], None);

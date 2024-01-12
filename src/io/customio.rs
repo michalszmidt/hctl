@@ -1,16 +1,33 @@
-use crate::rules::{ regex_valid_domain_permissive, regex_whitespace,  regex_choose_pattern};
+// use crate::rules::{ regex_valid_domain_permissive, regex_whitespace,  regex_choose_pattern};
 use minreq::{get, Error};
 use std::collections::BTreeSet;
+use std::fs::File;
+use std::io;
 use std::io::ErrorKind::WouldBlock;
 
+use crate::logic::rules::{regex_choose_pattern, regex_valid_domain_permissive, regex_whitespace};
+
+pub fn get_from_url(url: &String) -> Result<String, minreq::Error> {
+    let response = get(url.as_str()).send()?;
+    return Ok(response.as_str().unwrap().to_string());
+}
+
+pub fn file_to_lines(path: String) -> io::Result<File> {
+    let file = File::open(path)?;
+    return Ok(file);
+}
+
 // This is lazy reading from network method using minireq with least dependencies.
-pub fn lazy_read(url: &str, pattern: &String) -> core::result::Result<(BTreeSet<String>, BTreeSet<String>), Error> {
+pub fn lazy_read(
+    url: &str,
+    pattern: &String,
+) -> core::result::Result<(BTreeSet<String>, BTreeSet<String>), Error> {
     let mut str_buffer: Vec<char> = Vec::new();
     let mut set_out: BTreeSet<String> = BTreeSet::new();
     let mut do_continue = false;
 
-let pattern_basic = regex_choose_pattern(pattern);
-    
+    let pattern_basic = regex_choose_pattern(pattern);
+
     let pattern_whitespace = regex_whitespace();
     let pattern_valid_domain = regex_valid_domain_permissive();
 
@@ -43,8 +60,8 @@ let pattern_basic = regex_choose_pattern(pattern);
                 )
                 .to_string()
                 .to_lowercase();
-                
-                // println!("{}", word_after_whitespace);
+
+            // println!("{}", word_after_whitespace);
 
             if pattern_valid_domain.is_match(word_after_whitespace.as_str()) {
                 set_out.insert(word_after_whitespace);
@@ -79,9 +96,4 @@ let pattern_basic = regex_choose_pattern(pattern);
     };
 
     return result;
-}
-
-pub fn get_from_url(url: &String) -> Result<String, minreq::Error> {
-    let response = get(url.as_str()).send()?;
-    return Ok(response.as_str().unwrap().to_string());
 }
