@@ -151,7 +151,7 @@ Options:
 There is heavy usage of rust iterators to enable lazy-reading
 
 Processing is done by firstly removing addreses characteristic for host file like 127.0.0.1 and comments after the records. Next tool removes all whitespace characters and non-urls using regex.
-See rules.rs if you want to embed similar solution in your app.
+See [rules.rs](https://github.com/michalszmidt/hctl/blob/master/src/logic/rules.rs) if you want to embed similar solution in your app.
 
 ## License
 [BSD-3-clause](https://github.com/michalszmidt/hctl/blob/main/LICENSE)

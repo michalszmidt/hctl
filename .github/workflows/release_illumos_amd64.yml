@@ -24,7 +24,7 @@ jobs:
         prepare: |
           whoami
           pkg update
-          pkg upgrade
+          pkg upgrade -y
           pkg install openssl curl gnu-coreutils gcc13 pkg-config perl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           . $HOME/.cargo/env
