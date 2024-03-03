@@ -24,9 +24,9 @@ jobs:
         prepare: |
           whoami
           pkg update
-          pkg upgrade -y
+          pkg help
           pkg install openssl curl gnu-coreutils gcc13 pkg-config perl
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          curl https://sh.rustup.rs -sSf | bash - -- -y
           . $HOME/.cargo/env
           cargo install cargo-auditable cargo-audit
         run: |
