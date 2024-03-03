@@ -6,12 +6,15 @@ use regex::Regex;
 pub fn regex_extract_basic() -> Regex {
     return Regex::new(r"^((127\.0\.0\.1|localhost.localdomain|255\.255\.255\.255|fe80::1%lo0|ff00::0|fe00::0|ff02::1|ff02::2|ff02::3|0\.0\.0\.0|::1|fe80::1%lo0)\s{1,})|(\s*\#.*$)").unwrap();
 }
+
 pub fn regex_extract_dnsmasq() -> Regex {
     return Regex::new(r"^(address=/|server=/)|(/0\.0\.0\.0|/127\.0\.0\.1|/)|(\s*\#.*$)").unwrap();
 }
+
 pub fn regex_extract_bind() -> Regex {
     return  Regex::new(r##"^(zone\s{1,}")|("\s{1,}\{\s{1,}type\s{1,}master;\s{1,}notify\s{1,}no;\s{1,}file\s{1,}"null\.zone\.file";\s{1,}};)|(\s*//.*$)"##).unwrap();
 }
+
 pub fn regex_extract_hostperm1() -> Regex {
     return Regex::new(r##"^host\s{1,}image\s{1,}2\s{1,}"##).unwrap();
 }
