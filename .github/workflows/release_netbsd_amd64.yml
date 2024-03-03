@@ -23,7 +23,7 @@ jobs:
         mem: 8192        
         prepare: |
           whoami
-          export PKG_PATH="http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/.$(uname -r | cut -d '.' -f 1).0_current/All/"
+          export PKG_PATH="http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/$(uname -r)/All"
           /usr/sbin/pkg_add -v pkgin
           pkgin update
           pkgin -y upgrade

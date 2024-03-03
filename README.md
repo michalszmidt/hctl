@@ -15,7 +15,7 @@
 # About
 
 
-Hostlists tools cli `hctl` is cli tool written in rust to manage (merge, transform, clear from comments etc.) your hostlists from diffrent formats to selected by you!
+Hostlists tools cli `hctl` is app written in rust to manage (merge, transform, clear from comments etc.) your hostlists from diffrent formats to selected by you!
 
 - [Wiki](https://github.com/michalszmidt/hctl/wiki)
 - [Usage](https://github.com/michalszmidt/hctl/wiki/Usage)
@@ -46,6 +46,11 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 
 ## [From release page](https://github.com/michalszmidt/hctl/releases/latest)
 
+| :exclamation:  BUILD REGRESSION   |
+|-----------------------------------|
+
+OpenBSD and DragonflyBSD doesn't have rust tier 1 support and their repo version is too old to compile on stable
+
 <table>
 <tr><th>Platform</th><th>Downloads</th><th>Build Status</th></tr>
 <tr><td>
@@ -58,7 +63,7 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | Windows |
 | FreeBSD |
 | NetBSD |
-| OpenBSD |
+| Illumos |
 
 </td><td>
     
@@ -70,7 +75,7 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-amd64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-amd64.exe.txt) | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-windows-aarch64.exe), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-windows-aarch64.exe.txt) |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-freebsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-freebsd-amd64) | NSU |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-netbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-netbsd-amd64) | NSU |
-| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) | NSU |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-illumos-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-illumos-amd64) | NSU |
 </td><td>
 
 | amd64 | aarch64 |
@@ -81,7 +86,7 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_windows_aarch64.yml)](https://github.com/michalszmidt/hctl/actions) |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_freebsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_netbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
-| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_illumos_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 
 </td></tr> </table> 
 
@@ -89,6 +94,10 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 | DragonflyBSD |
 | [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-dragonflybsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-dragonflybsd-amd64) | N/A |
 | [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_dragonflybsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | N/A |
+
+| OpenBSD |
+| [app](https://github.com/michalszmidt/hctl/releases/download/latest/hctl-openbsd-amd64), [sha256](https://github.com/michalszmidt/hctl/releases/download/latest/sha256-hctl-openbsd-amd64) | NSU |
+| [![Build Status](https://img.shields.io/github/actions/workflow/status/michalszmidt/hctl/release_openbsd_amd64.yml)](https://github.com/michalszmidt/hctl/actions) | NSU |
 -->
 
 - NSU - Not Set Up Yet, may (or not) appear in the future
@@ -109,8 +118,10 @@ Packaging progress [issue](https://github.com/michalszmidt/hctl/issues/9)
 - [x] Record existance validation from DNS servers (unencrypted and over tls)
 - [x] User-defined DNS and DOT Resolvers
 - [x] Could use diffrent input types (like dnsmasq, bind) in yaml config
+- [x] Interacive status indication
+- [x] Settings yaml could be fetched from http(s)
 - [ ] Auto scheme recognition
-- [ ] YAML has full settings (remote sources, ~whitelist~ , ~args from cli~)
+- [ ] YAML has full settings (remote sources, whitelist , ~args from cli~)
 - [ ] Subdomains family recognition, save with subdomain order (like adaway does)
 - [ ] Fault-tolerance, better error handling
 - [ ] Deep rejected analysis
