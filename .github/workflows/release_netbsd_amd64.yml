@@ -28,7 +28,7 @@ jobs:
           pkgin update
           pkgin -y upgrade
           pkgin -y install curl pkgconf openssl coreutils p5-Digest-SHA3 mozilla-rootcerts-openssl ca-certificates
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          curl https://sh.rustup.rs -sSf | bash -s -- -y
           . $HOME/.cargo/env
           cargo install cargo-auditable cargo-audit
         run: |

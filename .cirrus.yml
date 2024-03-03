@@ -12,7 +12,7 @@ task:
     - dnf check-update -q && dnf up -q -y
     - dnf group install -y "C Development Tools and Libraries" "Development Tools"
     - dnf in -y curl openssl-devel
-    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - curl https://sh.rustup.rs -sSf | bash -s -- -y
     - . $HOME/.cargo/env
     - cargo install cargo-auditable cargo-audit
   build_script:
@@ -78,7 +78,7 @@ task:
     - NONINTERACTIVE=1 brew outdated
     - NONINTERACTIVE=1 brew upgrade
     - NONINTERACTIVE=1 brew install pkg-config make curl coreutils openssl@3
-    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - curl https://sh.rustup.rs -sSf | bash -s -- -y
     - . $HOME/.cargo/env
     - cargo install cargo-auditable cargo-audit
   build_script:
@@ -98,3 +98,29 @@ task:
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
 
+task:
+  name: LinuxMuslAarch64
+  only_if: $CIRRUS_BRANCH == 'dev'
+  env:
+    GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
+    CARGO_TERM_COLOR: always
+  arm_container:
+    image: alpine:latest
+  prepare_script:
+    - apk -U upgrade
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
+    - curl https://sh.rustup.rs -sSf | bash -s -- -y
+    - . $HOME/.cargo/env
+    - cargo install cargo-auditable cargo-audit
+  build_script:
+    - whoami
+    - . $HOME/.cargo/env
+    - ls -lah
+    - rustc --version
+    - cargo auditable build --release --locked
+  hash_script:
+    - whoami
+    - cd target/release
+    - mv hctl hctl-linux-musl-aarch64
+    - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
+    - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../

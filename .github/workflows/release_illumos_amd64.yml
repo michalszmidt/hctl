@@ -24,10 +24,10 @@ jobs:
         prepare: |
           whoami
           pkg update
-          pkg upgrade -y
+          pkg help
           pkg install openssl curl gnu-coreutils gcc13 pkg-config perl
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          . $HOME/.cargo/env
+          curl https://sh.rustup.rs -sSf | bash -s -- -y
+          . $HOME/.cargo/env  
           cargo install cargo-auditable cargo-audit
         run: |
           whoami
@@ -39,7 +39,6 @@ jobs:
           cd target/release
           mv hctl hctl-illumos-amd64
           shasum -a 256 hctl-illumos-amd64 > sha256-hctl-illumos-amd64
-          
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
