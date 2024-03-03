@@ -19,6 +19,7 @@ serde_yaml = "*"                                                      # MIT
 # indicatif = "*"                                                       # Apache 2.0 / MIT
 rand = "*"
 chrono = "*"
+spinners = "*"
 
 minreq = { version="*", features = ["https-native"] }                 # MIT
 trust-dns-resolver = {version = "*", features = ["dns-over-native-tls", "dnssec-openssl"]}  # Apache 2.0 / MIT

@@ -1,3 +1,5 @@
+use spinners::Spinner;
+
 pub mod commands;
 pub mod io;
 pub mod logic;
@@ -30,7 +32,6 @@ fn main() {
         .get_matches();
 
     // ACTION
-
     if let Some(("domain", query_matches)) = hctl.subcommand() {
         let mut out = "./out.txt".to_string();
         let mut path = "NAN".to_string();
@@ -99,6 +100,16 @@ fn main() {
             _ => return,
         };
 
+        let mut sp: Option<Spinner>;
+
+        match out.as_str() != "stdout" {
+            true => {
+                let spin = Spinner::new(spinners::Spinners::Point, "Working".into());
+                sp = Some(spin);
+            }
+            false => sp = None,
+        };
+
         match validate.as_str() {
             "yes" => validate_from_file(path),
             "no" => match mode.as_str() {
@@ -156,14 +167,16 @@ fn main() {
             },
             _ => return,
         }
+        if let Some(ref mut spinner) = sp {
+            spinner.stop_with_newline();
+        }
+
         if out.as_str() != "stdout" && validate.as_str() != "yes" {
             println!(
                 "Unique records: {}\nRemoved records: {}\n",
                 entries_len, rejected_len
             );
         }
-    } else {
-        unreachable!()
     }
 }
 
