@@ -1,6 +1,4 @@
-use std::net::IpAddr;
-
-use serde::Deserialize;
+use {serde::Deserialize, std::net::IpAddr};
 
 #[derive(Clone, Deserialize)]
 pub struct HCTL {

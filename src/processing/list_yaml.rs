@@ -1,23 +1,24 @@
-use chrono::Utc;
-use itertools::*;
-use rayon::prelude::*;
-
-use regex::Regex;
-use std::{
-    collections::{BTreeSet, LinkedList},
-    io::{BufWriter, Write as _},
-    sync::{Arc, Mutex}, fs::remove_file,
-};
-
-use crate::{
-    io::{
-        customio::{file_to_lines, get_from_url, lazy_read},
-        resolver::{from_config_dot_reslver, from_config_plain_reslver, valid_resolv_domain},
+use {
+    crate::{
+        io::{
+            customio::{file_to_lines, get_from_url, lazy_read},
+            resolver::{from_config_dot_reslver, from_config_plain_reslver, valid_resolv_domain},
+        },
+        logic::{
+            rules::{regex_starts_with_http, regex_subdomain_all},
+            savers::{self, file_write, io_writer_out, return_saver},
+            structs::HCTL,
+        },
     },
-    logic::{
-        rules::{regex_starts_with_http, regex_subdomain_all},
-        savers::{file_write, io_writer_out, return_saver, self},
-        structs::HCTL,
+    chrono::Utc,
+    itertools::*,
+    rayon::prelude::*,
+    regex::Regex,
+    std::{
+        collections::{BTreeSet, LinkedList},
+        fs::remove_file,
+        io::{BufWriter, Write as _},
+        sync::{Arc, Mutex},
     },
 };
 
@@ -49,16 +50,6 @@ pub fn config_process_lists(
         },
         _ => None,
     };
-
-    // let hctl_yaml_exact: Option<HCTL> =
-    // match serde_yaml::from_reader(file_to_lines(path.clone()).unwrap())
-    // {
-    //     Ok(x) => x,
-    //     Err(e) => {
-    //         println!("{}", e);
-    //         None
-    //     }
-    // };
 
     let hctl_yaml = &hctl_yaml_exact;
 

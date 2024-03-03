@@ -4,14 +4,16 @@ pub mod logic;
 pub mod processing;
 pub mod tests;
 
-use clap::{parser::ValuesRef, Command};
-use commands::{get_args_domain, get_command_domain};
-use processing::{
-    list_folder_local::process_multiple_lists_to_file,
-    list_single_local::{process_parallel_list_to_file, process_single_list_seq_file},
-    list_single_url::config_process_url,
-    list_validate_dns::validate_from_file,
-    list_yaml::config_process_lists,
+use {
+    clap::{parser::ValuesRef, Command},
+    commands::{get_args_domain, get_command_domain},
+    processing::{
+        list_folder_local::process_multiple_lists_to_file,
+        list_single_local::{process_parallel_list_to_file, process_single_list_seq_file},
+        list_single_url::config_process_url,
+        list_validate_dns::validate_from_file,
+        list_yaml::config_process_lists,
+    },
 };
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");

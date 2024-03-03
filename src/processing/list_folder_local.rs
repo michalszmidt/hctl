@@ -1,19 +1,17 @@
-use std::{
-    collections::BTreeSet,
-    fs::{read_dir, remove_file},
-    io::{BufWriter, Write as _},
-    sync::{Arc, Mutex},
+use {
+    super::list_single_local::process_single_list_to_set,
+    crate::{
+        io::resolver::{many_tls_resolvers_tls, valid_resolv_domain},
+        logic::savers::{self, file_write, io_writer_out, return_saver},
+    },
+    rayon::prelude::*,
+    std::{
+        collections::BTreeSet,
+        fs::{read_dir, remove_file},
+        io::{BufWriter, Write as _},
+        sync::{Arc, Mutex},
+    },
 };
-
-use rayon::prelude::*;
-
-use crate::{
-    io::resolver::{many_tls_resolvers_tls, valid_resolv_domain},
-    logic::savers::{self, file_write, io_writer_out, return_saver},
-};
-
-use super::list_single_local::process_single_list_to_set;
-
 pub fn process_multiple_lists_to_file(
     list_dir: &String,
     out_path: &String,

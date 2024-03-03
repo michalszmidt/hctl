@@ -1,13 +1,20 @@
-use crate::{
-    io::{
-        customio::file_to_lines,
-        resolver::{many_tls_resolvers_tls, valid_resolv_domain},
+use {
+    crate::{
+        io::{
+            customio::file_to_lines,
+            resolver::{many_tls_resolvers_tls, valid_resolv_domain},
+        },
+        logic::rules::{
+            iterator_map_whitespce, regex_extract_basic, regex_valid_domain_permissive,
+            regex_whitespace,
+        },
     },
-    logic::rules::{regex_extract_basic, regex_valid_domain_permissive, regex_whitespace, iterator_map_whitespce},
+    rayon::prelude::*,
+    std::{
+        collections::BTreeSet,
+        io::{BufRead as _, BufReader},
+    },
 };
-use rayon::prelude::*;
-use std::{io::{BufReader, BufRead as _}, collections::BTreeSet};
-
 pub fn validate_from_file(list_path: String) {
     let pattern_basic = regex_extract_basic();
     let pattern_valid_domain = regex_valid_domain_permissive();

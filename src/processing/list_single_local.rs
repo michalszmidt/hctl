@@ -1,24 +1,24 @@
-use std::{
-    collections::BTreeSet,
-    fs::remove_file,
-    io::{BufRead as _, BufReader, BufWriter, Write as _},
-    sync::{Arc, Mutex},
-};
-
-use itertools::*;
-use rayon::prelude::*;
-
-use crate::{
-    io::{
-        customio::file_to_lines,
-        resolver::{many_tls_resolvers_tls, valid_resolv_domain},
-    },
-    logic::{
-        rules::{
-            iterator_map_whitespce, regex_choose_pattern, regex_valid_domain_permissive,
-            regex_whitespace,
+use {
+    crate::{
+        io::{
+            customio::file_to_lines,
+            resolver::{many_tls_resolvers_tls, valid_resolv_domain},
         },
-        savers::{self, file_write, io_writer_out, return_saver},
+        logic::{
+            rules::{
+                iterator_map_whitespce, regex_choose_pattern, regex_valid_domain_permissive,
+                regex_whitespace,
+            },
+            savers::{self, file_write, io_writer_out, return_saver},
+        },
+    },
+    itertools::*,
+    rayon::prelude::*,
+    std::{
+        collections::BTreeSet,
+        fs::remove_file,
+        io::{BufRead as _, BufReader, BufWriter, Write as _},
+        sync::{Arc, Mutex},
     },
 };
 

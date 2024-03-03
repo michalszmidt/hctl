@@ -1,0 +1,36 @@
+# This is a test config that is intended to check if --config=https:// mode works with multiple formats
+# URLs are some random in multiple formats just to cehck functionality of it.
+
+settings:
+  whitelist_include_subdomains: true
+  
+remote_sources:  
+  - 
+    url: https://pgl.yoyo.org/adservers/serverlist.php?hostformat=bindconfig&showintro=0&mimetype=plaintext
+    src_type: bind
+  - 
+    url: https://raw.githubusercontent.com/oznu/dns-zone-blacklist/master/dnsmasq/dnsmasq.blacklist
+    src_type: dnsmasq
+  - 
+    url: https://v.firebog.net/hosts/static/w3kbl.txt
+    src_type: hosts
+    
+whitelist:
+
+remote_whitelist:
+  
+resolvers:
+  -
+    usetls: true
+    ips:
+      - 91.239.100.100
+    port: 853
+    resolvname: "anycast.uncensoreddns.org"
+    trust_nx: true
+  -
+    usetls: false
+    ips:
+      - 1.1.1.1
+    port: 53
+    resolvname: ""
+    trust_nx: true
