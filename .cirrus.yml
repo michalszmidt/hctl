@@ -41,7 +41,7 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
   arm_container:
-    image: alpine:latest
+    image: alpine:edge
   prepare_script:
     - apk -U upgrade
     - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rust cargo
@@ -97,7 +97,7 @@ task:
     - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
-
+    
 task:
   name: LinuxMuslAarch64
   only_if: $CIRRUS_BRANCH == 'dev'
@@ -105,10 +105,12 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
   arm_container:
-    image: alpine:latest
+    image: ghcr.io/void-linux/void-musl-full:latest
   prepare_script:
-    - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
+    - whoami
+    - xbps-install -Su xbps -y
+    - xbps-install -Su -y
+    - xbps-install -Su curl openssl-devel bash pkgconf gcc -y
     - curl https://sh.rustup.rs -sSf | bash -s -- -y
     - . $HOME/.cargo/env
     - cargo install cargo-auditable cargo-audit
@@ -120,7 +122,8 @@ task:
     - cargo auditable build --release --locked
   hash_script:
     - whoami
+    - ls -lah
     - cd target/release
-    - mv hctl hctl-linux-musl-aarch64
-    - sha256sum hctl-linux-musl-aarch64 > sha256-hctl-linux-musl-aarch64
-    - mv hctl-linux-musl-aarch64 ../../ && mv sha256-hctl-linux-musl-aarch64 ../../
+    - mv hctl hctl-linux-glibc-aarch64
+    - sha256sum hctl-linux-glibc-aarch64 > sha256-hctl-linux-glibc-aarch64
+    - mv hctl-linux-glibc-aarch64 ../../ && mv sha256-hctl-linux-glibc-aarch64 ../../
