@@ -41,8 +41,9 @@ task:
     image: alpine:edge
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rustup
-    - rustup default stable
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
+    - curl https://sh.rustup.rs -sSf | bash -s -- -y
+    - . $HOME/.cargo/env
     - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
