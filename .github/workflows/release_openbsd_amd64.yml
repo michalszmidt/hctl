@@ -1,48 +1,53 @@
 name: Release for OpenBSD amd64
 
-on: workflow_dispatch
+# on: workflow_dispatch
+#
+on:
+  push:
+    tags:
+      - "*"
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   release_openbsd:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     name: Release for OpenBSD
     steps:
-    - uses: actions/checkout@v4
-    - name: Compile in OpenBSD VM
-      id: compile
-      uses: vmactions/openbsd-vm@v1
-      with:
-        envs: 'CARGO_TERM_COLOR'
-        usesh: false
-        mem: 8192
-        prepare: |
-          pkg_add -v curl pkgconf coreutils p5-Digest-SHA3 rust
-          pkg_add -v -u gcc g++
+      - uses: actions/checkout@v4
+      - name: Compile in OpenBSD VM
+        id: compile
+        uses: vmactions/openbsd-vm@v1
+        with:
+          envs: "CARGO_TERM_COLOR"
+          usesh: false
+          mem: 8192
+          prepare: |
+            pkg_add -v curl pkgconf coreutils p5-Digest-SHA3 rust
+            pkg_add -v -u gcc g++
 
-        run: |
-          ls -lah
-          whoami
-          uname -a
-          rustc --version
-          cargo build --release --locked
-          cd target/release
-          mv hctl hctl-openbsd-amd64
-          sha256 hctl-openbsd-amd64 > sha256-hctl-openbsd-amd64
-          
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/hctl-openbsd-amd64
-        asset_name: hctl-openbsd-amd64
-        tag: ${{ github.ref }}
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/sha256-hctl-openbsd-amd64
-        asset_name: sha256-hctl-openbsd-amd64
-        tag: ${{ github.ref }}
+          run: |
+            ls -lah
+            whoami
+            uname -a
+            rustc --version
+            cargo build --release --locked
+            cd target/release
+            mv hctl hctl-openbsd-amd64
+            sha256 hctl-openbsd-amd64 > sha256-hctl-openbsd-amd64
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/hctl-openbsd-amd64
+          asset_name: hctl-openbsd-amd64
+          tag: ${{ github.ref }}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/sha256-hctl-openbsd-amd64
+          asset_name: sha256-hctl-openbsd-amd64
+          tag: ${{ github.ref }}
