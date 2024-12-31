@@ -1,28 +1,41 @@
 [package]
 name = "hctl"
-version = "0.2.6"
+version = "0.2.7"
 edition = "2021"
-authors = [ "Michał Szmidt" ]
+authors = ["Michał Szmidt"]
 repository = "https://github.com/michalszmidt/hctl"
 license-file = "LICENSE"
-keywords = ["pi-hole", "hostfile", "adguardhome", "hostlist", "adguard-home", "hostfiles", "dns-blocking", "dns-blocklists", "adguard-dns" ]
+keywords = [
+    "pi-hole",
+    "hostfile",
+    "adguardhome",
+    "hostlist",
+    "adguard-home",
+    "hostfiles",
+    "dns-blocking",
+    "dns-blocklists",
+    "adguard-dns",
+]
 categories = ["command-line-utilities"]
 readme = "README.md"
 
 [dependencies]
-rayon = "*"                                                           # Apache 2.0 / MIT
-regex = "*"                                                           # Apache 2.0 / MIT
-itertools = "*"                                                       # Apache 2.0 / MIT
-clap = { version="*", features = ["default"] }                        # Apache 2.0 / MIT
-serde = { version="*", features = ["derive"]}                        # Apache 2.0 / MIT  
-serde_yaml = "*"                                                      # MIT
+rayon = "*"                                      # Apache 2.0 / MIT
+regex = "*"                                      # Apache 2.0 / MIT
+itertools = "*"                                  # Apache 2.0 / MIT
+clap = { version = "*", features = ["default"] } # Apache 2.0 / MIT
+serde = { version = "*", features = ["derive"] } # Apache 2.0 / MIT
+serde_yaml = "*"                                 # MIT
 # indicatif = "*"                                                       # Apache 2.0 / MIT
 rand = "*"
 chrono = "*"
 spinners = "*"
 
-minreq = { version="*", features = ["https-native"] }                 # MIT
-trust-dns-resolver = {version = "*", features = ["dns-over-native-tls", "dnssec-openssl"]}  # Apache 2.0 / MIT
+minreq = { version = "*", features = ["https-native"] } # MIT
+trust-dns-resolver = { version = "*", features = [
+    "dns-over-native-tls",
+    "dnssec-openssl",
+] } # Apache 2.0 / MIT
 # minreq = { version="*", features = ["https-rustls"] }                 # MIT
 # trust-dns-resolver = { version = "*", features = ["dns-over-rustls", "dnssec-ring"] }  # Apache 2.0 / MIT
 
