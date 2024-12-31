@@ -1,10 +1,10 @@
 name: Release for DragonflyBSD amd64
 
-# on: workflow_dispatch
-on:
-  push:
-    tags:
-      - "*"
+on: workflow_dispatch
+# on:
+#   push:
+#     tags:
+#       - "*"
 
 env:
   CARGO_TERM_COLOR: always
