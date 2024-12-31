@@ -3,8 +3,8 @@ name: Release for Linux musl amd64
 on:
   push:
     tags:
-      - '*'
-      
+      - "*"
+
 env:
   CARGO_TERM_COLOR: always
 
@@ -14,13 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     container: alpine:edge
     steps:
-    - uses: actions/checkout@v4
-    - name: Compile
-      run: |
+      - uses: actions/checkout@v4
+      - name: Compile
+        run: |
           whoami
-          apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static
-          curl https://sh.rustup.rs -sSf | bash -s -- -y
-          . $HOME/.cargo/env
+          apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rustup
+          rustup default stable
           cargo install cargo-auditable cargo-audit
           uname -a
           rustc --version
@@ -28,18 +27,18 @@ jobs:
           cd target/release
           mv hctl hctl-linux-musl-amd64
           sha256sum hctl-linux-musl-amd64 > sha256-hctl-linux-musl-amd64
-          
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/hctl-linux-musl-amd64
-        asset_name: hctl-linux-musl-amd64
-        tag: ${{ github.ref }}
-    - name: Upload checksum to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/sha256-hctl-linux-musl-amd64
-        asset_name: sha256-hctl-linux-musl-amd64
-        tag: ${{ github.ref }}
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/hctl-linux-musl-amd64
+          asset_name: hctl-linux-musl-amd64
+          tag: ${{ github.ref }}
+      - name: Upload checksum to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/sha256-hctl-linux-musl-amd64
+          asset_name: sha256-hctl-linux-musl-amd64
+          tag: ${{ github.ref }}

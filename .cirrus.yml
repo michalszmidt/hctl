@@ -6,18 +6,15 @@ task:
     GITHUB_TOKEN: ENCRYPTED[c55719815e6b9431df4596dc746645ece3acbd2917ffa29c71a1636d232aa77b7a3684b31667de46f028ca594d7a4b20]
     CARGO_TERM_COLOR: always
   arm_container:
-    image: fedora:latest
+    image: archlinux:base-devel
   prepare_script:
     - whoami
-    - dnf check-update -q && dnf up -q -y
-    - dnf group install -y "C Development Tools and Libraries" "Development Tools"
-    - dnf in -y curl openssl-devel
-    - curl https://sh.rustup.rs -sSf | bash -s -- -y
-    - . $HOME/.cargo/env
+    - pacman -Suuy --noconfirm
+    - pacman -Su openssl rustup curl --noconfirm
+    - rustup default stable
     - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
-    - . $HOME/.cargo/env
     - ls -lah
     - rustc --version
     - cargo auditable build --release --locked
@@ -32,7 +29,7 @@ task:
     - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
-      
+
 task:
   name: LinuxMuslAarch64
   only_if: $CIRRUS_BRANCH == 'master'
@@ -44,7 +41,8 @@ task:
     image: alpine:edge
   prepare_script:
     - apk -U upgrade
-    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rust cargo
+    - apk add curl make pkgconf bash build-base openssl openssl-dev openssl-libs-static rustup
+    - rustup default stable
     - cargo install cargo-auditable cargo-audit
   build_script:
     - whoami
@@ -62,7 +60,7 @@ task:
     - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
-    
+
 task:
   name: MacosxSilicon
   only_if: $CIRRUS_BRANCH == 'master'
@@ -97,4 +95,3 @@ task:
     - whoami
     - ls -lah
     - files_to_upload=($(ls | grep hctl)); . ./upload.sh
-    

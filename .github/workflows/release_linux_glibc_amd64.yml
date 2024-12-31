@@ -3,8 +3,8 @@ name: Release for Linux glibc amd64
 on:
   push:
     tags:
-      - '*'
-      
+      - "*"
+
 env:
   CARGO_TERM_COLOR: always
 
@@ -12,16 +12,15 @@ jobs:
   publish_for_linux_glibc_amd64:
     name: Release for Linux glibc amd64
     runs-on: ubuntu-latest
-    container: fedora:latest
+    container: archlinux:base-devel
     steps:
-    - uses: actions/checkout@v4
-    - name: Compile
-      run: |
+      - uses: actions/checkout@v4
+      - name: Compile
+        run: |
           whoami
-          dnf group install -y "C Development Tools and Libraries" "Development Tools"
-          dnf in -y curl openssl-devel
-          curl https://sh.rustup.rs -sSf | bash -s -- -y
-          . $HOME/.cargo/env
+          pacman -Suuy --noconfirm
+          pacman -Su openssl rustup curl --noconfirm
+          rustup default stable
           cargo install cargo-auditable cargo-audit
           uname -a
           rustc --version
@@ -29,18 +28,18 @@ jobs:
           cd target/release
           mv hctl hctl-linux-glibc-amd64
           sha256sum hctl-linux-glibc-amd64 > sha256-hctl-linux-glibc-amd64
-          
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/hctl-linux-glibc-amd64 
-        asset_name: hctl-linux-glibc-amd64 
-        tag: ${{ github.ref }}
-    - name: Upload checksum to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/sha256-hctl-linux-glibc-amd64
-        asset_name: sha256-hctl-linux-glibc-amd64
-        tag: ${{ github.ref }}
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/hctl-linux-glibc-amd64
+          asset_name: hctl-linux-glibc-amd64
+          tag: ${{ github.ref }}
+      - name: Upload checksum to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/sha256-hctl-linux-glibc-amd64
+          asset_name: sha256-hctl-linux-glibc-amd64
+          tag: ${{ github.ref }}
